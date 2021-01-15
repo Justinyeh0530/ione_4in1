@@ -1,0 +1,242 @@
+.actionsync {
+    position: absolute;
+    top: 63px;
+    left: 360px;
+    width: 1560px;
+    height: 1017px;
+    font-family: MR,serif;
+
+    .actionsync-top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 1560px;
+        height: 620px;
+        background-image: url('./image/contentmain.png');
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .actionsync-down {
+        position: absolute;
+        top: 620px;
+        width: 1560px;
+        height: 397px;
+        // background-image: url('./image/contentfunc.png');
+        // background-repeat: no-repeat;
+        // background-position: center;
+        color: white;
+        background-color: black;
+
+        .device-item {
+            display: flex;
+            align-items: center;
+            width: 1560px;
+            height: 40px;
+
+            .item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 150px;
+                height: 31px;
+                border: 2px solid #646464;
+                border-radius: 15px;
+                margin-left: 20px;
+                font-size: 13px;
+                cursor: pointer;
+            }
+            
+            .item-text {
+                width: 65px;
+                height: 35px;
+                font-size: 25px;
+                margin-left: 20px;
+            }
+        }
+
+        .func-item {
+            position: absolute;
+            // display: flex;
+            // flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+            height: 335px;
+            width: 500px;
+            margin-top: 20px;
+
+            .item-content {
+                display: flex;
+                flex-direction: column;
+
+                .item-list {
+                    display: flex;
+                    align-items: center;
+                    height: 40px;
+                    width: 100%;
+                    margin-left: 25px;
+                    margin-top: 20px;
+
+                    .item-dsc {
+                        display: flex;
+                        align-items: center;
+                        width: 130px;
+                        height: 30px;
+                    }
+
+                    .item-value {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 48px;
+                        height: 22px;
+                        border: 1px solid #505050;
+                        background-color: #141414;
+                        font-size: 15px;
+                    }
+                    .item-slidecontainer {
+                        display:flex;
+                        align-items: center;
+                        height: 40px;
+                        width: 230px;
+
+                        .slidecontainer {
+                            // position: absolute;
+                            // left: -84px;
+                            // top: 154px;
+                            display: flex;
+                            height: 8px;
+                            align-items: center;
+                            width: 230px;
+                            border-left:0.1vh rgb(231, 230, 230) solid;
+                            border-right:0.1vh rgb(230, 224, 224) solid;
+                            border-color: rgb(209, 202, 202);
+                            margin-left: 20px;
+
+                            input {
+                                border:0px solid transparent;
+                            }
+
+                            .slider {
+                                -webkit-appearance: none;
+                                width: 250px;
+                                height: 0.1vw;
+                                border-radius: 0.5vw;
+                                background: #6b6666;
+                                outline: none;
+                                // opacity: 0.7;
+                                -webkit-transition: .2s;
+                                transition: opacity .2s;
+                                margin: 0.5px;
+                            }
+                            
+                            .slider::-webkit-slider-thumb {
+                                -webkit-appearance: none;
+                                appearance: none;
+                                // width: 1vw;
+                                // height: 1vw;
+                                width: 12px;
+                                height: 12px;
+                                border-radius: 50%;
+                                background: url('./image/headset/barball.png') no-repeat center;
+                                cursor: pointer;
+                                    content:counter(50)'%';
+                            }
+                            
+                            .slider::-moz-range-thumb {
+                                // width: 1vw;
+                                // height: 1vw;
+                                border-radius: 50%;
+                                background: white;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+
+                    .item-check {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        label {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            cursor: pointer;
+                        }
+
+                        input[type=checkbox] {
+                            display: none;
+                        }
+                        input[type=checkbox] + span{
+                            display: inline-block;
+                            width: 20px;
+                            height: 20px;
+                            // border-radius: 50%;
+                            // background: url('image/lighting/Check.png') no-repeat center;
+                            background: transparent;
+                            border: 1px solid rgb(100,100,100);
+                        }
+                
+                        input[type=checkbox]:checked + span {
+                            // background: url('image/lighting/Checked.png') no-repeat center;
+                            border: 1px solid rgb(100,100,100);
+                            background: rgb(190,190,190);
+                        }
+                    }
+                }
+            }
+        }
+
+        .func-item::-webkit-scrollbar {
+            width: 15px;
+            height: 15px;
+        }
+        
+        .func-item::-webkit-scrollbar-button:vertical:decrement {
+            background-image: url('./image/scrolladd.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .func-item::-webkit-scrollbar-button:vertical:increment {
+            background-image: url('./image/scrollminus.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .func-item::-webkit-scrollbar-button:horizontal:decrement {
+            background-image: url('./image/horizol_scrollminus.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .func-item::-webkit-scrollbar-button:horizontal:increment {
+            background-image: url('./image/horizol_scrolladd.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .func-item::-webkit-scrollbar-corner {
+            background: #141414;
+          }
+        
+        .func-item::-webkit-scrollbar-track {
+            background-color: #141414;
+        }
+        
+        .func-item::-webkit-scrollbar-button {
+            width: 15px;
+            height: 15px;
+            background: #141414;
+        }
+        
+        .func-item::-webkit-scrollbar-thumb {
+            background-color: #646464;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+    }
+}

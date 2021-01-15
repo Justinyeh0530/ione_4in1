@@ -1,0 +1,21 @@
+<div class="topbar">
+    <div class="topbar-func">
+        <div class="item" (click) = "functionService.TopbarFunc(1)" [style.color] = "functionService.topbarfunc == 1 ? '#bebebe' : '#646464'"> {{'DASHBOARD'|translate}}</div>
+        <div class="item" (click) = "functionService.TopbarFunc(2)" [style.color] = "functionService.topbarfunc == 2 ? '#bebebe' : '#646464'"> {{'SPECTRUM'|translate}}</div>
+        <div class="item" (click) = "functionService.TopbarFunc(3)" [style.color] = "functionService.topbarfunc == 3 ? '#bebebe' : '#646464'"> {{'MACRO'|translate}}</div>
+        <div class="item" (click) = "functionService.TopbarFunc(4)" [style.color] = "functionService.topbarfunc == 4 ? '#bebebe' : '#646464'"> {{'PERFORMANCE'|translate}}</div>
+        <div class="item" (click) = "functionService.TopbarFunc(5)" [style.color] = "functionService.topbarfunc == 5 ? '#bebebe' : '#646464'"> {{'ACTIONSYNC'|translate}}</div>
+    </div>
+    <div class="social-link">
+        <div class="link">
+            <img src="./image/twitte.png" style="margin-left:40px;" (click)="Sociallink(1)" alt="">
+            <img src="./image/fb.png" alt="" (click)="Sociallink(2)">
+            <img src="./image/ig.png" style="margin-right:40px;" alt="" (click)="Sociallink(3)">
+        </div>
+        <div class="window-menu">
+            <img src="./image/settingclick.png" (click)="setting()" alt="">
+            <img src="./image/minimize.png" (click)="commonService.menu(1)" alt="">
+            <img src="./image/close.png" style="margin-right:20px;" (click)="commonService.menu(2)" alt="">
+        </div>
+    </div>
+</div>

@@ -1,0 +1,367 @@
+<div class="content">
+    <!--------------------------------------上方列----------------------------------------------->
+    <div class="content-main">
+        <img src="{{deviceService.currentSupportDevice.mainimage}}" *ngIf="deviceService.checkAllSupportDevice('0x195D0xA005') && functionService.headsetleftfunc != 3">
+        <div *ngIf="functionService.topbarfunc == 2 && deviceService.checkAllSupportDevice('0x195D0xA005')">
+            <div class="lighting-area">
+                <div class="number1" (click)="headsetFunctionService.SetLightingArea(1)" [ngClass] = "{'number-selected':headsetFunctionService.LightingArea == 1}">
+                    1
+                </div>
+                <div class="line1" [ngClass] = "{'line-selected':headsetFunctionService.LightingArea == 1}"></div>
+            </div>
+            <div class="lighting-area">
+                <div class="number2" (click)="headsetFunctionService.SetLightingArea(2)" [ngClass] = "{'number-selected':headsetFunctionService.LightingArea == 2}">
+                    2
+                </div>
+                <div class="line2" [ngClass] = "{'line-selected':headsetFunctionService.LightingArea == 2}"></div>
+            </div>
+        </div>
+        <!--------Headset surround---------->
+        <div class="SurroundSound" *ngIf="functionService.headsetleftfunc == 3">
+            <!-- <img src="./image/headset/SurroundSound.png"> -->
+            <div class="VolumeArrow" style="left:550px; top:335px;">
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowLeftClick('VolumeL')">
+                    <img src="./image/headset/left.png">
+                </div>
+                <div class="VolumeText">
+                    {{headsetFunctionService.VolumeL}}
+                </div>
+                <div class="VolumeArrow-img"  (click)="headsetFunctionService.VolumeArrowRightClick('VolumeL')">
+                    <img src="./image/headset/right.png">
+                </div>
+            </div>
+            <div class="VolumeArrow" style="left:1110px; top:335px;">
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowLeftClick('VolumeR')">
+                    <img src="./image/headset/left.png">
+                </div>
+                <div class="VolumeText">
+                    {{headsetFunctionService.VolumeR}}
+                </div>
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowRightClick('VolumeR')">
+                    <img src="./image/headset/right.png">
+                </div>
+            </div>
+            <div class="VolumeArrow" style="left:610px; top:175px;">
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowLeftClick('VolumeFL')">
+                    <img src="./image/headset/left.png">
+                </div>
+                <div class="VolumeText">
+                    {{headsetFunctionService.VolumeFL}}
+                </div>
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowRightClick('VolumeFL')">
+                    <img src="./image/headset/right.png">
+                </div>
+            </div>
+            <div class="VolumeArrow" style="left:1050px; top:175px;">
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowLeftClick('VolumeFR')">
+                    <img src="./image/headset/left.png">
+                </div>
+                <div class="VolumeText">
+                    {{headsetFunctionService.VolumeFR}}
+                </div>
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowRightClick('VolumeFR')">
+                    <img src="./image/headset/right.png">
+                </div>
+            </div>
+            <div class="VolumeArrow" style="left:610px; top:500px;">
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowLeftClick('VolumeSL')">
+                    <img src="./image/headset/left.png">
+                </div>
+                <div class="VolumeText">
+                    {{headsetFunctionService.VolumeSL}}
+                </div>
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowRightClick('VolumeSL')">
+                    <img src="./image/headset/right.png">
+                </div>
+            </div>
+            <div class="VolumeArrow" style="left:1050px; top:500px;">
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowLeftClick('VolumeSR')">
+                    <img src="./image/headset/left.png">
+                </div>
+                <div class="VolumeText">
+                    {{headsetFunctionService.VolumeSR}}
+                </div>
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowRightClick('VolumeSR')">
+                    <img src="./image/headset/right.png">
+                </div>
+            </div>
+            <div class="VolumeArrow" style="left:830px; top:80px;">
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowLeftClick('VolumeC')">
+                    <img src="./image/headset/left.png">
+                </div>
+                <div class="VolumeText">
+                    {{headsetFunctionService.VolumeC}}
+                </div>
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowRightClick('VolumeC')">
+                    <img src="./image/headset/right.png">
+                </div>
+            </div>
+            <div class="VolumeArrow" style="left:445px; top:55px;">
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowLeftClick('VolumeLFE')">
+                    <img src="./image/headset/left.png">
+                </div>
+                <div class="VolumeText">
+                    {{headsetFunctionService.VolumeLFE}}
+                </div>
+                <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowRightClick('VolumeLFE')">
+                    <img src="./image/headset/right.png">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--------------------------------------下方列----------------------------------------------->
+    <div class="content-func" *ngIf="deviceService.checkAllSupportDevice('0x195D0xA005')">
+        <!-------------Headset Dashboard------------------->
+        <div class="block" *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 0" style="background: url('./image/spectrumSetting.png');">
+            <div class="block-item">
+                <div class="item-title">{{'ADVANCESETTING'|translate}}</div>
+                <div class="item-block">
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Virtualization" [checked]="headsetFunctionService.VirtualizationValue" (click)="headsetFunctionService.HeadsetDashborad('VirtualizationValue')">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Virtualization'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="LoudnessControl" [checked]="headsetFunctionService.LoudnessValue" (click)="headsetFunctionService.HeadsetDashborad('LoudnessValue')">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'LoudnessControl'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="DialogEnhancement" [checked]="headsetFunctionService.DialogEnhancementValue" (click)="headsetFunctionService.HeadsetDashborad('DialogEnhancementValue')">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'DialogEnhancement'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Bass" [checked]="headsetFunctionService.BassValue" (click)="headsetFunctionService.HeadsetDashborad('BassValue')">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Bass(TBHDX)'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Headphone" [checked]="headsetFunctionService.HeadphoneEQValue" (click)="headsetFunctionService.HeadsetDashborad('HeadphoneEQValue')">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Headphone EQ'|translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block-item" style="width:535px">
+            </div>
+            <div class="block-item" style="width:535px">
+                <div class="Save" (click)="headsetFunctionService.HeadsetFuncSave(0)">{{'SAVE'|translate}}</div>
+            </div>
+        </div>
+        <!-------------Headset Equlizer------------------->
+        <div class="block" *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 1" style="background: url('./image/spectrumSetting2.png');">
+            <div class="block-item" style="width:1022px;">
+                <div class="item-block">
+                    <div class="item-text" style="top:50px; left:50px;">{{'Presets'|translate}}</div>
+                    <app-commonselect style="position:absolute; top:50px; left:130px; width:160px; height:23px; border-color:rgb(100,100,100); border:1px solid;" [componentId]="'Headset-Equlizer'" [inputoption]="headsetFunctionService.MusicPreset" [(ngModel)]="headsetFunctionService.equlizereDataSelect" (ngModelChange)="EqulizereSelect()"></app-commonselect>
+                </div>
+                <div class="block-select" style="position: absolute; width:700px; height:85%; left:310px; top:0px">
+                    <div class="block-select-item" style="position: absolute; left:0px; top:15px;">
+                        <div class="slider-bar">
+                            <img src="./image/headset/Equlizer-bar.png">
+                            <div class="slider-text"> 125 </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input id="value125" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value125" (mouseup)="EQChange('value125')" (ngModelChange)="EQmove('value125')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                    <div class="block-select-item" style="position: absolute; left:80px; top:15px;">
+                        <div class="slider-bar">
+                            <img src="./image/headset/Equlizer-bar.png">
+                            <div class="slider-text"> 250 </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input id="value250" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value250" (mouseup)="EQChange('value250')" (ngModelChange)="EQmove('value250')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                    <div class="block-select-item" style="position: absolute; left:160px; top:15px;">
+                        <div class="slider-bar">
+                            <img src="./image/headset/Equlizer-bar.png">
+                            <div class="slider-text"> 500 </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input id="value500" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value500" (mouseup)="EQChange('value500')" (ngModelChange)="EQmove('value500')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                    <div class="block-select-item" style="position: absolute; left:240px; top:15px;">
+                        <div class="slider-bar">
+                            <img src="./image/headset/Equlizer-bar.png">
+                            <div class="slider-text"> 1K </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input id="value1K" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value1K" (mouseup)="EQChange('value1K')" (ngModelChange)="EQmove('value1K')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                    <div class="block-select-item" style="position: absolute; left:320px; top:15px;">
+                        <div class="slider-bar">
+                            <img src="./image/headset/Equlizer-bar.png">
+                            <div class="slider-text"> 2K </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input id="value2K" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value2K" (mouseup)="EQChange('value2K')" (ngModelChange)="EQmove('value2K')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                    <div class="block-select-item" style="position: absolute; left:400px; top:15px;">
+                        <div class="slider-bar">
+                            <img src="./image/headset/Equlizer-bar.png">
+                            <div class="slider-text"> 4K </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input id="value4K" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value4K" (mouseup)="EQChange('value4K')" (ngModelChange)="EQmove('value4K')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                    <div class="block-select-item" style="position: absolute; left:480px; top:15px;">
+                        <div class="slider-bar">
+                            <img src="./image/headset/Equlizer-bar.png">
+                            <div class="slider-text"> 8K </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input id="value8K" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value8K" (mouseup)="EQChange('value8K')" (ngModelChange)="EQmove('value8K')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                    <div class="block-select-item" style="position: absolute; left:560px; top:15px;">
+                        <div class="slider-bar">
+                            <img src="./image/headset/Equlizer-bar.png">
+                            <div class="slider-text"> 16K </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input id="value16K" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value16K" (mouseup)="EQChange('value16K')" (ngModelChange)="EQmove('value16K')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block-item" style="width:535px">
+                <div class="Save" (click)="headsetFunctionService.HeadsetFuncSave(1)">{{'SAVE'|translate}}</div>
+            </div>
+        </div>
+         <!-------------Headset MicroPhone------------------->
+         <div class="block" *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 2" style="background: url('./image/spectrumSetting.png');">
+            <div class="block-item">
+                <div class="item-title">{{'Mic Volume'|translate}}</div>
+                <div class="item-block" style="background:url('./image/headset/MicVolume.png') no-repeat center;">
+                    <div class="item-block-slider">
+                        <input id="MicVolume" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicVolumeValueTemp" (mouseup)="MicVolumeChange()" (ngModelChange)="SliderMove('MicVolume')" onkeydown="event.preventDefault()">
+                    </div>
+                    <div class="item-block-slider" style="top:242px; left:30px; width:422px;">
+                        <input id="MicVolumeBounds" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicVolumeBoundsValueTemp" (mouseup)="MicVolumeBoundsChange()" (ngModelChange)="SliderMove('MicVolumeBounds')" onkeydown="event.preventDefault()">
+                    </div>
+                </div>
+            </div>
+            <div class="block-item" style="width:535px">
+                <div class="item-title">{{'Mic Side Tone'|translate}}</div>
+                <div class="item-block" style="background:url('./image/headset/MicSideTone.png') no-repeat center;">
+                    <div class="item-block-slider" style="top:252px; left:541px; width:422px;">
+                        <input id="MicSideTone" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicSideToneValueTemp" (mouseup)="MicSideToneChange()" (ngModelChange)="SliderMove('MicSideTone')" onkeydown="event.preventDefault()">
+                    </div>
+                </div>
+            </div>
+            <div class="block-item" style="width:535px">
+                <div class="Save" (click)="headsetFunctionService.HeadsetFuncSave(2)">{{'SAVE'|translate}}</div>
+            </div>
+        </div>
+        <!-------------Headset Surround Sound------------------->
+        <div class="block" *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 3" style="background: url('./image/spectrumSetting.png');">
+            <div class="block-item">
+                <div class="item-title">{{'Environment Mode'|translate}}</div>
+                <div class="item-block">
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 1" (click)="headsetFunctionService.EnvironmentValue = 1">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Entertainment'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 2" (click)="headsetFunctionService.EnvironmentValue = 2">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Game'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 3" (click)="headsetFunctionService.EnvironmentValue = 3">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Sports'|translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="block-item" style="width:535px">
+                <div class="item-title">{{'Stereo Preference'|translate}}</div>
+                <div class="item-block">
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Stereo" [checked]="headsetFunctionService.StereoValue == 1" (click)="headsetFunctionService.StereoValue = 1">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Front'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Stereo" [checked]="headsetFunctionService.StereoValue == 2" (click)="headsetFunctionService.StereoValue = 2">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Wide'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Stereo" [checked]="headsetFunctionService.StereoValue == 3" (click)="headsetFunctionService.StereoValue = 3">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Traditional'|translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block-item" style="width:535px">
+                <div class="Save" (click)="headsetFunctionService.HeadsetFuncSave(3)">{{'SAVE'|translate}}</div>
+            </div>
+        </div>
+        <!-------------Headset Spectrum Area1 Static------------------->
+        <div class="block" *ngIf="functionService.topbarfunc == 2 && functionService.headsetleftfunc == 0 && headsetFunctionService.LightingArea == 1 && headsetFunctionService.headsetLightEffectSelect.value == 0" style="background: url('./image/spectrumSetting.png');">
+            <div class="block-item" >
+                <app-ColorPicker class="app-ColorPicker" (ColorChange)="headsetFunctionService.ColorChange($event)"></app-ColorPicker>
+            </div>
+            <div class="block-item" style="width:535px"></div>
+            <div class="block-item" style="width:535px">
+                <div class="Save" (click)="headsetFunctionService.HeadsetFuncSave(3)">{{'SAVE'|translate}}</div>
+            </div>
+        </div>
+    </div>
+</div>

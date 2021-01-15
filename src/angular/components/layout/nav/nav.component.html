@@ -1,0 +1,49 @@
+<div class="nav">
+    <!---------------Dashboard--------------------->
+    <div class="nav-func-list" *ngIf="deviceService.checkAllSupportDevice('0x195D0xA005') && functionService.topbarfunc == 1">
+        <div class="headset-item" (click)="functionService.HeadsetLeftFunc(1)" [style.background]="functionService.headsetleftfunc == 1 ? ButtonSelectImage : ButtonUnSelectImage" [style.color]="functionService.headsetleftfunc == 1 ? '#bebebe' : '#646464'"> {{'EQULIZER'|translate}}</div>
+        <div class="headset-item" (click)="functionService.HeadsetLeftFunc(2)" [style.background]="functionService.headsetleftfunc == 2 ? ButtonSelectImage : ButtonUnSelectImage" [style.color]="functionService.headsetleftfunc == 2 ? '#bebebe' : '#646464'"> {{'MICROPHONE'|translate}}</div>
+        <div class="headset-item" (click)="functionService.HeadsetLeftFunc(3)" [style.background]="functionService.headsetleftfunc == 3 ? ButtonSelectImage : ButtonUnSelectImage" [style.color]="functionService.headsetleftfunc == 3 ? '#bebebe' : '#646464'"> {{'SURROUNDSOUND'|translate}}</div>
+    </div>
+    <!---------------Spectrum--------------------->
+    <div class="nav-func-list" *ngIf="deviceService.checkAllSupportDevice('0x195D0xA005') && functionService.topbarfunc == 2">
+        <app-commonselect class="HeadsetLightEffect" [componentId]="'Headset-lighteffect'" [inputoption]="headsetFunctionService.LightingEffect" [(ngModel)]="headsetFunctionService.headsetLightEffectSelect" (ngModelChange)="HeadsetLightEffectSelect()"></app-commonselect>
+    </div>
+    <!---------------ActionSync--------------------->
+    <div class="nav-func-list" [style.display]="functionService.topbarfunc == 5 ? 'flex' : 'none'">
+    <!-- <div class="nav-func-list" *ngIf="this.functionService.topbarfunc == 5"> -->
+        <div class="actionsync-item" (click)="actionSyncService.addlayer()"> + </div>
+        <div class="actionsync-item" (click)="actionSyncService.removelayer()"style="margin-left: 50px;"> - </div>
+        <div class="actionsync-lighting-layer">
+            <div class="lighting-list" id="actionsync-lighting-list">
+            </div>
+        </div>
+    </div>
+    <div class="nav-device-list">
+        <div class="left-arrow" (click)="LeftArrowClick()"></div>
+        <div class="right-arrow" (click)="RightArrowClick()"></div>
+        <div class="device-image" *ngIf= "deviceService.currentSupportDevice != undefined">
+            <img id="deviceimage" src="{{deviceService.currentSupportDevice.image}}">
+        </div>
+    </div>
+    <div class="actionsync-lighting-item" id="actionsync-layer-temp">
+        <input class="actionsync-lighting-dsc" type="text" id="actionsync-lighting-dsc">
+        <div class="actionsync-lighting-show" id="actionsync-lighting-show"></div>
+        <i class="fas fa-list" id="actionsync-lighting-select"></i>
+    </div>
+    <div class="actionsync-lighting" id="actionsync-lightinglist">
+        <div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(0)"> {{'Wave'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(1)"> {{'ConicBand'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(2)"> {{'Spiral'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(3)"> {{'Cycle'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(4)"> {{'LinearWave'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(5)"> {{'Ripple'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(6)"> {{'Breathing'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(7)"> {{'Rain'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(8)"> {{'Fire'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(9)"> {{'Trigger'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(20)"> {{'AudioCap'|translate}} </div>
+        </div>
+    </div>
+</div>

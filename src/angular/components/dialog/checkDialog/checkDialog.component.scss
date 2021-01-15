@@ -1,0 +1,81 @@
+.Check{
+    position: absolute;
+    width: 350px;
+    height: 200px;
+    background: #151515;
+    color: #dddddd;
+    font-family: MB,serif;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .CheckClose{
+        position: absolute;
+        right: 2%;
+        top: 3%;
+        background: #333333;
+        border-radius: 5vh;
+        width: 16px;
+        height: 16px;
+        .close{
+            position: absolute;
+            margin-left: 0.5px;
+            margin-top: 1px;
+        }
+    }
+    .CheckClose:hover{
+        background: red;
+        .close{
+            filter:invert(100%);
+            cursor: pointer;
+        }
+    }
+
+    .CheckContent{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 280px;
+        height: 90px;
+        font-size: 15px;
+        text-align: center;
+        line-height: 25px;
+    }
+
+    .CheckBtn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        .CheckBtn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 30px;
+            background-color: rgb(182,5,30);
+            font-size: 13px;
+        }
+        .CheckBtn:hover{
+            cursor: pointer;
+            filter: brightness(130%);
+        }
+
+        .SampleCancelBtn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 30px;
+            background-color: gray;
+            font-size: 13px;
+            margin-left: 20px;
+        }
+
+        .SampleCancelBtn:hover{
+            cursor: pointer;
+            filter: brightness(130%);
+        }
+    }
+}

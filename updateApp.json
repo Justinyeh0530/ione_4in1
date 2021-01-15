@@ -1,0 +1,12 @@
+{
+    "Version":"1.0.0",
+    "AppName":{
+        "Mac":"GSpy_Mac.zip",
+        "Win":"GSpy_Win.zip"
+    },
+    "FWVersion":"1.0.0",
+    "FWName":{
+        "Win":"UpdateFw_Win.zip",
+        "Mac":"UpdateFw_Mac.zip"
+    }
+}

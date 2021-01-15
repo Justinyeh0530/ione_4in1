@@ -1,0 +1,277 @@
+.nav {
+    position: absolute;
+    width: 360px;
+    height: 1080px;
+    background-image: url('./image/leftside.png');
+    font-family: MR,serif;
+    font-weight: bolder;
+    letter-spacing: 1px;
+
+    .nav-func-list {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 130px;
+        left: 5px;
+        width: 355px;
+        height: 765px;
+        background-color: black;
+
+        .HeadsetLightEffect {
+            position: absolute;
+            top: 50px;
+            width: 310px;
+            height: 35px;
+            border-color: rgb(100,100,100);
+            margin-left: 20px;
+            border: 1px solid;
+            color: rgb(100,100,100);
+            font-size: 21px;
+        }
+
+        .headset-item {
+            display: flex;
+            align-items: center;
+            width: 335px;
+            height: 50px;
+            color: #646464;
+            background: url('./image/ButtonList_Normal.png');
+            padding-left: 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .headset-item:hover {
+            filter: brightness(170%);
+        }
+
+        .actionsync-item {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            color: #646464;
+            border: 2px solid #646464;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .actionsync-item:hover {
+            filter: brightness(170%);
+        }
+
+        .actionsync-lighting-layer {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            width: 315px;
+            height: 676px;
+            border: 2px solid #646464;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            .lighting-list {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        .actionsync-lighting-layer::-webkit-scrollbar {
+            width: 15px;
+            height: 15px;
+        }
+        
+        .actionsync-lighting-layer::-webkit-scrollbar-button:vertical:decrement {
+            background-image: url('./image/scrolladd.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .actionsync-lighting-layer::-webkit-scrollbar-button:vertical:increment {
+            background-image: url('./image/scrollminus.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .actionsync-lighting-layer::-webkit-scrollbar-button:horizontal:decrement {
+            background-image: url('./image/horizol_scrollminus.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .actionsync-lighting-layer::-webkit-scrollbar-button:horizontal:increment {
+            background-image: url('./image/horizol_scrolladd.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .actionsync-lighting-layer::-webkit-scrollbar-corner {
+            background: #141414;
+        }
+        
+        .actionsync-lighting-layer::-webkit-scrollbar-track {
+            background-color: #141414;
+        }
+        
+        .actionsync-lighting-layer::-webkit-scrollbar-button {
+            width: 15px;
+            height: 15px;
+            background: #141414;
+        }
+        
+        .actionsync-lighting-layer::-webkit-scrollbar-thumb {
+            background-color: #646464;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+    }
+
+    .nav-device-list {
+        position: absolute;
+        top: 890px;
+        left: 5px;
+        width: 355px;
+        height: 175px;
+
+        .left-arrow {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            top: 82px;
+            left: 22px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .right-arrow {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            top: 82px;
+            left: 307px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .device-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 200px;
+            height: 190px;
+            top: -5px;
+            left: 75px;
+        }
+    }
+
+    .actionsync-lighting-item {
+        display: flex;
+        width: 290px;
+        height: 35px;
+        align-items: center;
+        color: #646464;
+        background: transparent;
+        font-family: MR,serif;
+        letter-spacing: 1px;
+        font-size: 18px;
+        cursor: pointer;
+
+        .actionsync-lighting-dsc {
+            display: flex;
+            align-items: center;
+            width: 200px;
+            height: 25px;
+            margin-left:20px;
+            pointer-events: none;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            background: transparent;
+            border:none;
+            color: #646464;
+        }
+
+        .actionsync-lighting-show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            background: url('./image/show.png') no-repeat center;
+        }
+
+        .fa-list {
+            margin-left: 10px;
+        }
+    }
+
+    .actionsync-lighting {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        left: 117px;
+        z-index: 50;
+        color: #646464;
+        background: #141414;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        .item:hover {
+            filter: brightness(170%);
+            background-color: #444444;
+        }
+    }
+
+    .actionsync-lighting::-webkit-scrollbar {
+        width: 15px;
+        height: 15px;
+    }
+    
+    // .actionsync-lighting::-webkit-scrollbar-button:vertical:decrement {
+    //     background-image: url('./image/scrolladd.png');
+    //     background-repeat: no-repeat;
+    //     background-position: center;
+    // }
+    
+    // .actionsync-lighting::-webkit-scrollbar-button:vertical:increment {
+    //     background-image: url('./image/scrollminus.png');
+    //     background-repeat: no-repeat;
+    //     background-position: center;
+    // }
+    
+    .actionsync-lighting::-webkit-scrollbar-track {
+        background-color: #141414;
+    }
+    
+    // .actionsync-lighting::-webkit-scrollbar-button {
+    //     width: 15px;
+    //     height: 15px;
+    //     background: #141414;
+    // }
+    
+    .actionsync-lighting::-webkit-scrollbar-thumb {
+        background-color: #646464;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 7px;
+        cursor: pointer;
+    }
+}

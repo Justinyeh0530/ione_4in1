@@ -1,0 +1,54 @@
+.ColorPicker {
+    position: absolute;
+    width: 260px;
+    height: 260px;
+
+    .Color-Lighting {
+        position: absolute;
+        width: 260px;
+        height: 260px;
+        background-image: url('./image/colormodel01.png');
+        pointer-events: none;
+    }
+
+    .Color-Lighting-Point {
+        position: absolute;
+        background-image: url('./image/getBWclr.png');
+        transform: rotate(0deg);
+        width: 280px;
+        height: 280px;
+        top: -8px;
+        left: -11px;
+    }
+
+    .Color-Main {
+        position: absolute;
+        top: 32px;
+        left: 32px;
+        border-radius:50%;
+        // background-image: url('./image/ione/colormodel.png');
+    }
+    
+    .ColorPoint {
+        position: absolute;
+        left: 115px;
+        top: 35px;
+        background-color: rgb(50, 137, 255);
+        width: 30px;
+        height: 30px;
+        border: 2px solid white;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    .Fake-Circle {
+        position: absolute;
+        width: 93px;
+        height: 93px;
+        background-color: black;
+        border-radius: 50%;
+        top: 86px;
+        left: 82px;
+    }
+}

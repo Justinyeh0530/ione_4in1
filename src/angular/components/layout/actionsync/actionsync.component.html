@@ -1,0 +1,184 @@
+<div class="actionsync">
+    <div class="actionsync-top"></div>
+    <div class="actionsync-down">
+        <div class="device-item">
+            <div class="item">
+                {{'devicearrangement'|translate}}
+            </div>
+            <div class="item">
+                {{'devicearrangement'|translate}}
+            </div>
+            <div class="item">
+                {{'lightingeffect'|translate}}
+            </div>
+            <div class="item">
+                {{'lightingcenter'|translate}}
+            </div>
+            <div class="item-text">
+                {{'zoom'|translate}}:
+            </div>
+            <div class="item" style="width: 50px; margin-left:15px; font-size:23px;">
+                +
+            </div>
+            <div class="item" style="width: 50px; margin-left:5px; font-size:23px;">
+                -
+            </div>
+        </div>
+        <div class="func-item">
+            <div class="item-content">
+                <div class='item-list' style="margin-top:0px;">
+                    <div class="item-dsc"> {{'opcaity'|translate}}:</div>
+                    <div class="item-value"> {{actionSyncService.opacityvalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="opacity" type="range" min="0" max="1" class="slider" step="0.1" [(ngModel)]="actionSyncService.opacityvalue" (mouseup)="SliderChange('opacity')" (ngModelChange)="SliderMove('opacity')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'speed'|translate}}:</div>
+                    <div class="item-value"> {{actionSyncService.speedvalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="speed" type="range" min="1" max="10" class="slider" step="1" [(ngModel)]="actionSyncService.speedvalue" (mouseup)="SliderChange('speed')" (ngModelChange)="SliderMove('speed')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'bandwidth'|translate}}:</div>
+                    <div class="item-value"> {{actionSyncService.bandwidthvalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="bandwidth" type="range" min="10" max="500" class="slider" step="10" [(ngModel)]="actionSyncService.bandwidthvalue" (mouseup)="SliderChange('bandwidth')" (ngModelChange)="SliderMove('bandwidth')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'angle'|translate}}:</div>
+                    <div class="item-value"> {{actionSyncService.anglevalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="angle" type="range" min="0" max="360" class="slider" step="1" [(ngModel)]="actionSyncService.anglevalue" (mouseup)="SliderChange('angle')" (ngModelChange)="SliderMove('angle')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'gap'|translate}}:</div>
+                    <div class="item-value"> {{actionSyncService.gapvalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="gap" type="range" min="0" max="500" class="slider" step="10" [(ngModel)]="actionSyncService.gapvalue" (mouseup)="SliderChange('gap')" (ngModelChange)="SliderMove('gap')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'bump'|translate}}:</div>
+                    <div class="item-value"> {{actionSyncService.bumpvalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="bump" type="range" min="0" max="5" class="slider" step="1" [(ngModel)]="actionSyncService.bumpvalue" (mouseup)="SliderChange('bump')" (ngModelChange)="SliderMove('bump')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'randomspeed'|translate}}:</div>
+                    <div class="item-value"> {{actionSyncService.randomspeedvalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="randomspeed" type="range" min="0" max="5" class="slider" step="1" [(ngModel)]="actionSyncService.randomspeedvalue" (mouseup)="SliderChange('randomspeed')" (ngModelChange)="SliderMove('randomspeed')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'number'|translate}}:</div>
+                    <div class="item-value"> {{actionSyncService.numbervalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="number" type="range" min="1" max="10" class="slider" step="1" [(ngModel)]="actionSyncService.numbervalue" (mouseup)="SliderChange('number')" (ngModelChange)="SliderMove('number')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'fire'|translate}}:</div>
+                    <div class="item-value"> {{actionSyncService.firevalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="fire" type="range" min="0" max="1" class="slider" step="0.1" [(ngModel)]="actionSyncService.firevalue" (mouseup)="SliderChange('fire')" (ngModelChange)="SliderMove('fire')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'taketimes'|translate}}:</div>
+                    <div class="item-value"> {{actionSyncService.taketimesvalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="taketimes" type="range" min="1" max="3" class="slider" step="1" [(ngModel)]="actionSyncService.taketimesalue" (mouseup)="SliderChange('taketimes')" (ngModelChange)="SliderMove('taketimes')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'amplitude'|translate}}:</div>
+                    <div class="item-value"> {{actionSyncService.amplitudevalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="amplitude" type="range" min="500" max="5000" class="slider" step="10" [(ngModel)]="actionSyncService.amplitudevalue" (mouseup)="SliderChange('amplitude')" (ngModelChange)="SliderMove('amplitude')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'decay'|translate}}(%):</div>
+                    <div class="item-value"> {{actionSyncService.decayvalue}} </div>
+                    <div class="item-slidecontainer">
+                        <div class="slidecontainer">
+                            <input id="decay" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="actionSyncService.decayvalue" (mouseup)="SliderChange('decay')" (ngModelChange)="SliderMove('decay')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'gradient'|translate}}:</div>
+                    <div class="item-check">
+                        <label>
+                            <input type="checkbox" name="gradient" [checked]="actionSyncService.gradientvalue == true" (click)="checkbox('gradientvalue')">
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'soft'|translate}}:</div>
+                    <div class="item-check">
+                        <label>
+                            <input type="checkbox" name="soft" [checked]="actionSyncService.softvalue == true" (click)="checkbox('softvalue')">
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'fixed'|translate}}:</div>
+                    <div class="item-check">
+                        <label>
+                            <input type="checkbox" name="fixed" [checked]="actionSyncService.fixedvalue == true" (click)="checkbox('fixedvalue')">
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'bidirectional'|translate}}:</div>
+                    <div class="item-check">
+                        <label>
+                            <input type="checkbox" name="bidirectional" [checked]="actionSyncService.bidirectionalvalue == true" (click)="checkbox('bidirectionalvalue')">
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+                <div class='item-list'>
+                    <div class="item-dsc"> {{'separate'|translate}}:</div>
+                    <div class="item-check">
+                        <label>
+                            <input type="checkbox" name="separate" [checked]="actionSyncService.separatevalue == true" (click)="checkbox('separatevalue')">
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="js/fontawesome/css/all.css" />
+        <script src="./node_modules/core-js/client/shim.min.js"></script>
+        <script src="./node_modules/zone.js/dist/zone.js"></script>
+        <script src="./node_modules/reflect-metadata/Reflect.js"></script>
+        <script src="./node_modules/systemjs/dist/system.src.js"></script>
+        <script src="./node_modules/hammerjs/hammer.js"></script>
+        <script src="./node_modules/jquery/dist/jquery.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script src="js/jquery.limitslider.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/chosen-js/chosen.jquery.js"></script>
+        <link rel="stylesheet" href="js/chosen-js/chosen.css" />
+        <base href="./" />
+        <title>IONE_ACTION_AIO</title>
+        <script src="./systemjs.config.js"></script>
+        <script>
+            System.import('App').catch(function (err) {
+                console.error(err)
+            })
+            document.ondragover = document.ondrop = function (e) {
+                e.preventDefault()
+                return false
+            }
+        </script>
+        <!-- <script src="//connect.facebook.net/en_US/sdk.js"></script> -->
+
+        <style>
+            @font-face {
+                font-family: 'MR';
+                src: url('./MyriadPro-Regular.ttf');
+            }
+            body {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                overflow: hidden;
+                margin: 0px;
+            }
+            #loading {
+                background: black;
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 999;
+            }
+            img {
+                user-select: none;
+                -webkit-user-drag: none;
+            }
+
+            /* .loadingImage {
+                position: relative;
+                width: 30px;
+                height: 30px;
+                background: #2e98df;
+                border-radius: 50px;
+                animation: loadingImage 1.5s infinite linear;
+            }
+
+            .loadingImage::after {
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                border-top: 10px solid #b160d1;
+                border-bottom: 10px solid #b160d1;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-radius: 50px;
+                content: '';
+                top: -20px;
+                left: -20px;
+                animation: loadingImage_after 1.5s infinite linear;
+            }
+
+            @keyframes loadingImage {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                50% {
+                    transform: rotate(180deg);
+                    background: #2ecc71;
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            @keyframes loadingImage_after {
+                0% {
+                    border-top: 10px solid #b160d1;
+                    border-bottom: 10px solid #b160d1;
+                }
+
+                50% {
+                    border-top: 10px solid #2e98df;
+                    border-bottom: 10px solid #2e98df;
+                }
+
+                100% {
+                    border-top: 10px solid #b160d1;
+                    border-bottom: 10px solid #b160d1;
+                }
+            } */
+
+            .loadingImage {
+                border-style: solid;
+                border-color: rgb(236, 9, 40);
+                border-radius: 50%;
+                width: 70px;
+                height: 70px;
+                animation: spin 1.5s linear infinite;
+                background-clip: padding-box, border-box;
+                background-origin: padding-box, border-box;
+                background-image: linear-gradient(135deg, #000, #000),
+                    linear-gradient(135deg, rgb(236, 9, 40) 35%, rgb(0, 0, 0) 91%);
+                border-bottom: 2px transparent solid;
+                border-left: 2px transparent solid;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="loading">
+            <div class="loadingImage"></div>
+        </div>
+        <sm-app> </sm-app>
+    </body>
+</html>
