@@ -26,7 +26,7 @@
         // background-image: url('./image/contentfunc.png');
         // background-repeat: no-repeat;
         // background-position: center;
-        color: white;
+        color: #646464;
         background-color: black;
 
         .device-item {
@@ -44,8 +44,13 @@
                 border: 2px solid #646464;
                 border-radius: 15px;
                 margin-left: 20px;
-                font-size: 13px;
+                font-size: 15px;
                 cursor: pointer;
+            }
+
+            .item:hover {
+                border: 2px solid #c4c4c4;
+                color:#c4c4c4;
             }
             
             .item-text {
@@ -237,6 +242,72 @@
             background-position: center;
             border-radius: 7px;
             cursor: pointer;
+        }
+
+        .func-color {
+            position: absolute;
+            left: 500px;
+            display: flex;
+            height: 335px;
+            width: 1060px;
+            margin-top: 20px;
+
+            .func-color-block1 {
+                display: flex;
+                flex-direction: column;
+                height: 335px;
+                width: 560px;
+                // background-color: red;
+
+                .item {
+                    display: flex;
+                    align-items: center;
+                    width:490px;
+                    height: 50px;
+                    margin-left: 10px;
+                    font-family: MR,serif;
+
+                    .text {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 50px;
+                        height: 50px;
+                    }
+
+                    .color {
+                        width: 30px;
+                        height: 30px;
+                        background-color: red;
+                        margin-left: 10px;
+                    }
+                    
+                    .colorpicker {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width:150px; 
+                        height:30px; 
+                        border:2px solid #646464; 
+                        border-radius:10px; 
+                        margin-left:20px; 
+                        cursor:pointer
+                    }
+
+                    .colorpicker:hover {
+                        border:2px solid #c4c4c4; 
+                        color: #c4c4c4;
+                    }
+                }
+            }
+
+            .func-color-block2 {
+                display: flex;
+                flex-direction: column;
+                height: 335px;
+                width: 500px;
+                background-color: green;
+            }
         }
     }
 }

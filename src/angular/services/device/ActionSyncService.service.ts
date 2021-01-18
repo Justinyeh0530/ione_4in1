@@ -9,37 +9,36 @@ import { from } from 'rxjs/observable/from';
 export class ActionSyncService{
     lightinglistdialogflag:boolean = false;
     dbService = electron_Instance.getGlobal('AppProtocol').deviceService.nedbObj;
-    opacityvalue: number = 0.5;
+    opacityvalue: number = 50;
     speedvalue: number = 5;
     bandwidthvalue: number = 450;
     anglevalue:number = 0;
     gapvalue:number = 0;
-    bumpvalue:number = 0;
-    randomspeedvalue:number = 0;
     numbervalue:number = 5;
     firevalue:number = 0.5;
-    taketimesvalue:number = 1;
     amplitudevalue:number = 500;
-    decayvalue:number = 80;
     gradientvalue:boolean = true;
-    softvalue:boolean = true;
-    fixedvalue:boolean = false;
+    directionvalue:boolean = true;
+    fadvalue:boolean = false;
     bidirectionalvalue:boolean = true;
     separatevalue:boolean = false;
+    bumpvalue:boolean = false;
     LightingEffectData = [
-        { name: 'Wave', value: 0, translate: 'Wave'},
-        { name: 'ConicBand', value: 1, translate: 'ConicBand'},
-        { name: 'Spiral', value: 2, translate: 'Spiral'},
-        { name: 'Cycle', value: 3, translate: 'Cycle'},
-        { name: 'LinearWave', value: 4, translate: 'LinearWave'},
-        { name: 'Ripple', value: 5, translate: 'Ripple'},
-        { name: 'Breathing', value: 6, translate: 'Breathing'},
-        { name: 'Rain', value: 7, translate: 'Rain'},
-        { name: 'Fire', value: 8, translate: 'Fire'},
-        { name: 'Trigger', value: 9, translate: 'Trigger'},
-        { name: 'AudioCap', value: 10, translate: 'AudioCap'},
+        { name: 'Static', value: 0, translate: 'Static'},
+        { name: 'Wave', value: 1, translate: 'Wave'},
+        { name: 'ConicBand', value: 2, translate: 'ConicBand'},
+        { name: 'Spiral', value: 3, translate: 'Spiral'},
+        { name: 'Cycle', value: 4, translate: 'Cycle'},
+        { name: 'LinearWave', value: 5, translate: 'LinearWave'},
+        { name: 'Ripple', value: 6, translate: 'Ripple'},
+        { name: 'Breathing', value: 7, translate: 'Breathing'},
+        { name: 'Rain', value: 8, translate: 'Rain'},
+        { name: 'Fire', value: 9, translate: 'Fire'},
+        { name: 'Reactive', value: 10, translate: 'Reactive'},
+        { name: 'AudioCap', value: 11, translate: 'AudioCap'},
     ];
     asyncsyncLightingCard:any;
+    actionSyncDevicFlag:boolean = false;
     lightlayerlist = {layerlist:[], index:0};
     
 
@@ -94,12 +93,12 @@ export class ActionSyncService{
     }
 
     selectActionSyncLighting(index) {
-        console.log(2222,index)
         this.translateService.get(this.LightingEffectData[index].translate).subscribe((res: string) => {
             document.getElementById("actionsync-lighting-dsc" + this.lightlayerlist.index).value = res;
             let layerindex = this.lightlayerlist.layerlist.findIndex(x => x.index == this.lightlayerlist.index);
             if(layerindex != -1) {
                 this.lightlayerlist.layerlist[layerindex].value = index;
+                this.setightParamToDefault(index);
                 this.dbService.updateApMode(this.lightlayerlist).then(() => {this.save();});
             }
         })
@@ -206,5 +205,101 @@ export class ActionSyncService{
         }
         document.getElementById("actionsync-layer-temp" + this.lightlayerlist.index).style.background = "rgb(190,190,190)";
         document.getElementById("actionsync-lighting-dsc" + this.lightlayerlist.index).style.color = "black";
+    }
+
+    /**
+     * 
+     * @param flag 0:清掉全部資料 1:硬體排列 2:框選 3:效果中心
+     */
+    actionSyncDeviceFunc(flag) {
+        if(flag != 0) {
+            this.actionSyncDevicFlag = true;
+            for(let i = 1; i <= 3; i++) 
+                document.getElementById('actionSyncDevice' + i).style.backgroundColor = "black";
+            document.getElementById('actionSyncDevice' + flag).style.backgroundColor = "gray";
+        } else {
+            /**need to do */
+        }
+    }
+
+    retrunCurrentLightingLayer() {
+        let index = this.lightlayerlist.layerlist.findIndex(x => x.index == this.lightlayerlist.index)
+        if(index != -1)
+            return this.lightlayerlist.layerlist[index].value;
+        else
+            return undefined;
+    }
+
+    /**
+     * 
+     * @param value 0:Static 1:Wave 2:Conicband 3:Spiral 4:Color Cycle 5:Linearwave 6:Ripple 7:Breath 8:Rain 9:Fire 10:Reactive 11:Audio
+     */
+    setightParamToDefault(value) {
+        switch(value) {
+            case 0:
+                break;
+            case 1:
+                this.speedvalue = 5;
+                this.bandwidthvalue = 200;
+                this.anglevalue = 0;
+                this.gradientvalue = true;
+                break;
+            case 2:
+                this.speedvalue = 5;
+                this.bandwidthvalue = 100;
+                this.gradientvalue = true;
+                this.directionvalue = false;
+                break;
+            case 3:
+                this.speedvalue = 5;
+                this.gradientvalue = true;
+                this.directionvalue = false;
+                break;
+            case 4:
+                this.speedvalue = 2;
+                this.gradientvalue = true;
+                break;
+            case 5:
+                this.speedvalue = 10;
+                this.bandwidthvalue = 50;
+                this.anglevalue = 0;
+                this.gapvalue = 0;
+                this.bumpvalue = false;
+                this.gradientvalue = true;
+                this.fadvalue = true;
+                this.bidirectionalvalue = true;
+                break;
+            case 6:
+                this.speedvalue = 10;
+                this.bandwidthvalue = 50;
+                this.gapvalue = 0;
+                this.gradientvalue = true;
+                this.fadvalue = true;
+                break;
+            case 7:
+                this.speedvalue = 2;
+                this.bandwidthvalue = 500;
+                this.gapvalue = 100;
+                this.gradientvalue = false;
+                this.fadvalue = true;
+                break;
+            case 8:
+                this.speedvalue = 8
+                this.anglevalue = 0;
+                this.numbervalue = 5;
+                break;
+            case 9:
+                this.speedvalue = 1;
+                this.firevalue = 5;
+                break;
+            case 10:
+                this.separatevalue = false;
+                this.gradientvalue = false;
+                this.fadvalue = true;
+                break;
+            case 11:
+                this.amplitudevalue = 500;
+                break;
+        }
     }
 }

@@ -29,7 +29,7 @@ export class NavComponent implements OnInit {
     subscription:any;
     ButtonSelectImage:string = "url('./image/ButtonList_Select.png')"
     ButtonUnSelectImage:string = "url('./image/ButtonList_Normal.png')"
-    // actionsyncLightingTemplate:any;
+    checkActionSyncDeviceFlagEvent:any;
 
     constructor(
         private protocol: protocolService,
@@ -48,6 +48,8 @@ export class NavComponent implements OnInit {
 
     ngOnInit() {
         this.actionSyncService.InitData();
+        this.checkActionSyncDeviceFlagEvent = this.checkActionSyncDeviceFlag.bind(this)
+        document.getElementById("nav").addEventListener('click', this.checkActionSyncDeviceFlagEvent)
     }
 
     /**
@@ -59,6 +61,7 @@ export class NavComponent implements OnInit {
     }
 
     ngOnDestroy() {
+        document.getElementById("nav").removeEventListener('click', this.checkActionSyncDeviceFlagEvent)
     }
 
     LeftArrowClick() {
@@ -93,7 +96,14 @@ export class NavComponent implements OnInit {
         console.log('clickshow',event)
     }
 
-    abc() {
-        console.log(this.functionService.topbarfunc)
+    checkActionSyncDeviceFlag(event) {
+        if(this.actionSyncService.actionSyncDevicFlag) {
+            this.actionSyncService.actionSyncDevicFlag = false;
+            this.actionSyncService.actionSyncDeviceFunc(0);
+            for(let i = 1; i <= 3; i++) {
+                if(document.getElementById('actionSyncDevice' + i))
+                    document.getElementById('actionSyncDevice' + i).style.backgroundColor = "black";
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-<div class="nav">
+<div class="nav" id="nav">
     <!---------------Dashboard--------------------->
     <div class="nav-func-list" *ngIf="deviceService.checkAllSupportDevice('0x195D0xA005') && functionService.topbarfunc == 1">
         <div class="headset-item" (click)="functionService.HeadsetLeftFunc(1)" [style.background]="functionService.headsetleftfunc == 1 ? ButtonSelectImage : ButtonUnSelectImage" [style.color]="functionService.headsetleftfunc == 1 ? '#bebebe' : '#646464'"> {{'EQULIZER'|translate}}</div>
@@ -33,17 +33,18 @@
     </div>
     <div class="actionsync-lighting" id="actionsync-lightinglist">
         <div>
-            <div class="item" (click)="actionSyncService.selectActionSyncLighting(0)"> {{'Wave'|translate}} </div>
-            <div class="item" (click)="actionSyncService.selectActionSyncLighting(1)"> {{'ConicBand'|translate}} </div>
-            <div class="item" (click)="actionSyncService.selectActionSyncLighting(2)"> {{'Spiral'|translate}} </div>
-            <div class="item" (click)="actionSyncService.selectActionSyncLighting(3)"> {{'Cycle'|translate}} </div>
-            <div class="item" (click)="actionSyncService.selectActionSyncLighting(4)"> {{'LinearWave'|translate}} </div>
-            <div class="item" (click)="actionSyncService.selectActionSyncLighting(5)"> {{'Ripple'|translate}} </div>
-            <div class="item" (click)="actionSyncService.selectActionSyncLighting(6)"> {{'Breathing'|translate}} </div>
-            <div class="item" (click)="actionSyncService.selectActionSyncLighting(7)"> {{'Rain'|translate}} </div>
-            <div class="item" (click)="actionSyncService.selectActionSyncLighting(8)"> {{'Fire'|translate}} </div>
-            <div class="item" (click)="actionSyncService.selectActionSyncLighting(9)"> {{'Trigger'|translate}} </div>
-            <div class="item" (click)="actionSyncService.selectActionSyncLighting(20)"> {{'AudioCap'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(0)"> {{'Static'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(1)"> {{'Wave'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(2)"> {{'ConicBand'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(3)"> {{'Spiral'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(4)"> {{'Cycle'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(5)"> {{'LinearWave'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(6)"> {{'Ripple'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(7)"> {{'Breathing'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(8)"> {{'Rain'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(9)"> {{'Fire'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(10)"> {{'Reactive'|translate}} </div>
+            <div class="item" (click)="actionSyncService.selectActionSyncLighting(11)"> {{'AudioCap'|translate}} </div>
         </div>
     </div>
 </div>
