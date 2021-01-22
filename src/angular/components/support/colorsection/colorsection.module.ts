@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
-import { CustomerColorPickerComponent } from './customerColorPicker.component';
-import { CustomerColorPickerRoutes } from './customerColorPicker.routes'; 
+import { ColorSectionComponent } from './colorsection.component';
+import { ColorSectionRoutes } from './colorsection.routes'; 
 import { RouterModule } from "@angular/router";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+// import { SharedModule } from "../../shared.module";
 
 @NgModule({
   // imports: [CommonModule, SharedModule, FormsModule],
   imports: [CommonModule, FormsModule],
-  declarations: [CustomerColorPickerComponent],
-  exports: [CustomerColorPickerComponent],
+  declarations: [ColorSectionComponent],
+  exports: [ColorSectionComponent],
 })
-export class CustomerColorPickerModule {
+export class ColorSectionModule {
   // public static forRoot(): ModuleWithProviders {
   //     return {
   //         ngModule: QselectModule,

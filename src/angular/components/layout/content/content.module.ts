@@ -6,11 +6,10 @@ import { TranslateModule, TranslatePipe } from 'ng2-translate';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonselectselectModule } from '../../support/commonselect/commonselect.module'
-import { CustomerColorPickerComponent } from '../../support/customerColorPicker/customerColorPicker.component'
+import { CustomerColorPickerModule } from '../../support/customerColorPicker/customerColorPicker.module'
 @NgModule({
     declarations: [
       ContentComponent,
-      CustomerColorPickerComponent
     ],
     imports: [ 
       CommonselectselectModule,
@@ -18,6 +17,7 @@ import { CustomerColorPickerComponent } from '../../support/customerColorPicker/
       FormsModule,
       RouterModule.forChild(ContentRoutes),
       TranslateModule,
+      CustomerColorPickerModule
     ],
     exports: [
       TranslatePipe,     

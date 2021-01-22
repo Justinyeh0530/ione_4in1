@@ -298,6 +298,44 @@
                         border:2px solid #c4c4c4; 
                         color: #c4c4c4;
                     }
+
+                    .app-ColorSection {
+                        position: absolute;
+                        top: 80px;
+                        width: 400px;
+                        height: 35px;
+                    }
+                    
+                    .addColor {
+                        width: 21px;
+                        height: 21px;
+                        margin-left: 120px;
+                        background-image: url('./image/addclr.png');
+                        cursor: pointer;
+                    }
+
+                    .addColor:hover {
+                        filter: brightness(200%)
+                    }
+
+                    .removeColor {
+                        width: 19px;
+                        height: 23px;
+                        margin-left: 20px;
+                        background-image: url('./image/deleteclr.png');
+                        cursor: pointer;
+                    }
+
+                    .removeColor:hover {
+                        filter: brightness(200%)
+                    }
+
+                    .app-ColorPicker {
+                        position: absolute;
+                        top: 120px;
+                        left: 90px;
+                        transform: scale(0.8);
+                    }
                 }
             }
 
@@ -306,7 +344,7 @@
                 flex-direction: column;
                 height: 335px;
                 width: 500px;
-                background-color: green;
+                background-color: transparent;
             }
         }
     }

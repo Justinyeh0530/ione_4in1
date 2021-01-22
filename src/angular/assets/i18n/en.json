@@ -70,5 +70,10 @@
     "Pleasewait": "Please Wait",
     "frameselection": "Frame selection",
     "color": "Color",
-    "opencolorpicker": "Open ColorPicker"
+    "opencolorpicker": "Open ColorPicker",
+    "BASIC": "BASIC",
+    "CUSTOM": "CUSTOM",
+    "Brightness": "Brightness",
+    "SpectrumColors": "Spectrum Colors",
+    "Alternation": "Alternation"
 }

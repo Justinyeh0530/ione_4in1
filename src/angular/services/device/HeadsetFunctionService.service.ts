@@ -1,10 +1,12 @@
 declare var System;
-import { Injectable, EventEmitter } from '@angular/core';
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
+import { Injectable, EventEmitter} from '@angular/core';
 import { DeviceService } from './DeviceService.service'
 let electron_Instance = window['System']._nodeRequire('electron').remote; 
 let funcVar = System._nodeRequire('./backend/others/FunctionVariable')
+import { CommonService } from './CommonService.service'
+import {TranslateService} from 'ng2-translate';
 import * as _ from 'lodash'
+import { ThrowStmt } from '@angular/compiler/src/output/output_ast';
 
 @Injectable()
 export class HeadsetFunctionService{
@@ -67,9 +69,35 @@ export class HeadsetFunctionService{
     LightingArea:number = 1;
     HeadsetProfileData:any;
     profileindex:number = 0;
+    ColorPickerColor = {
+        R: 0,
+        G: 0,
+        B: 255,
+        A: 0,
+        hex: '0000FF'
+    };
+    switchDscFlag:boolean = false;
+    switchDefaultColor = [
+        [255,0,0],
+        [255,165,0],
+        [255,255,0],
+        [0,128,0],
+        [106,255,249],
+        [0,0,255],
+        [238, 130, 238]
+    ]
+    switchColorArrowFlag:number = -1;
+
+    BrightnessValue:number = 5;
+    SpeedValue:number = 5;
+    SpectrumValue:boolean = true;
+    AlternationFlag:number = 0;
+    CurrentLightingTempColor:any;
 
     constructor(
         private deviceService: DeviceService,
+        private commonService: CommonService,
+        private translateService: TranslateService,
         ){
             this.deviceService.updatCurrentDeviceData.subscribe((data) => {
                 if(data.pluginDevice != undefined && data.ModelType == 3) {
@@ -87,7 +115,7 @@ export class HeadsetFunctionService{
     initData() {
         this.equlizereDataSelect = this.MusicPreset[0];
         this.LightingEffect = this.HeadsetLightEffectData;
-        this.headsetLightEffectSelect = this.LightingEffect[0]
+        this.headsetLightEffectSelect =  _.clone(this.LightingEffect[0])
         if(this.HeadsetProfileData != undefined) {
             //init dashboard
             this.VirtualizationValue = this.HeadsetProfileData[this.profileindex].dashboard.VirtualizationValue;
@@ -121,7 +149,26 @@ export class HeadsetFunctionService{
             this.EnvironmentValue = this.HeadsetProfileData[this.profileindex].surroundsound.EnvironmentValue;
             this.StereoValue = this.HeadsetProfileData[this.profileindex].surroundsound.StereoValue
         }
-        
+    }
+
+    initSpectrum() {
+            //init Spectrum
+            let index = this.LightingEffect.findIndex(x => x.value == this.HeadsetProfileData[this.profileindex].lighting.value);
+            if(index != -1)
+                this.headsetLightEffectSelect = _.clone(this.LightingEffect[index]);
+            else
+                this.headsetLightEffectSelect =  _.clone(this.LightingEffect[0]);
+                console.log('index', index, this.headsetLightEffectSelect)
+            this.BrightnessValue = this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue;
+            this.SpeedValue = this.HeadsetProfileData[this.profileindex].lighting.SpeedValue;
+            this.SpectrumValue = this.HeadsetProfileData[this.profileindex].lighting.SpectrumValue;
+            this.CurrentLightingTempColor = this.HeadsetProfileData[this.profileindex].lighting.color;
+            if(this.headsetLightEffectSelect.value != 0|| this.headsetLightEffectSelect.value != 3) {
+                setTimeout(() =>{
+                    document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
+                    document.getElementById(`Alternation-color2`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[1][0]},${this.CurrentLightingTempColor[1][1]},${this.CurrentLightingTempColor[1][2]})`;
+                })
+            }
     }
 
     /**
@@ -268,8 +315,47 @@ export class HeadsetFunctionService{
         this[ValueName] = !this[ValueName];
     }
 
+    
+    /**
+     * Select Lighting Effect
+     */
+    HeadsetLightEffectSelect() {
+        this.ResetLightingEffectDefault();
+    }
+
+    /**
+     * color picker 當滑鼠放開時觸發
+     * @param event 
+     */
     ColorChange(event) {
         console.log('ColorChange:',event)
+        if(this.switchDscFlag)
+            this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+    }
+
+    /**
+     * color picker 當滑鼠移動時就會觸發
+     * @param event 
+     */
+    DynamicColorChange(event) {
+        this.ColorPickerColor.R = event.R
+        this.ColorPickerColor.G = event.G
+        this.ColorPickerColor.B = event.B
+        this.ColorPickerColor.hex = this.commonService.rgbToHex(this.ColorPickerColor.R, this.ColorPickerColor.G, this.ColorPickerColor.B).split('#')[1]
+        if(document.getElementById('color-item1'))
+            document.getElementById('color-item1').style.backgroundColor = "#" + this.ColorPickerColor.hex;
+        if(this.switchDscFlag && document.getElementById('color-switch-list' + this.switchColorArrowFlag)) {
+            console.log('color-switch-list' + this.switchColorArrowFlag, `rgb(${this.ColorPickerColor.R},${this.ColorPickerColor.G},${this.ColorPickerColor.B})`)
+            this.HeadsetProfileData[this.profileindex].customColor[this.switchColorArrowFlag][0] = this.ColorPickerColor.R;
+            this.HeadsetProfileData[this.profileindex].customColor[this.switchColorArrowFlag][1] = this.ColorPickerColor.G;
+            this.HeadsetProfileData[this.profileindex].customColor[this.switchColorArrowFlag][2] = this.ColorPickerColor.B;
+        }
+        if(!this.SpectrumValue) {
+            document.getElementById(`Alternation-color${this.AlternationFlag}`).style.backgroundColor = `rgb(${this.ColorPickerColor.R},${this.ColorPickerColor.G},${this.ColorPickerColor.B})`;
+            this.CurrentLightingTempColor[this.AlternationFlag - 1][0] = this.ColorPickerColor.R;
+            this.CurrentLightingTempColor[this.AlternationFlag - 1][1] = this.ColorPickerColor.G;
+            this.CurrentLightingTempColor[this.AlternationFlag - 1][2] = this.ColorPickerColor.B;
+        }
     }
 
     SetLightingArea(flag) {
@@ -289,5 +375,123 @@ export class HeadsetFunctionService{
         this.value4K = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value4K;
         this.value8K = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value8K;
         this.value16K = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value16K;
+    }
+
+    resetCurrentColor() {
+        document.getElementById('color-item1').style.backgroundColor = document.getElementById('color-item2').style.backgroundColor;
+        let color:any =  document.getElementById('color-item2').style.backgroundColor;
+        if(color.indexOf('rgb') != -1) {
+            color = color.split('rgb(')[1]
+            color = color.split(')')[0]
+            this.ColorPickerColor.R = color.split(',')[0];
+            this.ColorPickerColor.G = color.split(',')[1];
+            this.ColorPickerColor.B = color.split(',')[2];
+            this.ColorPickerColor.hex = this.commonService.rgbToHex(this.ColorPickerColor.R, this.ColorPickerColor.G, this.ColorPickerColor.B).split('#')[1]
+        } else if(color.indexOf('#') != -1) {
+            this.ColorPickerColor.hex = color.split('#')[0];
+            let RGB = this.commonService.hexToRgb(this.ColorPickerColor.hex)
+            this.ColorPickerColor.R = RGB.r;
+            this.ColorPickerColor.G = RGB.g;
+            this.ColorPickerColor.B = RGB.b;
+        }
+    }
+
+    /**
+     * this.switchDscFlag  false: Basic, true:Custom
+     */
+    checkSwitchDsc() {
+        let text = ""
+        if(this.switchDscFlag) {
+            for(let i = 0; i <= 6; i++) 
+                document.getElementById(`color-switch-list${i}`).style.backgroundColor = `rgb(${this.HeadsetProfileData[this.profileindex].customColor[i][0]}, ${this.HeadsetProfileData[this.profileindex].customColor[i][1]}, ${this.HeadsetProfileData[this.profileindex].customColor[i][2]})`
+            text = "CUSTOM";
+        } else {
+            for(let i = 0; i <= 6; i++) 
+                document.getElementById(`color-switch-list${i}`).style.backgroundColor = `rgb(${this.switchDefaultColor[i][0]}, ${this.switchDefaultColor[i][1]}, ${this.switchDefaultColor[i][2]})`
+            text = "BASIC";
+        }
+        return text;
+    }
+
+    switchDsc() {
+        this.switchDscFlag = !this.switchDscFlag;
+    }
+
+    setSwitchColor(id) {
+        this.switchColorArrowFlag = id;
+        let color:any = document.getElementById(`color-switch-list${id}`).style.backgroundColor;
+        if(color.indexOf('rgb') != -1) {
+            color = color.split('rgb(')[1];
+            color = color.split(')')[0];
+            this.ColorPickerColor.R = color.split(',')[0];
+            this.ColorPickerColor.G = color.split(',')[1];
+            this.ColorPickerColor.B = color.split(',')[2];
+            this.ColorPickerColor.hex = this.commonService.rgbToHex(this.ColorPickerColor.R, this.ColorPickerColor.G, this.ColorPickerColor.B).split('#')[1]
+        } else if(color.indexOf('#') != -1) {
+            this.ColorPickerColor.hex = color.split('#')[0];
+            let RGB = this.commonService.hexToRgb(this.ColorPickerColor.hex)
+            this.ColorPickerColor.R = RGB.r;
+            this.ColorPickerColor.G = RGB.g;
+            this.ColorPickerColor.B = RGB.b;
+        }
+        if(document.getElementById('color-item1'))
+            document.getElementById('color-item1').style.backgroundColor = "#" + this.ColorPickerColor.hex;
+    }
+
+    SpectrumSave() {
+        document.getElementById('color-item2').style.backgroundColor = document.getElementById('color-item1').style.backgroundColor;
+        this.HeadsetProfileData[this.profileindex].lighting.value = this.headsetLightEffectSelect.value;
+        this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue = this.BrightnessValue;
+        this.HeadsetProfileData[this.profileindex].lighting.SpeedValue = this.SpeedValue;
+        this.HeadsetProfileData[this.profileindex].lighting.SpectrumValue = this.SpectrumValue;
+        this.HeadsetProfileData[this.profileindex].lighting.color = this.CurrentLightingTempColor
+        this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+    }
+
+    SliderChange(id) {
+        // switch(id) {
+        //     case 'Brightness':
+        //         this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue = this.BrightnessValue;
+        //         break;
+        //     case 'Speed':
+        //         this.HeadsetProfileData[this.profileindex].lighting.SpeedValue = this.SpeedValue;
+        //         break;
+        // }
+    }
+
+    SpectrumClick() {
+        this.SpectrumValue = !this.SpectrumValue
+    }
+
+    AlternationColorClick(id) {
+        this.AlternationFlag = id
+        document.getElementById('color-item1').style.backgroundColor = document.getElementById(`Alternation-color${id}`).style.backgroundColor
+        document.getElementById('color-item2').style.backgroundColor = document.getElementById(`Alternation-color${id}`).style.backgroundColor
+    }
+
+    /**
+     * 切換燈校時, 載入預設值
+     */
+    ResetLightingEffectDefault() {
+        this.AlternationFlag = 0;
+        this.SpectrumValue = true;
+        this.BrightnessValue = 5;
+        this.SpeedValue = 5;
+        console.log(333333,this.LightingEffect)
+        switch(this.headsetLightEffectSelect.value) {
+            case 0:
+                this.BrightnessValue = 5;
+                this.CurrentLightingTempColor = [[255,0,0]]
+                break;
+            case 1:
+                this.BrightnessValue = 5;
+                this.SpeedValue = 5;
+                setTimeout(() => {
+                    document.getElementById('Alternation-color1').style.backgroundColor = "rgb(0,0,255)";
+                    document.getElementById('Alternation-color2').style.backgroundColor = "rgb(255,0,0)";
+                });
+                this.CurrentLightingTempColor = [[0,0,255],[255,0,0]]
+                break;
+        }
     }
 }

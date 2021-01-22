@@ -14,7 +14,7 @@ import { NavComponent } from './layout/nav/nav.component'
 import { MainComponent } from './layout/main.component';
 import { TopbarComponent } from './layout/topbar/topbar.component'
 import { ContentComponent } from './layout/content/content.component'
-// import { CustomerColorPickerComponent } from './support/customerColorPicker/customerColorPicker.component'
+import { CustomerColorPickerModule } from './support/customerColorPicker/customerColorPicker.module'
 import { CommonselectselectModule } from './support/commonselect/commonselect.module'
 import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate';
 
@@ -41,6 +41,7 @@ routerModule = RouterModule.forRoot(routes, {useHash: true});
     ],
     imports: [
         CommonselectselectModule,
+        CustomerColorPickerModule,
         BrowserModule,
         FormsModule,
         routerModule,

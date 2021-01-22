@@ -171,4 +171,15 @@ export class ContentComponent implements OnInit {
         if(document.getElementById(id)) {
             document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,rgb(190, 190, 190) 0%,rgb(190, 190, 190) ' + this.headsetFunctionService[id] + '%,rgb(40,40,40) ' + this.headsetFunctionService[id] + '%, rgb(40,40,40) 100%)'}
     }
+
+    SliderChangeMove(id) {
+        switch(id) {
+            case 'Brightness':
+                document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,rgb(190, 190, 190) 0%,rgb(190, 190, 190) ' + this.headsetFunctionService[id+'Value'] * 10 + '%,rgb(40,40,40) ' + this.headsetFunctionService[id+'Value'] * 10 + '%, rgb(40,40,40) 100%)'
+                break;
+            case 'Speed':
+                document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,rgb(190, 190, 190) 0%,rgb(190, 190, 190) ' + (this.headsetFunctionService[id+'Value'] - 1)* 11 + '%,rgb(40,40,40) ' + (this.headsetFunctionService[id+'Value'] - 1) * 11 + '%, rgb(40,40,40) 100%)'
+                break;
+        }
+    }
 }

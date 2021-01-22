@@ -1,12 +1,15 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, ViewChild } from '@angular/core';
 let electron_Instance = window['System']._nodeRequire('electron').remote; 
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
-import { CommonService } from './index'
+import { CommonService } from './index';
 import * as _ from 'lodash'
-import { from } from 'rxjs/observable/from';
+import { xor } from 'lodash';
 
 @Injectable()
 export class ActionSyncService{
+    updateColorSection: EventEmitter<object> = new EventEmitter();
+    removeColorSection: EventEmitter<number> = new EventEmitter();
+    addColorSection: EventEmitter<number> = new EventEmitter();
     lightinglistdialogflag:boolean = false;
     dbService = electron_Instance.getGlobal('AppProtocol').deviceService.nedbObj;
     opacityvalue: number = 50;
@@ -40,7 +43,18 @@ export class ActionSyncService{
     asyncsyncLightingCard:any;
     actionSyncDevicFlag:boolean = false;
     lightlayerlist = {layerlist:[], index:0};
-    
+
+    ColorSectionArray = [
+        {value:0, left:0, color:[255, 0, 0, 1]},
+        {value:1, left:39, color:[255, 165, 0, 1]},
+        {value:2, left:95, color:[255, 255, 0, 1]},
+        {value:3, left:151, color:[0, 128, 0, 1]},
+        {value:4, left:207, color:[106, 255, 249, 1]},
+        {value:5, left:263, color:[0, 0, 255, 1]},
+        {value:6, left:319, color:[75, 0, 130, 1]},
+        {value:7, left:343, color:[238, 130, 238, 1]}
+    ]    
+    dotindex:number = -1;
 
     //event
     clickshowEvent:any;
@@ -75,6 +89,11 @@ export class ActionSyncService{
             if(this.lightlayerlist.index != 0) {
                 document.getElementById("actionsync-layer-temp" + this.lightlayerlist.index).style.background = "white";
                 document.getElementById("actionsync-lighting-dsc" + this.lightlayerlist.index).style.color = "black";
+                let layerindex = this.getlayerlistindex()
+                if(layerindex != undefined) {
+                    this.ColorSectionArray = this.lightlayerlist.layerlist[layerindex].ColorSectionArray;
+                    this.updateColorSection.emit(this.ColorSectionArray)
+                }
             }
         })
     }
@@ -92,6 +111,9 @@ export class ActionSyncService{
         }
     }
 
+    /**
+     * 切換Layer燈校
+     */
     selectActionSyncLighting(index) {
         this.translateService.get(this.LightingEffectData[index].translate).subscribe((res: string) => {
             document.getElementById("actionsync-lighting-dsc" + this.lightlayerlist.index).value = res;
@@ -99,7 +121,7 @@ export class ActionSyncService{
             if(layerindex != -1) {
                 this.lightlayerlist.layerlist[layerindex].value = index;
                 this.setightParamToDefault(index);
-                this.dbService.updateApMode(this.lightlayerlist).then(() => {this.save();});
+                this.updateColorSectionArray();
             }
         })
     }
@@ -114,7 +136,10 @@ export class ActionSyncService{
             index = this.lightlayerlist.layerlist[this.lightlayerlist.layerlist.length - 1].index;
         index++;
         this.createLayer(index, this.LightingEffectData[0].value, 1, 1);
-        let layerobj = {index:index, value:this.LightingEffectData[0].value, enable:true}
+        this.ColorSectionArray = [
+            {value:0, left:0, color:[255, 0, 0, 1]},
+        ]
+        let layerobj = {index:index, value:this.LightingEffectData[0].value, enable:true, ColorSectionArray:this.ColorSectionArray}
         this.lightlayerlist.layerlist.push(layerobj);
         this.dbService.updateApMode(this.lightlayerlist).then(() => {this.save();})
     }
@@ -205,6 +230,12 @@ export class ActionSyncService{
         }
         document.getElementById("actionsync-layer-temp" + this.lightlayerlist.index).style.background = "rgb(190,190,190)";
         document.getElementById("actionsync-lighting-dsc" + this.lightlayerlist.index).style.color = "black";
+        let layerindex = this.getlayerlistindex()
+        if(layerindex != undefined) {
+            this.ColorSectionArray = this.lightlayerlist.layerlist[layerindex].ColorSectionArray;
+            this.updateColorSection.emit(this.ColorSectionArray)
+        }
+        // this.updateColorSectionArray();
     }
 
     /**
@@ -217,6 +248,7 @@ export class ActionSyncService{
             for(let i = 1; i <= 3; i++) 
                 document.getElementById('actionSyncDevice' + i).style.backgroundColor = "black";
             document.getElementById('actionSyncDevice' + flag).style.backgroundColor = "gray";
+            document.getElementById("actionsync-down").addEventListener('click', this.checkActionSyncDeviceFlag.bind(this))
         } else {
             /**need to do */
         }
@@ -231,35 +263,99 @@ export class ActionSyncService{
     }
 
     /**
+     * 回傳lightlayerlist當前的index
+     */
+    getlayerlistindex() {
+        let index = this.lightlayerlist.layerlist.findIndex(x => x.index == this.lightlayerlist.index)
+        if(index != -1)
+            return index;
+        else
+            return undefined;
+    }
+
+    /**
      * 
      * @param value 0:Static 1:Wave 2:Conicband 3:Spiral 4:Color Cycle 5:Linearwave 6:Ripple 7:Breath 8:Rain 9:Fire 10:Reactive 11:Audio
      */
-    setightParamToDefault(value) {
+    setightParamToDefault(value) { 
         switch(value) {
             case 0:
+                this.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                ]
                 break;
             case 1:
+                this.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                    {value:1, left:39, color:[255, 165, 0, 1]},
+                    {value:2, left:95, color:[255, 255, 0, 1]},
+                    {value:3, left:151, color:[0, 128, 0, 1]},
+                    {value:4, left:207, color:[106, 255, 249, 1]},
+                    {value:5, left:263, color:[0, 0, 255, 1]},
+                    {value:6, left:319, color:[75, 0, 130, 1]},
+                    {value:7, left:343, color:[238, 130, 238, 1]}
+                ]
                 this.speedvalue = 5;
                 this.bandwidthvalue = 200;
                 this.anglevalue = 0;
                 this.gradientvalue = true;
                 break;
             case 2:
+                this.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                    {value:1, left:39, color:[255, 165, 0, 1]},
+                    {value:2, left:95, color:[255, 255, 0, 1]},
+                    {value:3, left:151, color:[0, 128, 0, 1]},
+                    {value:4, left:207, color:[106, 255, 249, 1]},
+                    {value:5, left:263, color:[0, 0, 255, 1]},
+                    {value:6, left:319, color:[75, 0, 130, 1]},
+                    {value:7, left:343, color:[238, 130, 238, 1]}
+                ]
                 this.speedvalue = 5;
                 this.bandwidthvalue = 100;
                 this.gradientvalue = true;
                 this.directionvalue = false;
                 break;
             case 3:
+                this.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                    {value:1, left:39, color:[255, 165, 0, 1]},
+                    {value:2, left:95, color:[255, 255, 0, 1]},
+                    {value:3, left:151, color:[0, 128, 0, 1]},
+                    {value:4, left:207, color:[106, 255, 249, 1]},
+                    {value:5, left:263, color:[0, 0, 255, 1]},
+                    {value:6, left:319, color:[75, 0, 130, 1]},
+                    {value:7, left:343, color:[238, 130, 238, 1]}
+                ]
                 this.speedvalue = 5;
                 this.gradientvalue = true;
                 this.directionvalue = false;
                 break;
             case 4:
+                this.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                    {value:1, left:39, color:[255, 165, 0, 1]},
+                    {value:2, left:95, color:[255, 255, 0, 1]},
+                    {value:3, left:151, color:[0, 128, 0, 1]},
+                    {value:4, left:207, color:[106, 255, 249, 1]},
+                    {value:5, left:263, color:[0, 0, 255, 1]},
+                    {value:6, left:319, color:[75, 0, 130, 1]},
+                    {value:7, left:343, color:[238, 130, 238, 1]}
+                ]
                 this.speedvalue = 2;
                 this.gradientvalue = true;
                 break;
             case 5:
+                this.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                    {value:1, left:39, color:[255, 165, 0, 1]},
+                    {value:2, left:95, color:[255, 255, 0, 1]},
+                    {value:3, left:151, color:[0, 128, 0, 1]},
+                    {value:4, left:207, color:[106, 255, 249, 1]},
+                    {value:5, left:263, color:[0, 0, 255, 1]},
+                    {value:6, left:319, color:[75, 0, 130, 1]},
+                    {value:7, left:343, color:[238, 130, 238, 1]}
+                ]
                 this.speedvalue = 10;
                 this.bandwidthvalue = 50;
                 this.anglevalue = 0;
@@ -270,6 +366,16 @@ export class ActionSyncService{
                 this.bidirectionalvalue = true;
                 break;
             case 6:
+                this.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                    {value:1, left:39, color:[255, 165, 0, 1]},
+                    {value:2, left:95, color:[255, 255, 0, 1]},
+                    {value:3, left:151, color:[0, 128, 0, 1]},
+                    {value:4, left:207, color:[106, 255, 249, 1]},
+                    {value:5, left:263, color:[0, 0, 255, 1]},
+                    {value:6, left:319, color:[75, 0, 130, 1]},
+                    {value:7, left:343, color:[238, 130, 238, 1]}
+                ]
                 this.speedvalue = 10;
                 this.bandwidthvalue = 50;
                 this.gapvalue = 0;
@@ -277,6 +383,16 @@ export class ActionSyncService{
                 this.fadvalue = true;
                 break;
             case 7:
+                this.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                    {value:1, left:39, color:[255, 165, 0, 1]},
+                    {value:2, left:95, color:[255, 255, 0, 1]},
+                    {value:3, left:151, color:[0, 128, 0, 1]},
+                    {value:4, left:207, color:[106, 255, 249, 1]},
+                    {value:5, left:263, color:[0, 0, 255, 1]},
+                    {value:6, left:319, color:[75, 0, 130, 1]},
+                    {value:7, left:343, color:[238, 130, 238, 1]}
+                ]
                 this.speedvalue = 2;
                 this.bandwidthvalue = 500;
                 this.gapvalue = 100;
@@ -284,22 +400,112 @@ export class ActionSyncService{
                 this.fadvalue = true;
                 break;
             case 8:
+                this.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                    {value:1, left:39, color:[255, 165, 0, 1]},
+                    {value:2, left:95, color:[255, 255, 0, 1]},
+                    {value:3, left:151, color:[0, 128, 0, 1]},
+                    {value:4, left:207, color:[106, 255, 249, 1]},
+                    {value:5, left:263, color:[0, 0, 255, 1]},
+                    {value:6, left:319, color:[75, 0, 130, 1]},
+                    {value:7, left:343, color:[238, 130, 238, 1]}
+                ]
                 this.speedvalue = 8
                 this.anglevalue = 0;
                 this.numbervalue = 5;
                 break;
             case 9:
+                this.ColorSectionArray = []
                 this.speedvalue = 1;
                 this.firevalue = 5;
                 break;
             case 10:
+                this.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                    {value:1, left:39, color:[255, 255, 255, 1]},
+                    {value:2, left:95, color:[255, 255, 0, 1]},
+                    {value:3, left:151, color:[0, 128, 0, 1]},
+                    {value:4, left:207, color:[106, 255, 249, 1]},
+                    {value:5, left:263, color:[0, 0, 255, 1]},
+                    {value:6, left:319, color:[75, 0, 130, 1]},
+                    {value:7, left:343, color:[238, 130, 238, 1]}
+                ]
                 this.separatevalue = false;
                 this.gradientvalue = false;
                 this.fadvalue = true;
                 break;
             case 11:
+                this.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                ]
                 this.amplitudevalue = 500;
                 break;
+        }
+        this.updateColorSection.emit(this.ColorSectionArray);
+    }
+
+    /**
+     * 當硬體排列 框選 效果中心被點選時,註冊通知並點選其他地方時會執行取消選取的功能
+     * @param event 
+     */
+    checkActionSyncDeviceFlag(event) {
+        if(this.actionSyncDevicFlag && event.target.id.indexOf('actionSyncDevice') == -1) {
+            this.actionSyncDevicFlag = false;
+            this.actionSyncDeviceFunc(0);
+            for(let i = 1; i <= 3; i++)
+                document.getElementById('actionSyncDevice' + i).style.backgroundColor = "black";
+        }
+        document.getElementById("actionsync-down").removeEventListener('click', this.checkActionSyncDeviceFlag.bind(this))
+    }
+
+    /**
+     * Color picker顏色改變
+     * @param event 
+     */
+    ColorChange(event) {
+        document.getElementById('colorbox').style.backgroundColor = `rgb(${event.R}, ${event.G}, ${event.B}, ${event.A/100})`
+        if(this.dotindex != -1){
+            let index = this.ColorSectionArray.findIndex(x => x.value == this.dotindex);
+            if(index != -1) {
+                this.ColorSectionArray[index].color = [event.R, event.G, event.B, event.A/100];
+                this.updateColorSection.emit(this.ColorSectionArray);
+                this.updateColorSectionArray();
+            }
+        }
+    }
+
+    updateColorSectionArray() {
+        let layerindex = this.getlayerlistindex()
+        if(layerindex != undefined) {
+            this.lightlayerlist.layerlist[layerindex].ColorSectionArray = this.ColorSectionArray;
+            this.dbService.updateApMode(this.lightlayerlist).then(() => {})
+        }
+    }
+
+    /**
+     * color section改變
+     */
+    ColorSectionChange(event) {
+        this.ColorSectionArray = event.Array;
+        this.dotindex = event.dotindex
+        this.updateColorSectionArray();
+    }
+
+    addColor() {
+        let value = Math.max.apply(Math, this.ColorSectionArray.map(function(o) {return o.value}))
+        this.addColorSection.emit(value);
+    }
+
+    removeColor() {
+        if(this.dotindex != -1) {
+            let index = this.ColorSectionArray.findIndex(x => x.value == this.dotindex)
+            if(index != -1) {
+                this.ColorSectionArray.splice(index, 1);
+                let data = this.dotindex;
+                this.removeColorSection.emit(data);
+                this.dotindex = -1;
+                this.dbService.updateApMode(this.lightlayerlist).then(() => {})
+            } 
         }
     }
 }

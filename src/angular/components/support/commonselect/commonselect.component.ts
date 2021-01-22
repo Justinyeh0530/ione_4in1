@@ -244,7 +244,7 @@ export class CommonselectselectComponent implements OnInit,ControlValueAccessor{
         }
         if(obj != null && sekected != undefined){
             for(var j = 0; j < this.inputoption.length; j++){
-                if(this.inputoption[j] == obj){
+                if(JSON.stringify(this.inputoption[j]) == JSON.stringify(obj)){
                     this.selectdata = j;
                     sekected.innerHTML = this.inputoption[j].name;
                     break;

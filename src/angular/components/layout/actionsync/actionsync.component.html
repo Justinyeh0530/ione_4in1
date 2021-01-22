@@ -14,10 +14,10 @@
             <div class="item-text">
                 {{'zoom'|translate}}:
             </div>
-            <div class="item" style="width: 50px; margin-left:15px; font-size:23px;">
+            <div class="item" style="width: 50px; margin-left:15px; font-size:23px; align-items: normal;">
                 +
             </div>
-            <div class="item" style="width: 50px; margin-left:5px; font-size:23px;">
+            <div class="item" style="width: 50px; margin-left:5px; font-size:23px; align-items: normal;">
                 -
             </div>
         </div>
@@ -152,19 +152,24 @@
             </div>
         </div>
         <div class="func-color">
-            <div class="func-color-block1">
+            <div class="func-color-block1" *ngIf="actionSyncService.retrunCurrentLightingLayer() != 9">
                 <div class="item" style="width:540px;">
                     <div class="text">
                         {{'color'|translate}}:
                     </div>
                     <div class="color" id="colorbox"></div>
-                    <div class="colorpicker">
+                    <div class="colorpicker" (click)="openColorPicker();" [style.backgroundColor]="colorpickerFlag ? 'red' : 'transparent'" [style.color]="colorpickerFlag ? 'white' : '#646464'">
                         {{'opencolorpicker'|translate}}
                     </div>
+                    <div class="addColor" *ngIf="actionSyncService.retrunCurrentLightingLayer() != 0 && actionSyncService.retrunCurrentLightingLayer() != 11" (click)="actionSyncService.addColor()" [style.pointerEvents]="actionSyncService.ColorSectionArray.length >= 10 ? 'none':'auto'"></div>
+                    <div class="removeColor" *ngIf="actionSyncService.retrunCurrentLightingLayer() != 0 && actionSyncService.retrunCurrentLightingLayer() != 11" (click)="actionSyncService.removeColor()" [style.pointerEvents]="actionSyncService.ColorSectionArray.length == 2 ? 'none':'auto'"></div>
+                    <!-- <app-ColorSection class="app-ColorSection" [id]="'actionsync'" [ColorSectionArray]="actionSyncService.ColorSectionArray" (ColorSectionChange)="actionSyncService.ColorSectionChange($event)" *ngIf="actionSyncService.retrunCurrentLightingLayer() != 0 && actionSyncService.retrunCurrentLightingLayer() != 11"></app-ColorSection> -->
+                    <app-ColorSection class="app-ColorSection" [id]="'actionsync'" [ColorSectionArray]="actionSyncService.ColorSectionArray" (ColorSectionChange)="actionSyncService.ColorSectionChange($event)" [hidden]="actionSyncService.retrunCurrentLightingLayer() == 0 ||actionSyncService.retrunCurrentLightingLayer() == 11"></app-ColorSection>
+                    <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="false" (ColorChange)="actionSyncService.ColorChange($event)" *ngIf="colorpickerFlag"></app-ColorPicker>
                 </div>
             </div>
             <div class="func-color-block2">
-
+                <!-- <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="false" (ColorChange)="actionSyncService.ColorChange($event)"></app-ColorPicker> -->
             </div>
         </div>
     </div>

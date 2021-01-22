@@ -6,16 +6,20 @@ import { TranslateModule, TranslatePipe } from 'ng2-translate';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonselectselectModule } from '../../support/commonselect/commonselect.module'
+import { CustomerColorPickerModule } from '../../support/customerColorPicker/customerColorPicker.module'
+import { ColorSectionModule } from '../../support/colorsection/colorsection.module'
 @NgModule({
     declarations: [
-      ActionSyncComponent
+      ActionSyncComponent,
     ],
     imports: [ 
       CommonselectselectModule,
+      ColorSectionModule,
       CommonModule,
       FormsModule,
       RouterModule.forChild(ActionSyncRoutes),
       TranslateModule,
+      CustomerColorPickerModule
     ],
     exports: [
       TranslatePipe,     

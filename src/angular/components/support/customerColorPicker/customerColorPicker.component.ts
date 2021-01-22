@@ -9,8 +9,12 @@ let remote = System._nodeRequire('electron').remote;
 })
 
 export class CustomerColorPickerComponent implements OnInit{
+    @Input()
+    Brightnessflag:boolean; 
     @Output()
     ColorChange = new EventEmitter<object>();
+    @Output()
+    DynamicColorChange = new EventEmitter<object>();
     // @Input()
     // CurrentDevice:any;
     // @Input()
@@ -33,7 +37,7 @@ export class CustomerColorPickerComponent implements OnInit{
         R: 0,
         G: 0,
         B: 0,
-        A: 0
+        A: 100
     }
 
     constructor(
@@ -42,6 +46,10 @@ export class CustomerColorPickerComponent implements OnInit{
         }
 
     ngOnInit(){
+        if(!this.Brightnessflag) {
+            document.getElementById('Color-Lighting').style.display = "none";
+            document.getElementById('Color-Lighting-Point').style.display = "none";
+        }
         this.ColorLightPoint = document.getElementById('Color-Lighting-Point') as HTMLCanvasElement;
         this.ColorPoint = document.getElementById("ColorPoint") as HTMLCanvasElement;
         let canvas = document.getElementById("HeadsetCanvas") as HTMLCanvasElement;
@@ -63,7 +71,6 @@ export class CustomerColorPickerComponent implements OnInit{
     }
 
     initData() {
-        this.ColorLightPointAngle = 0;
         this.ColorLightPoint.style.transform = `rotate(${this.ColorLightPointAngle}deg)`
     }
 
@@ -90,14 +97,16 @@ export class CustomerColorPickerComponent implements OnInit{
                 this.Color.R = Colordata[0];
                 this.Color.G = Colordata[1];
                 this.Color.B = Colordata[2];
-                this.ColorChange.emit(this.Color);
+                this.DynamicColorChange.emit(this.Color);
             }
         }
     }
 
     HeadsetCanvasMouseup(event) {
-        if(this.ColorPointFlag)
+        if(this.ColorPointFlag) {
             this.ColorPointFlag = false;
+            this.ColorChange.emit(this.Color);
+        }
     }
 
     ColorLightPointDown(event) {
@@ -125,7 +134,7 @@ export class CustomerColorPickerComponent implements OnInit{
             }
             this.ColorLightPoint.style.transform = `rotate(${this.rotate}deg)`;
             this.Color.A = 100 - (this.rotate * 100 / 360);
-            this.ColorChange.emit(this.Color);
+            // this.ColorChange.emit(this.Color);
         }
     }
 
@@ -133,6 +142,7 @@ export class CustomerColorPickerComponent implements OnInit{
         if(this.ColorLightPointFlag) {
             this.ColorLightPointFlag = false;
             this.ColorLightPointAngle = this.rotate;
+            this.ColorChange.emit(this.Color);
         }
     }
 

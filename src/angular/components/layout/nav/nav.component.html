@@ -7,7 +7,7 @@
     </div>
     <!---------------Spectrum--------------------->
     <div class="nav-func-list" *ngIf="deviceService.checkAllSupportDevice('0x195D0xA005') && functionService.topbarfunc == 2">
-        <app-commonselect class="HeadsetLightEffect" [componentId]="'Headset-lighteffect'" [inputoption]="headsetFunctionService.LightingEffect" [(ngModel)]="headsetFunctionService.headsetLightEffectSelect" (ngModelChange)="HeadsetLightEffectSelect()"></app-commonselect>
+        <app-commonselect class="HeadsetLightEffect" [componentId]="'Headset-lighteffect'" [inputoption]="headsetFunctionService.LightingEffect" [(ngModel)]="headsetFunctionService.headsetLightEffectSelect" (ngModelChange)="headsetFunctionService.HeadsetLightEffectSelect()"></app-commonselect>
     </div>
     <!---------------ActionSync--------------------->
     <div class="nav-func-list" [style.display]="functionService.topbarfunc == 5 ? 'flex' : 'none'">

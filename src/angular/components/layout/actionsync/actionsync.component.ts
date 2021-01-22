@@ -24,6 +24,7 @@ const { ipcRenderer } = System._nodeRequire('electron');
 
 export class ActionSyncComponent implements OnInit {
     checkActionSyncDeviceFlagEvent:any;
+    colorpickerFlag:boolean = false;
     constructor(
         private protocol: protocolService,
         private translate: TranslateService,
@@ -40,12 +41,12 @@ export class ActionSyncComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.checkActionSyncDeviceFlagEvent = this.checkActionSyncDeviceFlag.bind(this)
-        document.getElementById("actionsync-down").addEventListener('click', this.checkActionSyncDeviceFlagEvent)
+        this.checkActionSyncDeviceFlagEvent = this.checkActionSyncDeviceFlag.bind(this);
+        // document.getElementById("actionsync-down").addEventListener('click', this.checkActionSyncDeviceFlagEvent)
     }
 
     ngOnDestroy() {
-        document.getElementById("actionsync-down").removeEventListener('click', this.checkActionSyncDeviceFlagEvent)
+        // document.getElementById("actionsync-down").removeEventListener('click', this.checkActionSyncDeviceFlagEvent)
     }
 
     SliderMove(id) {
@@ -68,5 +69,9 @@ export class ActionSyncComponent implements OnInit {
             for(let i = 1; i <= 3; i++)
                 document.getElementById('actionSyncDevice' + i).style.backgroundColor = "black";
         }
+    }
+
+    openColorPicker() {
+        this.colorpickerFlag = !this.colorpickerFlag;
     }
 }

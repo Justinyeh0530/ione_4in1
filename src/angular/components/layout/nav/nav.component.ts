@@ -1,5 +1,5 @@
 declare var System;
-import { Component, OnInit, Output, Input, EventEmitter, SimpleChange, OnChanges, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, SimpleChange, OnChanges, ViewChild, ElementRef, ChangeDetectorRef, ApplicationRef} from '@angular/core';
 import { ElectronEventService } from '../../../services/libs/electron/index';
 import { protocolService } from '../../../services/service/protocol.service';
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
@@ -42,7 +42,8 @@ export class NavComponent implements OnInit {
         private cdr: ChangeDetectorRef, 
         private headsetFunctionService: HeadsetFunctionService,
         private functionService: FunctionService,
-        private actionSyncService: ActionSyncService
+        private actionSyncService: ActionSyncService,
+        private adr: ApplicationRef,
     ) {
     }
 
@@ -86,10 +87,6 @@ export class NavComponent implements OnInit {
             this.deviceService.currentSupportDevice = this.deviceService.supportDevice[index];
             this.deviceService.setCurrentDevice(this.deviceService.currentSupportDevice)
         }
-    }
-
-    HeadsetLightEffectSelect() {
-        
     }
 
     clickshow(event) {
