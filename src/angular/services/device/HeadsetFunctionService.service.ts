@@ -11,6 +11,9 @@ import { ThrowStmt } from '@angular/compiler/src/output/output_ast';
 @Injectable()
 export class HeadsetFunctionService{
     dbService = electron_Instance.getGlobal('AppProtocol').deviceService.nedbObj
+    updateColorSection: EventEmitter<object> = new EventEmitter();
+    removeColorSection: EventEmitter<number> = new EventEmitter();
+    addColorSection: EventEmitter<number> = new EventEmitter();
     MusicPreset = [
         { name: "Music", value:0, translate: 'Music'},
         { name: 'Movie', value: 1, translate: 'Movie'},
@@ -93,6 +96,19 @@ export class HeadsetFunctionService{
     SpectrumValue:boolean = true;
     AlternationFlag:number = 0;
     CurrentLightingTempColor:any;
+    DurationValue:number = 2;
+
+    ColorSectionArray:any = [
+        {value:0, left:0, color:[255, 0, 0, 1]},
+        {value:1, left:39, color:[255, 165, 0, 1]},
+        {value:2, left:95, color:[255, 255, 0, 1]},
+        {value:3, left:151, color:[0, 128, 0, 1]},
+        {value:4, left:207, color:[106, 255, 249, 1]},
+        {value:5, left:263, color:[0, 0, 255, 1]},
+        {value:6, left:319, color:[75, 0, 130, 1]},
+        {value:7, left:343, color:[238, 130, 238, 1]}
+    ]
+    dotindex:number = -1;
 
     constructor(
         private deviceService: DeviceService,
@@ -163,7 +179,7 @@ export class HeadsetFunctionService{
             this.SpeedValue = this.HeadsetProfileData[this.profileindex].lighting.SpeedValue;
             this.SpectrumValue = this.HeadsetProfileData[this.profileindex].lighting.SpectrumValue;
             this.CurrentLightingTempColor = this.HeadsetProfileData[this.profileindex].lighting.color;
-            if(this.headsetLightEffectSelect.value != 0|| this.headsetLightEffectSelect.value != 3) {
+            if(this.headsetLightEffectSelect.value != 0 && this.headsetLightEffectSelect.value != 3) {
                 setTimeout(() =>{
                     document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
                     document.getElementById(`Alternation-color2`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[1][0]},${this.CurrentLightingTempColor[1][1]},${this.CurrentLightingTempColor[1][2]})`;
@@ -351,7 +367,8 @@ export class HeadsetFunctionService{
             this.HeadsetProfileData[this.profileindex].customColor[this.switchColorArrowFlag][2] = this.ColorPickerColor.B;
         }
         if(!this.SpectrumValue) {
-            document.getElementById(`Alternation-color${this.AlternationFlag}`).style.backgroundColor = `rgb(${this.ColorPickerColor.R},${this.ColorPickerColor.G},${this.ColorPickerColor.B})`;
+            if(document.getElementById(`Alternation-color${this.AlternationFlag}`))
+                document.getElementById(`Alternation-color${this.AlternationFlag}`).style.backgroundColor = `rgb(${this.ColorPickerColor.R},${this.ColorPickerColor.G},${this.ColorPickerColor.B})`;
             this.CurrentLightingTempColor[this.AlternationFlag - 1][0] = this.ColorPickerColor.R;
             this.CurrentLightingTempColor[this.AlternationFlag - 1][1] = this.ColorPickerColor.G;
             this.CurrentLightingTempColor[this.AlternationFlag - 1][2] = this.ColorPickerColor.B;
@@ -469,6 +486,10 @@ export class HeadsetFunctionService{
         document.getElementById('color-item2').style.backgroundColor = document.getElementById(`Alternation-color${id}`).style.backgroundColor
     }
 
+    ColorSectionChange(event) {
+
+    }
+
     /**
      * 切換燈校時, 載入預設值
      */
@@ -477,7 +498,6 @@ export class HeadsetFunctionService{
         this.SpectrumValue = true;
         this.BrightnessValue = 5;
         this.SpeedValue = 5;
-        console.log(333333,this.LightingEffect)
         switch(this.headsetLightEffectSelect.value) {
             case 0:
                 this.BrightnessValue = 5;

@@ -488,6 +488,50 @@
                         cursor: pointer;
                     }
                 }
+
+                .color-bar {
+                    height: 35px;
+                    width: 450px;
+                    background-color: red;
+                    margin-top: 20px;
+                    margin-left: 15px;
+                }
+
+                .app-ColorSection {
+                    position: absolute;
+                    top: 180px;
+                    left: -35px;
+                    width: 400px;
+                    height: 35px;
+                }
+
+                .lighting-patterns {
+                    display: flex;
+                    align-items: center;
+                    height: 40px;
+                    width: 450px;
+                    margin-left: 15px;
+                    margin-top: 20px;
+
+                    .dsc {
+                        display: flex;
+                        align-items: center;
+                        width: 60px;
+                        height: 30px;
+                        font-size: 18px;
+                        font-weight: bolder;
+                        color: #646464;
+                    }
+
+                    .pattern-item {
+                        height: 30px;
+                        width: 70px;
+                        background: red;
+                        margin-left: 10px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    }
+                }
             }
 
             .block-select {

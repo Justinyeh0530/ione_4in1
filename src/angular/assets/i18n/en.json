@@ -75,5 +75,11 @@
     "CUSTOM": "CUSTOM",
     "Brightness": "Brightness",
     "SpectrumColors": "Spectrum Colors",
-    "Alternation": "Alternation"
+    "Alternation": "Alternation",
+    "Duration": "Duration",
+    "Slow": "Slow",
+    "Medium": "Medium",
+    "Fast": "Fast",
+    "Patterns": "Patterns",
+    "ColorSections": "Color Sections"
 }

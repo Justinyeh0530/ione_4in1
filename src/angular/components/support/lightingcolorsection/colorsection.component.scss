@@ -1,0 +1,52 @@
+.ColorSection {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 35px;
+    // background: linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 165, 0) 14%, rgb(255, 255, 0) 28%, rgb(0, 128, 0) 42%, rgb(106, 255, 249) 56%, rgb(0, 0, 255) 70%, rgb(75, 0, 130) 84%, rgb(238, 130, 238) 90%);
+    margin-left: 50px;
+    z-index:5;
+}
+
+.color-dot {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index:10;
+    
+    .color-item-main {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 15px;
+        height: 31px;
+        border: 2px solid white;
+    }
+
+    .color-item-up{
+        position: absolute;
+        top: -8px;
+        left: 4px;
+        width: 10px;
+        height: 6px;
+        background-image: url('./image/upperarrowcon.png');
+    }
+    
+    .color-item-down{
+        position: absolute;
+        left: 4px;
+        top: 37px;
+        width: 10px;
+        height: 6px;
+        background-image: url('./image/bottomarrowcon.png');
+    }
+}
+
+.fake-item {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: calc(100% + 100px);
+    height: 35px;
+}

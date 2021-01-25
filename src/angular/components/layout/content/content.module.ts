@@ -7,12 +7,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonselectselectModule } from '../../support/commonselect/commonselect.module'
 import { CustomerColorPickerModule } from '../../support/customerColorPicker/customerColorPicker.module'
+import { ColorSectionModule } from '../../support/lightingcolorsection/colorsection.module'
 @NgModule({
     declarations: [
       ContentComponent,
     ],
     imports: [ 
       CommonselectselectModule,
+      ColorSectionModule,
       CommonModule,
       FormsModule,
       RouterModule.forChild(ContentRoutes),

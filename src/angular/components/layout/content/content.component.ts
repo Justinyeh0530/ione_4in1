@@ -178,8 +178,47 @@ export class ContentComponent implements OnInit {
                 document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,rgb(190, 190, 190) 0%,rgb(190, 190, 190) ' + this.headsetFunctionService[id+'Value'] * 10 + '%,rgb(40,40,40) ' + this.headsetFunctionService[id+'Value'] * 10 + '%, rgb(40,40,40) 100%)'
                 break;
             case 'Speed':
-                document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,rgb(190, 190, 190) 0%,rgb(190, 190, 190) ' + (this.headsetFunctionService[id+'Value'] - 1)* 11 + '%,rgb(40,40,40) ' + (this.headsetFunctionService[id+'Value'] - 1) * 11 + '%, rgb(40,40,40) 100%)'
+                document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,rgb(190, 190, 190) 0%,rgb(190, 190, 190) ' + (this.headsetFunctionService[id+'Value'] - 1) * 11 + '%,rgb(40,40,40) ' + (this.headsetFunctionService[id+'Value'] - 1) * 11 + '%, rgb(40,40,40) 100%)'
+                break;
+            case 'Duration':
+                document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,rgb(190, 190, 190) 0%,rgb(190, 190, 190) ' + (this.headsetFunctionService[id+'Value'] - 1) * 50 + '%,rgb(40,40,40) ' + (this.headsetFunctionService[id+'Value'] - 1) * 50 + '%, rgb(40,40,40) 100%)'
                 break;
         }
+    }
+
+    syncColorBar() {
+        let string = "";
+        for(let i = 0; i < this.headsetFunctionService.ColorSectionArray.length; i++) {
+            let percentage = (this.headsetFunctionService.ColorSectionArray[i].left + 10) * 100 / 400;
+            string = string + `,rgb(${this.headsetFunctionService.ColorSectionArray[i].color[0]},${this.headsetFunctionService.ColorSectionArray[i].color[1]},${this.headsetFunctionService.ColorSectionArray[i].color[2]}, ${this.headsetFunctionService.ColorSectionArray[i].color[3]}) ${percentage}%`
+        }
+        document.getElementById(`color-bar`).style.background = "linear-gradient(to right" + string + ")";
+    }
+
+    clickPattern(id) {
+        // document.getElementById(`color-bar`).style.background = document.getElementById(`lighting-pattern${id}`).style.background;
+        // console.log(3333, document.getElementById(`lighting-pattern${id}`).style.background)
+        // console.log(444444,document.getElementById(`color-bar`).style.background)
+        this.headsetFunctionService.ColorSectionArray = undefined;
+        switch(id) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                this.headsetFunctionService.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 255, 1]},
+                    {value:1, left:100, color:[255, 0, 255, 1]},
+                    {value:2, left:250, color:[255, 0, 255, 1]},
+                    {value:3, left:380, color:[255, 0, 255, 1]},
+                ]
+                break;
+        }
+        this.headsetFunctionService.dotindex = -1;
+        this.headsetFunctionService.updateColorSection.emit(this.headsetFunctionService.ColorSectionArray)
     }
 }
