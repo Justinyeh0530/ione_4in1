@@ -105,6 +105,12 @@ export class CommonselectselectComponent implements OnInit,ControlValueAccessor{
 
     initselect(){        
         var x, i, j, selElmnt;
+        for(var k=0; k<this.inputoption.length; k++){
+            if(this.inputoption[k].hasOwnProperty('translate'))
+                this.translate.get(this.inputoption[k].translate).subscribe((data: string) => { 
+                    this.inputoption[k].name = data; 
+                });
+        }
         /* Look for any elements with the class "custom-select": */
         x = document.getElementsByClassName("custom-commonselect" + this.componentId);
         for (i = 0; i < x.length; i++) {
@@ -237,6 +243,7 @@ export class CommonselectselectComponent implements OnInit,ControlValueAccessor{
 
     public writeValue(obj: any): void {
         // throw new Error("Method not implemented.");
+        this.Reinit()
         var sekected;
         var x = document.getElementsByClassName("custom-commonselect" + this.componentId);
         for (var i = 0; i < x.length; i++) {

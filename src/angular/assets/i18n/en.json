@@ -81,5 +81,11 @@
     "Medium": "Medium",
     "Fast": "Fast",
     "Patterns": "Patterns",
-    "ColorSections": "Color Sections"
+    "ColorSections": "Color Sections",
+    "Start": "Start",
+    "Stop": "Stop",
+    "widthprofile": "Width profile",
+    "Onkeypress": "On key press",
+    "Clockwise": "Clockwise",
+    "CounterClockwise": "Counter-Clockwise"
 }

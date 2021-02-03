@@ -34,6 +34,7 @@ export class HeadsetFunctionService{
         { name: 'Color Shift', value: 4, translate: 'Color Shift'},
         { name: 'Spiral Rainbow', value: 5, translate: 'Spiral Rainbow'},
         { name: 'Rain', value: 6, translate: 'Rain'},
+        { name: 'Led Off', value: 7, translate: 'Led Off'},
     ]
     HeadsetLightLogoEffectData = [
         { name: 'static', value: 0, translate: 'static'},
@@ -76,7 +77,7 @@ export class HeadsetFunctionService{
         R: 0,
         G: 0,
         B: 255,
-        A: 0,
+        A: 100,
         hex: '0000FF'
     };
     switchDscFlag:boolean = false;
@@ -109,6 +110,23 @@ export class HeadsetFunctionService{
         {value:7, left:343, color:[238, 130, 238, 1]}
     ]
     dotindex:number = -1;
+    ColorShiftStartList:any = [
+        {name: 'widthprofile', value: 0, translate: 'widthprofile'},
+        {name: 'test', value: 1, translate: 'test'}
+    ];
+    ColorShiftStartSelect:any;
+
+    ColorShiftStopList:any = [
+        {name: 'Onkeypress', value: 0, translate: 'Onkeypress'},
+        {name: 'test', value: 1, translate: 'test'}
+    ]
+    ColorShiftStopSelect:any;
+
+    DirectionList:any = [
+        {name: 'Clockwise', value: 0, translate: 'Clockwise'},
+        {name: 'CounterClockwise', value: 1, translate: 'CounterClockwise'}
+    ]
+    DirectionSelect:any;
 
     constructor(
         private deviceService: DeviceService,
@@ -132,6 +150,9 @@ export class HeadsetFunctionService{
         this.equlizereDataSelect = this.MusicPreset[0];
         this.LightingEffect = this.HeadsetLightEffectData;
         this.headsetLightEffectSelect =  _.clone(this.LightingEffect[0])
+        this.ColorShiftStartSelect = _.clone(this.ColorShiftStartList[0]);
+        this.ColorShiftStopSelect = _.clone(this.ColorShiftStopList[0]);
+        this.DirectionSelect = _.clone(this.DirectionList[0])
         if(this.HeadsetProfileData != undefined) {
             //init dashboard
             this.VirtualizationValue = this.HeadsetProfileData[this.profileindex].dashboard.VirtualizationValue;
@@ -163,28 +184,34 @@ export class HeadsetFunctionService{
             this.VolumeSL = this.HeadsetProfileData[this.profileindex].surroundsound.VolumeSL;
             this.VolumeSR = this.HeadsetProfileData[this.profileindex].surroundsound.VolumeSR;
             this.EnvironmentValue = this.HeadsetProfileData[this.profileindex].surroundsound.EnvironmentValue;
-            this.StereoValue = this.HeadsetProfileData[this.profileindex].surroundsound.StereoValue
+            this.StereoValue = this.HeadsetProfileData[this.profileindex].surroundsound.StereoValue;
         }
     }
 
     initSpectrum() {
-            //init Spectrum
-            let index = this.LightingEffect.findIndex(x => x.value == this.HeadsetProfileData[this.profileindex].lighting.value);
-            if(index != -1)
-                this.headsetLightEffectSelect = _.clone(this.LightingEffect[index]);
-            else
-                this.headsetLightEffectSelect =  _.clone(this.LightingEffect[0]);
-                console.log('index', index, this.headsetLightEffectSelect)
-            this.BrightnessValue = this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue;
-            this.SpeedValue = this.HeadsetProfileData[this.profileindex].lighting.SpeedValue;
-            this.SpectrumValue = this.HeadsetProfileData[this.profileindex].lighting.SpectrumValue;
-            this.CurrentLightingTempColor = this.HeadsetProfileData[this.profileindex].lighting.color;
-            if(this.headsetLightEffectSelect.value != 0 && this.headsetLightEffectSelect.value != 3) {
-                setTimeout(() =>{
-                    document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
-                    document.getElementById(`Alternation-color2`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[1][0]},${this.CurrentLightingTempColor[1][1]},${this.CurrentLightingTempColor[1][2]})`;
-                })
-            }
+        //init Spectrum
+        let index = this.LightingEffect.findIndex(x => x.value == this.HeadsetProfileData[this.profileindex].lighting.value);
+        if(index != -1)
+            this.headsetLightEffectSelect = _.clone(this.LightingEffect[index]);
+        else
+            this.headsetLightEffectSelect =  _.clone(this.LightingEffect[0]);
+        this.BrightnessValue = this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue;
+        this.SpeedValue = this.HeadsetProfileData[this.profileindex].lighting.SpeedValue;
+        this.SpectrumValue = this.HeadsetProfileData[this.profileindex].lighting.SpectrumValue;
+        this.CurrentLightingTempColor = this.HeadsetProfileData[this.profileindex].lighting.color;
+        this.ColorSectionArray = this.HeadsetProfileData[this.profileindex].lighting.ColorSectionArray;
+        this.DurationValue = this.HeadsetProfileData[this.profileindex].lighting.DurationValue;
+        setTimeout(() => {
+            this.ColorShiftStartSelect = _.clone(this.ColorShiftStartList[this.HeadsetProfileData[this.profileindex].lighting.StartValue]);
+            this.ColorShiftStopSelect = _.clone(this.ColorShiftStopList[this.HeadsetProfileData[this.profileindex].lighting.StopValue]);
+            this.DirectionSelect = _.clone(this.DirectionList[this.HeadsetProfileData[this.profileindex].lighting.DirectionValue]);
+        },500);
+        if(this.headsetLightEffectSelect.value != 0 && this.headsetLightEffectSelect.value != 3) {
+            setTimeout(() =>{
+                document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
+                document.getElementById(`Alternation-color2`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[1][0]},${this.CurrentLightingTempColor[1][1]},${this.CurrentLightingTempColor[1][2]})`;
+            })
+        }
     }
 
     /**
@@ -202,6 +229,8 @@ export class HeadsetFunctionService{
             this.SetHeadsetSurroundSound();
         if(this.deviceService.currentDevice.pluginDevice != undefined)
             this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+
+        //通知後端 todo
     }
 
     /**
@@ -347,6 +376,13 @@ export class HeadsetFunctionService{
         console.log('ColorChange:',event)
         if(this.switchDscFlag)
             this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+        if(this.headsetLightEffectSelect.value == 3 && this.dotindex != -1) {
+            let index = this.ColorSectionArray.findIndex(x => x.value == this.dotindex);
+            if(index != -1) {
+                this.ColorSectionArray[index].color = [event.R, event.G, event.B, event.A/100];
+                this.updateColorSection.emit(this.ColorSectionArray);
+            }
+        }
     }
 
     /**
@@ -434,6 +470,10 @@ export class HeadsetFunctionService{
         this.switchDscFlag = !this.switchDscFlag;
     }
 
+    /**
+     * 設定Customer Color內的某個Color
+     * @param id 
+     */
     setSwitchColor(id) {
         this.switchColorArrowFlag = id;
         let color:any = document.getElementById(`color-switch-list${id}`).style.backgroundColor;
@@ -453,6 +493,15 @@ export class HeadsetFunctionService{
         }
         if(document.getElementById('color-item1'))
             document.getElementById('color-item1').style.backgroundColor = "#" + this.ColorPickerColor.hex;
+
+        if(this.headsetLightEffectSelect.value == 3 && this.dotindex != -1) {
+            let index = this.ColorSectionArray.findIndex(x => x.value == this.dotindex);
+            if(index != -1) {
+                this.ColorSectionArray[index].color = [ this.ColorPickerColor.R,  this.ColorPickerColor.G,  this.ColorPickerColor.B,  this.ColorPickerColor.A/100];
+                console.log(3333333,this.ColorSectionArray[index].color)
+                this.updateColorSection.emit(this.ColorSectionArray);
+            }
+        }
     }
 
     SpectrumSave() {
@@ -461,8 +510,15 @@ export class HeadsetFunctionService{
         this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue = this.BrightnessValue;
         this.HeadsetProfileData[this.profileindex].lighting.SpeedValue = this.SpeedValue;
         this.HeadsetProfileData[this.profileindex].lighting.SpectrumValue = this.SpectrumValue;
-        this.HeadsetProfileData[this.profileindex].lighting.color = this.CurrentLightingTempColor
+        this.HeadsetProfileData[this.profileindex].lighting.color = this.CurrentLightingTempColor;
+        this.HeadsetProfileData[this.profileindex].lighting.ColorSectionArray = this.ColorSectionArray;
+        this.HeadsetProfileData[this.profileindex].lighting.DurationValue = this.DurationValue;
+        this.HeadsetProfileData[this.profileindex].lighting.StartValue = this.ColorShiftStartSelect.value;
+        this.HeadsetProfileData[this.profileindex].lighting.StopValue = this.ColorShiftStopSelect.value;
+        this.HeadsetProfileData[this.profileindex].lighting.DirectionValue = this.DirectionSelect.value
         this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+
+        //通知後端 todo
     }
 
     SliderChange(id) {
@@ -487,7 +543,26 @@ export class HeadsetFunctionService{
     }
 
     ColorSectionChange(event) {
+        this.ColorSectionArray = event.Array;
+        this.dotindex = event.dotindex;
+    }
 
+    addColor() {
+        let value = Math.max.apply(Math, this.ColorSectionArray.map(function(o) {return o.value}))
+        this.addColorSection.emit(value);
+    }
+
+    removeColor() {
+        if(this.dotindex != -1) {
+            let index = this.ColorSectionArray.findIndex(x => x.value == this.dotindex)
+            if(index != -1) {
+                this.ColorSectionArray.splice(index, 1);
+                let data = this.dotindex;
+                this.removeColorSection.emit(data);
+                this.dotindex = -1;
+                this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+            } 
+        }
     }
 
     /**
@@ -498,6 +573,23 @@ export class HeadsetFunctionService{
         this.SpectrumValue = true;
         this.BrightnessValue = 5;
         this.SpeedValue = 5;
+        this.DurationValue = 2;
+        this.dotindex = -1;
+        this.switchColorArrowFlag = -1;
+        this.ColorSectionArray = [
+            {value:0, left:0, color:[255, 0, 0, 1]},
+            {value:1, left:39, color:[255, 165, 0, 1]},
+            {value:2, left:95, color:[255, 255, 0, 1]},
+            {value:3, left:151, color:[0, 128, 0, 1]},
+            {value:4, left:207, color:[106, 255, 249, 1]},
+            {value:5, left:263, color:[0, 0, 255, 1]},
+            {value:6, left:319, color:[75, 0, 130, 1]},
+            {value:7, left:343, color:[238, 130, 238, 1]}
+        ]
+        this.CurrentLightingTempColor = [[0,0,255],[255,0,0]];
+        this.ColorShiftStartSelect = _.clone(this.ColorShiftStartList[0]);
+        this.ColorShiftStopSelect = _.clone(this.ColorShiftStopList[0]);
+        this.DirectionSelect = _.clone(this.DirectionList[0])
         switch(this.headsetLightEffectSelect.value) {
             case 0:
                 this.BrightnessValue = 5;

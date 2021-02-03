@@ -2,7 +2,7 @@
     <!--------------------------------------上方列----------------------------------------------->
     <div class="content-main">
         <img src="{{deviceService.currentSupportDevice.mainimage}}" *ngIf="deviceService.checkAllSupportDevice('0x195D0xA005') && functionService.headsetleftfunc != 3">
-        <div *ngIf="functionService.topbarfunc == 2 && deviceService.checkAllSupportDevice('0x195D0xA005')">
+        <!-- <div *ngIf="functionService.topbarfunc == 2 && deviceService.checkAllSupportDevice('0x195D0xA005')">
             <div class="lighting-area">
                 <div class="number1" (click)="headsetFunctionService.SetLightingArea(1)" [ngClass] = "{'number-selected':headsetFunctionService.LightingArea == 1}">
                     1
@@ -15,7 +15,7 @@
                 </div>
                 <div class="line2" [ngClass] = "{'line-selected':headsetFunctionService.LightingArea == 2}"></div>
             </div>
-        </div>
+        </div> -->
         <!--------Headset surround---------->
         <div class="SurroundSound" *ngIf="functionService.headsetleftfunc == 3">
             <!-- <img src="./image/headset/SurroundSound.png"> -->
@@ -420,8 +420,8 @@
                 <div class="Save" (click)="headsetFunctionService.SpectrumSave()">{{'SAVE'|translate}}</div>
             </div>
         </div>
-        <!-------------Headset Spectrum Area1 Breathing------------------->
-        <div class="block" *ngIf="functionService.topbarfunc == 2 && functionService.headsetleftfunc == 0 && headsetFunctionService.LightingArea == 1 && headsetFunctionService.headsetLightEffectSelect.value == 1" style="background: url('./image/spectrumSetting.png');">
+        <!-------------Headset Spectrum Area1 Breathing && Flash(Rain)------------------->
+        <div class="block" *ngIf="functionService.topbarfunc == 2 && functionService.headsetleftfunc == 0 && headsetFunctionService.LightingArea == 1 && (headsetFunctionService.headsetLightEffectSelect.value == 1 || headsetFunctionService.headsetLightEffectSelect.value == 6)" style="background: url('./image/spectrumSetting.png');">
             <div class="block-item" style="display:flex; flex-direction: column;">
                 <div class="item-block" style="margin-top: 20px; height: 110px;">
                     <div class="spectrum-item-block-item" style="margin-left:15px">
@@ -513,7 +513,7 @@
                 <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="true" (ColorChange)="headsetFunctionService.ColorChange($event)" (DynamicColorChange)="headsetFunctionService.DynamicColorChange($event)"></app-ColorPicker>
             </div>
             <div class="block-item" style="width:535px">
-                <div class="Save" (click)="headsetFunctionService.SpectrumSave()">{{'SAVE'|translate}}</div>
+                <div class="Save" style="position:absolute; left:1460px; top:20px;" (click)="headsetFunctionService.SpectrumSave()">{{'SAVE'|translate}}</div>
             </div>
         </div>
         <!-------------Headset Spectrum Area1 Radar------------------->
@@ -634,6 +634,10 @@
                 </div>
                 <div class="item-title" style="color:#646464; margin-left:15px; margin-top:20px;"> {{'ColorSections'|translate}} </div>
                 <app-ColorSection class="app-ColorSection" id="app-ColorSection-lighting" [id]="'headsetlighting'" [ColorSectionArray]="headsetFunctionService.ColorSectionArray" (ColorSectionChange)="headsetFunctionService.ColorSectionChange($event)"></app-ColorSection>
+                <div class="section">
+                    <div class="addColor" (click)="headsetFunctionService.addColor()"></div>
+                    <div class="removeColor" (click)="headsetFunctionService.removeColor()"></div>
+                </div>
             </div>
             <div class="block-item" style="display:flex; flex-direction: column; width:535px">
                     <div class="item-title" style="margin-left: 20px; margin-top:35px; color:#646464">{{'Speed'|translate}}</div>
@@ -702,6 +706,223 @@
                     </div>
                 </div>
                 <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="true" (ColorChange)="headsetFunctionService.ColorChange($event)" (DynamicColorChange)="headsetFunctionService.DynamicColorChange($event)" style="left:1215px;"></app-ColorPicker>
+                <div class="Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
+            </div>
+        </div>
+        <!-------------Headset Spectrum Area1 Color shift------------------->
+        <div class="block" *ngIf="functionService.topbarfunc == 2 && functionService.headsetleftfunc == 0 && headsetFunctionService.LightingArea == 1 && headsetFunctionService.headsetLightEffectSelect.value == 4" style="background: url('./image/spectrumSetting.png');">
+            <div class="block-item" style="display:flex; flex-direction: column;">
+                <div class="item-block" style="margin-top: 20px; height: 110px;">
+                    <div class="spectrum-item-block-item" style="margin-left:15px">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="color-type" [checked]="headsetFunctionService.SpectrumValue" (click)="headsetFunctionService.SpectrumClick()">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'SpectrumColors'|translate}}
+                        </div>
+                    </div>
+                    <div class="spectrum-item-block-item" style="margin-left:15px">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="color-type" [checked]="headsetFunctionService.SpectrumValue == false" (click)="headsetFunctionService.SpectrumClick()">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Alternation'|translate}}
+                        </div>
+                        <div class="Alternation-color" id="Alternation-color1" style="background-color: rgb(0,0,255)" (click)="headsetFunctionService.AlternationColorClick(1)" [style.pointerEvents]="headsetFunctionService.SpectrumValue ? 'none' : 'auto'"></div>
+                        <div class="Alternation-color" id="Alternation-color2" style="background-color: rgb(255,0,0)" (click)="headsetFunctionService.AlternationColorClick(2)" [style.pointerEvents]="headsetFunctionService.SpectrumValue ? 'none' : 'auto'"></div>
+                    </div>
+                </div>
+                <div class="item-block" style="margin-top: 20px; height: 245px; flex-direction: row;">
+                    <div class="item-block-item2">
+                        <div class="dsc"> {{'Start'|translate}}</div>
+                        <app-commonselect style="position:absolute; top:180px; left:30px; width:160px; height:27px; border-color:rgb(100,100,100); border:1px solid;" [componentId]="'Headset-ColorshiftStart'" [inputoption]="headsetFunctionService.ColorShiftStartList" [(ngModel)]="headsetFunctionService.ColorShiftStartSelect" (ngModelChange)="ColorShiftStartClick()"></app-commonselect>
+                    </div>
+                    <div class="item-block-item2">
+                        <div class="dsc"> {{'Stop'|translate}}</div>
+                        <app-commonselect style="position:absolute; top:180px; left:230px; width:160px; height:27px; border-color:rgb(100,100,100); border:1px solid;" [componentId]="'Headset-ColorshiftStop'" [inputoption]="headsetFunctionService.ColorShiftStopList" [(ngModel)]="headsetFunctionService.ColorShiftStopSelect" (ngModelChange)="ColorShiftStopClick()"></app-commonselect>
+                    </div>
+                </div>
+            </div>
+            <div class="block-item" style="display:flex; flex-direction: column; width:535px">
+                <div class="item-title" style="margin-left: 20px; margin-top:35px; color:#646464">{{'Speed'|translate}}</div>
+                    <div class="block-slider">
+                        <!-- <div class="slider-item" stye="background-color:gray;"></div> -->
+                        <input id="Speed" type="range" min="1" max="10" class="slider2" step="1" style="top:85px; left:510px" [(ngModel)]="headsetFunctionService.SpeedValue" (mouseup)="headsetFunctionService.SliderChange('Speed')" (ngModelChange)="SliderChangeMove('Speed')" onkeydown="event.preventDefault()"> {{SliderChangeMove('Speed')}}
+                        <div style="position: absolute; margin-top:15px; margin-left:5px; color:#646464">1</div>
+                        <div style="position: absolute; margin-top:15px; margin-left:395px; color:#646464">10</div>
+                    </div>
+                    <div class="item-title" style="margin-left:20px; margin-top:50px; color:#646464">{{'Brightness'|translate}}</div>
+                    <div class="block-slider">
+                        <div class="slider-item"></div>
+                        <input id="Brightness" type="range" min="0" max="10" class="slider2" step="1" style="top:191px; left:509px;" [(ngModel)]="headsetFunctionService.BrightnessValue" (mouseup)="headsetFunctionService.SliderChange('Brightness')" (ngModelChange)="SliderChangeMove('Brightness')" onkeydown="event.preventDefault()"> {{SliderChangeMove('Brightness')}}
+                    </div>
+                </div>
+            <div class="block-item" style="width:535px">
+                <div class="color-list" style="left:1040px;">
+                    <div class="color-item" id="color-item1" style="background-color: rgb(0,0,255);"></div>
+                    <div class="color-item" id="color-item2" style="cursor: pointer; background-color: rgb(255,255,255)" (click)="headsetFunctionService.resetCurrentColor()"></div>
+                    <div class="color-value">
+                        <div class="color-value-text">R</div>
+                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div>
+                    </div>
+                    <div class="color-value">
+                        <div class="color-value-text">G</div>
+                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div>
+                    </div>
+                    <div class="color-value">
+                        <div class="color-value-text">B</div>
+                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div>
+                    </div>
+                    <div class="color-value">
+                        <div class="color-value-text">#</div>
+                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div>
+                    </div>
+                </div>
+                <div class="color-switch" style="left:1020px;">
+                    <div class="color-switch-text" id="color-switch-text" (click)="headsetFunctionService.switchDsc()">{{headsetFunctionService.checkSwitchDsc()|translate}}</div>
+                    <div style="margin-left: 200px;">
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow0" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 0 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list0" (click)="headsetFunctionService.setSwitchColor(0)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow1" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 1 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list1" (click)="headsetFunctionService.setSwitchColor(1)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow2" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 2 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list2" (click)="headsetFunctionService.setSwitchColor(2)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow3" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 3 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list3" (click)="headsetFunctionService.setSwitchColor(3)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow4" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 4 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list4" (click)="headsetFunctionService.setSwitchColor(4)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow5" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 5 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list5" (click)="headsetFunctionService.setSwitchColor(5)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow6" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 6 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list6" (click)="headsetFunctionService.setSwitchColor(6)"></div>
+                    </div>
+                </div>
+                <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="true" (ColorChange)="headsetFunctionService.ColorChange($event)" (DynamicColorChange)="headsetFunctionService.DynamicColorChange($event)" style="left:1215px;"></app-ColorPicker>
+                <div class="Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
+            </div>
+        </div>
+        <!-------------Headset Spectrum Area1 Spiral Rainbow------------------->
+        <div class="block" *ngIf="functionService.topbarfunc == 2 && functionService.headsetleftfunc == 0 && headsetFunctionService.LightingArea == 1 && headsetFunctionService.headsetLightEffectSelect.value == 5" style="background: url('./image/spectrumSetting.png');">
+            <div class="block-item" style="display:flex; flex-direction: column;">
+                <div class="item-block" style="margin-top: 20px; height: 110px;">
+                    <div class="spectrum-item-block-item" style="margin-left:15px">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="color-type" [checked]="headsetFunctionService.SpectrumValue" (click)="headsetFunctionService.SpectrumClick()">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'SpectrumColors'|translate}}
+                        </div>
+                    </div>
+                    <div class="spectrum-item-block-item" style="margin-left:15px">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="color-type" [checked]="headsetFunctionService.SpectrumValue == false" (click)="headsetFunctionService.SpectrumClick()">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Alternation'|translate}}
+                        </div>
+                        <div class="Alternation-color" id="Alternation-color1" style="background-color: rgb(0,0,255)" (click)="headsetFunctionService.AlternationColorClick(1)" [style.pointerEvents]="headsetFunctionService.SpectrumValue ? 'none' : 'auto'"></div>
+                        <div class="Alternation-color" id="Alternation-color2" style="background-color: rgb(255,0,0)" (click)="headsetFunctionService.AlternationColorClick(2)" [style.pointerEvents]="headsetFunctionService.SpectrumValue ? 'none' : 'auto'"></div>
+                    </div>
+                </div>
+                <div class="item-block" style="margin-top: 20px; height: 245px; flex-direction: row;">
+                    <div class="item-block-item2">
+                        <div class="dsc"> {{'Direction'|translate}}</div>
+                        <app-commonselect style="position:absolute; top:138px; left:130px; width:195px; height:27px; border-color:rgb(100,100,100); border:1px solid;" [componentId]="'Headset-Direction'" [inputoption]="headsetFunctionService.DirectionList" [(ngModel)]="headsetFunctionService.DirectionSelect" (ngModelChange)="DirectionClick()"></app-commonselect>
+                    </div>
+                </div>
+            </div>
+            <div class="block-item" style="display:flex; flex-direction: column; width:535px">
+                <div class="item-title" style="margin-left: 20px; margin-top:35px; color:#646464">{{'Speed'|translate}}</div>
+                    <div class="block-slider">
+                        <!-- <div class="slider-item" stye="background-color:gray;"></div> -->
+                        <input id="Speed" type="range" min="1" max="10" class="slider2" step="1" style="top:85px; left:510px" [(ngModel)]="headsetFunctionService.SpeedValue" (mouseup)="headsetFunctionService.SliderChange('Speed')" (ngModelChange)="SliderChangeMove('Speed')" onkeydown="event.preventDefault()"> {{SliderChangeMove('Speed')}}
+                        <div style="position: absolute; margin-top:15px; margin-left:5px; color:#646464">1</div>
+                        <div style="position: absolute; margin-top:15px; margin-left:395px; color:#646464">10</div>
+                    </div>
+                    <div class="item-title" style="margin-left:20px; margin-top:50px; color:#646464">{{'Brightness'|translate}}</div>
+                    <div class="block-slider">
+                        <div class="slider-item"></div>
+                        <input id="Brightness" type="range" min="0" max="10" class="slider2" step="1" style="top:191px; left:509px;" [(ngModel)]="headsetFunctionService.BrightnessValue" (mouseup)="headsetFunctionService.SliderChange('Brightness')" (ngModelChange)="SliderChangeMove('Brightness')" onkeydown="event.preventDefault()"> {{SliderChangeMove('Brightness')}}
+                    </div>
+                </div>
+            <div class="block-item" style="width:535px">
+                <div class="color-list" style="left:1040px;">
+                    <div class="color-item" id="color-item1" style="background-color: rgb(0,0,255);"></div>
+                    <div class="color-item" id="color-item2" style="cursor: pointer; background-color: rgb(255,255,255)" (click)="headsetFunctionService.resetCurrentColor()"></div>
+                    <div class="color-value">
+                        <div class="color-value-text">R</div>
+                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div>
+                    </div>
+                    <div class="color-value">
+                        <div class="color-value-text">G</div>
+                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div>
+                    </div>
+                    <div class="color-value">
+                        <div class="color-value-text">B</div>
+                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div>
+                    </div>
+                    <div class="color-value">
+                        <div class="color-value-text">#</div>
+                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div>
+                    </div>
+                </div>
+                <div class="color-switch" style="left:1020px;">
+                    <div class="color-switch-text" id="color-switch-text" (click)="headsetFunctionService.switchDsc()">{{headsetFunctionService.checkSwitchDsc()|translate}}</div>
+                    <div style="margin-left: 200px;">
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow0" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 0 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list0" (click)="headsetFunctionService.setSwitchColor(0)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow1" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 1 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list1" (click)="headsetFunctionService.setSwitchColor(1)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow2" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 2 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list2" (click)="headsetFunctionService.setSwitchColor(2)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow3" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 3 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list3" (click)="headsetFunctionService.setSwitchColor(3)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow4" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 4 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list4" (click)="headsetFunctionService.setSwitchColor(4)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow5" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 5 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list5" (click)="headsetFunctionService.setSwitchColor(5)"></div>
+                    </div>
+                    <div>
+                        <div class="color-switch-list-arrow" id="color-switch-list-arrow6" [style.visibility]="headsetFunctionService.switchColorArrowFlag == 6 ? 'visible':'hidden'"></div>
+                        <div class="color-switch-list" id="color-switch-list6" (click)="headsetFunctionService.setSwitchColor(6)"></div>
+                    </div>
+                </div>
+                <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="true" (ColorChange)="headsetFunctionService.ColorChange($event)" (DynamicColorChange)="headsetFunctionService.DynamicColorChange($event)" style="left:1215px;"></app-ColorPicker>
+                <div class="Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
+            </div>
+        </div>
+        <!-------------Headset Spectrum Area1 Led OFF------------------->
+        <div class="block" *ngIf="functionService.topbarfunc == 2 && functionService.headsetleftfunc == 0 && headsetFunctionService.LightingArea == 1 && headsetFunctionService.headsetLightEffectSelect.value == 7" style="background: url('./image/spectrumSetting.png');">
+            <div class="block-item" style="display:flex; flex-direction: column;">
+            </div>
+            <div class="block-item" style="display:flex; flex-direction: column; width:535px">
+            <div class="block-item" style="width:535px">
                 <div class="Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
             </div>
         </div>

@@ -7,15 +7,35 @@
     font-family: MR,serif;
 
     .actionsync-top {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         position: absolute;
         width: 1560px;
         height: 620px;
         background-image: url('./image/contentmain.png');
         background-repeat: no-repeat;
         background-position: center;
+        overflow-x: auto;
+        overflow-y: auto;
+
+        .desktop {
+            width: 4680px;
+            height: 1860px;
+            background-color: gray;
+            transform-origin: left top;
+
+            img{
+                position: absolute;
+                pointer-events: none;
+            }
+
+            .led {
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                background-color: black;
+                border: 1px solid black;
+                pointer-events: none;
+            }
+        }
     }
 
     .actionsync-down {

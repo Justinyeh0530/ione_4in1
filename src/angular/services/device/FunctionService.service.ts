@@ -8,6 +8,7 @@ import { HeadsetFunctionService } from './HeadsetFunctionService.service';
 export class FunctionService{
     updateFuncStatus: EventEmitter<object> = new EventEmitter();
     routerChange:EventEmitter<string> = new EventEmitter();
+    changeTopbarEvent:EventEmitter<string> = new EventEmitter();
     topbarfunc:number = 1;
     headsetleftfunc:number = 0;
 
@@ -18,6 +19,7 @@ export class FunctionService{
     }
 
     TopbarFunc(flag) {
+        this.changeTopbarEvent.emit();
         this.topbarfunc = flag
         this.headsetleftfunc = 0;
         if(flag == 5) {
@@ -25,7 +27,6 @@ export class FunctionService{
         } else if(flag == 1 || flag == 2) {
             this.routerChange.emit('/content');
         }
-        
         switch(flag) {
             case 2:
                 setTimeout(() => {

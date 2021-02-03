@@ -66,6 +66,20 @@ topbarfunc
     4: Performance
     5: ActionSync
 
+ActionSync
+    0:Static 
+    1:Wave 
+    2:Conicband 
+    3:Spiral 
+    4:Color Cycle 
+    5:Linearwave 
+    6:Ripple 
+    7:Breath 
+    8:Rain 
+    9:Fire 
+    10:Reactive 
+    11:Audio
+
 
 
 

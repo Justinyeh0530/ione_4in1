@@ -196,18 +196,50 @@ export class ContentComponent implements OnInit {
     }
 
     clickPattern(id) {
-        // document.getElementById(`color-bar`).style.background = document.getElementById(`lighting-pattern${id}`).style.background;
-        // console.log(3333, document.getElementById(`lighting-pattern${id}`).style.background)
-        // console.log(444444,document.getElementById(`color-bar`).style.background)
         this.headsetFunctionService.ColorSectionArray = undefined;
         switch(id) {
             case 1:
+                this.headsetFunctionService.ColorSectionArray = [
+                    {value:0, left:0, color:[255, 0, 0, 1]},
+                    {value:1, left:39, color:[255, 165, 0, 1]},
+                    {value:2, left:95, color:[255, 255, 0, 1]},
+                    {value:3, left:151, color:[0, 128, 0, 1]},
+                    {value:4, left:207, color:[106, 255, 249, 1]},
+                    {value:5, left:263, color:[0, 0, 255, 1]},
+                    {value:6, left:319, color:[75, 0, 130, 1]},
+                    {value:7, left:343, color:[238, 130, 238, 1]}
+                ]
                 break;
             case 2:
+                this.headsetFunctionService.ColorSectionArray = [
+                    {value:0, left:100, color:[0, 128, 0, 1]},
+                    {value:1, left:200, color:[255, 255, 0, 1]},
+                    {value:2, left:280, color:[255, 165, 0, 1]},
+                    {value:3, left:380, color:[75, 0, 130, 1]},
+                ]
                 break;
             case 3:
+                this.headsetFunctionService.ColorSectionArray = [
+                    {value:0, left:84, color:[106, 255, 249, 1]},
+                    {value:1, left:128, color:[255, 255, 255, 1]},
+                    {value:2, left:192, color:[108, 241, 255, 1]},
+                    {value:3, left:256, color:[72, 226, 255, 1]},
+                    {value:4, left:320, color:[72, 212, 255, 1]},
+                    {value:5, left:380, color:[8, 182, 218, 1]},
+                ]
                 break;
             case 4:
+                this.headsetFunctionService.ColorSectionArray = [
+                    {value:0, left:40, color:[31, 191, 1, 1]},
+                    {value:1, left:80, color:[94, 233, 44, 1]},
+                    {value:2, left:120, color:[138, 250, 118, 1]},
+                    {value:3, left:160, color:[176, 250, 118, 1]},
+                    {value:4, left:200, color:[138, 243, 53, 1]},
+                    {value:5, left:240, color:[108, 211, 27, 1]},
+                    {value:6, left:280, color:[255, 255, 255, 1]},
+                    {value:7, left:320, color:[27, 211, 0, 1]},
+                    {value:8, left:360, color:[22, 177, 0, 1]},
+                ]
                 break;
             case 5:
                 this.headsetFunctionService.ColorSectionArray = [
@@ -221,4 +253,8 @@ export class ContentComponent implements OnInit {
         this.headsetFunctionService.dotindex = -1;
         this.headsetFunctionService.updateColorSection.emit(this.headsetFunctionService.ColorSectionArray)
     }
+
+    ColorShiftStartClick() {}
+    ColorShiftStopClick() {}
+    DirectionClick() {}
 }

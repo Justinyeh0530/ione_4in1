@@ -10,6 +10,7 @@ export class ActionSyncService{
     updateColorSection: EventEmitter<object> = new EventEmitter();
     removeColorSection: EventEmitter<number> = new EventEmitter();
     addColorSection: EventEmitter<number> = new EventEmitter();
+    frameSelectionEvent: EventEmitter<boolean> = new EventEmitter();
     lightinglistdialogflag:boolean = false;
     dbService = electron_Instance.getGlobal('AppProtocol').deviceService.nedbObj;
     opacityvalue: number = 50;
@@ -42,7 +43,8 @@ export class ActionSyncService{
     ];
     asyncsyncLightingCard:any;
     actionSyncDevicFlag:boolean = false;
-    lightlayerlist = {layerlist:[], index:0};
+    apModeData = {layerlist:[], Device:[], index:0};
+    apDeviceList:any = [];
 
     ColorSectionArray = [
         {value:0, left:0, color:[255, 0, 0, 1]},
@@ -55,6 +57,9 @@ export class ActionSyncService{
         {value:7, left:343, color:[238, 130, 238, 1]}
     ]    
     dotindex:number = -1;
+    zoomvalue:number = 10;
+    devicedragflag:boolean = false;
+    deviceframeselectflag:boolean = false;
 
     //event
     clickshowEvent:any;
@@ -73,6 +78,12 @@ export class ActionSyncService{
         })
     }
 
+    resetflag() {
+        this.devicedragflag = false;
+        this.deviceframeselectflag = false;
+        this.actionSyncDevicFlag = false;
+    }
+
     InitData() {
         let card = document.getElementById('actionsync-layer-temp');
         this.asyncsyncLightingCard = card.cloneNode(true);
@@ -81,21 +92,24 @@ export class ActionSyncService{
         this.selectlayerEvent = this.selectlayer.bind(this);
         this.selectlightEvent = this.selectlight.bind(this);
         this.dbService.getApMode().then((data) => {
-            if(data.layerlist.length > 0)
-                this.lightlayerlist = _.cloneDeep(data);
-            for(let i = 0; i < this.lightlayerlist.layerlist.length; i++) {
-                this.createLayer(this.lightlayerlist.layerlist[i].index, this.lightlayerlist.layerlist[i].value, this.lightlayerlist.layerlist[i].enable, 0)
+            this.apModeData = _.cloneDeep(data);
+            for(let i = 0; i < this.apModeData.layerlist.length; i++) {
+                this.createLayer(this.apModeData.layerlist[i].index, this.apModeData.layerlist[i].value, this.apModeData.layerlist[i].enable, 0)
             }
-            if(this.lightlayerlist.index != 0) {
-                document.getElementById("actionsync-layer-temp" + this.lightlayerlist.index).style.background = "white";
-                document.getElementById("actionsync-lighting-dsc" + this.lightlayerlist.index).style.color = "black";
+            if(this.apModeData.index != 0) {
+                document.getElementById("actionsync-layer-temp" + this.apModeData.index).style.background = "white";
+                document.getElementById("actionsync-lighting-dsc" + this.apModeData.index).style.color = "black";
                 let layerindex = this.getlayerlistindex()
                 if(layerindex != undefined) {
-                    this.ColorSectionArray = this.lightlayerlist.layerlist[layerindex].ColorSectionArray;
+                    this.ColorSectionArray = this.apModeData.layerlist[layerindex].ColorSectionArray;
                     this.updateColorSection.emit(this.ColorSectionArray)
                 }
             }
         })
+    }
+
+    initDevice() {
+        console.log('init APMode Device')
     }
 
     ActionSyncLightingSelect(event) {
@@ -116,10 +130,10 @@ export class ActionSyncService{
      */
     selectActionSyncLighting(index) {
         this.translateService.get(this.LightingEffectData[index].translate).subscribe((res: string) => {
-            document.getElementById("actionsync-lighting-dsc" + this.lightlayerlist.index).value = res;
-            let layerindex = this.lightlayerlist.layerlist.findIndex(x => x.index == this.lightlayerlist.index);
+            document.getElementById("actionsync-lighting-dsc" + this.apModeData.index).value = res;
+            let layerindex = this.apModeData.layerlist.findIndex(x => x.index == this.apModeData.index);
             if(layerindex != -1) {
-                this.lightlayerlist.layerlist[layerindex].value = index;
+                this.apModeData.layerlist[layerindex].value = index;
                 this.setightParamToDefault(index);
                 this.updateColorSectionArray();
             }
@@ -132,16 +146,16 @@ export class ActionSyncService{
 
     addlayer() {
         let index = 0;
-        if(this.lightlayerlist.layerlist.length > 0) 
-            index = this.lightlayerlist.layerlist[this.lightlayerlist.layerlist.length - 1].index;
+        if(this.apModeData.layerlist.length > 0) 
+            index = this.apModeData.layerlist[this.apModeData.layerlist.length - 1].index;
         index++;
         this.createLayer(index, this.LightingEffectData[0].value, 1, 1);
         this.ColorSectionArray = [
             {value:0, left:0, color:[255, 0, 0, 1]},
         ]
         let layerobj = {index:index, value:this.LightingEffectData[0].value, enable:true, ColorSectionArray:this.ColorSectionArray}
-        this.lightlayerlist.layerlist.push(layerobj);
-        this.dbService.updateApMode(this.lightlayerlist).then(() => {this.save();})
+        this.apModeData.layerlist.push(layerobj);
+        this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
     }
 
     /**
@@ -176,34 +190,34 @@ export class ActionSyncService{
         else
             document.getElementById('actionsync-lighting-show' + index).style.backgroundImage = "url(./image/unshow.png)"
         if(flag == 1) {
-            this.dbService.updateApMode(this.lightlayerlist).then(() => {this.save();})
+            this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
         }
     }
 
     removelayer() {
-        let index = this.lightlayerlist.layerlist.findIndex(x => x.index == this.lightlayerlist.index);
-        if(this.lightlayerlist.index > 0 && index != -1) {
-            var Card = document.getElementById("actionsync-layer-temp" + this.lightlayerlist.index); 
+        let index = this.apModeData.layerlist.findIndex(x => x.index == this.apModeData.index);
+        if(this.apModeData.index > 0 && index != -1) {
+            var Card = document.getElementById("actionsync-layer-temp" + this.apModeData.index); 
             var parent = Card.parentElement;
             parent.removeChild(Card);
-            this.lightlayerlist.layerlist.splice(index, 1)
-            this.lightlayerlist.index = 0;
-            this.dbService.updateApMode(this.lightlayerlist).then(() => {this.save();})
+            this.apModeData.layerlist.splice(index, 1)
+            this.apModeData.index = 0;
+            this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
         }
     }
 
     clickshow(event) {
         var contentPanelId = $(event.target).attr('id')
         var number = contentPanelId.replace(/[^0-9]/ig,"");
-        this.lightlayerlist.index = Number(number);
-        let index = this.lightlayerlist.layerlist.findIndex(x => x.index == this.lightlayerlist.index)
+        this.apModeData.index = Number(number);
+        let index = this.apModeData.layerlist.findIndex(x => x.index == this.apModeData.index)
         if(index != -1) {
-            this.lightlayerlist.layerlist[index].enable = !this.lightlayerlist.layerlist[index].enable;
-            if(this.lightlayerlist.layerlist[index].enable)
+            this.apModeData.layerlist[index].enable = !this.apModeData.layerlist[index].enable;
+            if(this.apModeData.layerlist[index].enable)
                 document.getElementById('actionsync-lighting-show' + number).style.backgroundImage = "url(./image/show.png)"
             else
                 document.getElementById('actionsync-lighting-show' + number).style.backgroundImage = "url(./image/unshow.png)"
-            this.dbService.updateApMode(this.lightlayerlist).then(() => {this.save();})
+            this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
         }
         this.layerselected();
     }
@@ -211,31 +225,45 @@ export class ActionSyncService{
     selectlayer(event) {
         var contentPanelId = $(event.target).attr('id')
         var number = contentPanelId.replace(/[^0-9]/ig,"");
-        this.lightlayerlist.index = Number(number);
+        this.apModeData.index = Number(number);
         this.layerselected();
     }
 
     selectlight(event) {
         var contentPanelId = $(event.target).attr('id')
         var number = contentPanelId.replace(/[^0-9]/ig,"");
-        this.lightlayerlist.index = Number(number);
+        this.apModeData.index = Number(number);
         this.layerselected();
         this.ActionSyncLightingSelect(event);
     }
 
     layerselected() {
-        for(let i = 0; i < this.lightlayerlist.layerlist.length; i++) {
-            document.getElementById("actionsync-layer-temp" + this.lightlayerlist.layerlist[i].index).style.background = "transparent";
-            document.getElementById("actionsync-lighting-dsc" + this.lightlayerlist.layerlist[i].index).style.color = "#646464";
+        for(let i = 0; i < this.apModeData.layerlist.length; i++) {
+            document.getElementById("actionsync-layer-temp" + this.apModeData.layerlist[i].index).style.background = "transparent";
+            document.getElementById("actionsync-lighting-dsc" + this.apModeData.layerlist[i].index).style.color = "#646464";
         }
-        document.getElementById("actionsync-layer-temp" + this.lightlayerlist.index).style.background = "rgb(190,190,190)";
-        document.getElementById("actionsync-lighting-dsc" + this.lightlayerlist.index).style.color = "black";
+        document.getElementById("actionsync-layer-temp" + this.apModeData.index).style.background = "rgb(190,190,190)";
+        document.getElementById("actionsync-lighting-dsc" + this.apModeData.index).style.color = "black";
         let layerindex = this.getlayerlistindex()
         if(layerindex != undefined) {
-            this.ColorSectionArray = this.lightlayerlist.layerlist[layerindex].ColorSectionArray;
+            this.ColorSectionArray = this.apModeData.layerlist[layerindex].ColorSectionArray;
             this.updateColorSection.emit(this.ColorSectionArray)
         }
         // this.updateColorSectionArray();
+    }
+
+    /**
+     * 開啟或關閉device的pointer event
+     * @param flag 
+     */
+    enableDeviceDrag(flag) {
+        if(flag) {
+            for(let i = 0; i < this.apModeData.Device.length; i++) 
+                document.getElementById(`${this.apModeData.Device[i].SN}`).style.pointerEvents = "auto";
+        } else {
+            for(let i = 0; i < this.apModeData.Device.length; i++) 
+            document.getElementById(`${this.apModeData.Device[i].SN}`).style.pointerEvents = "none";
+        }
     }
 
     /**
@@ -244,29 +272,47 @@ export class ActionSyncService{
      */
     actionSyncDeviceFunc(flag) {
         if(flag != 0) {
-            this.actionSyncDevicFlag = true;
+            this.actionSyncDevicFlag = !this.actionSyncDevicFlag;
             for(let i = 1; i <= 3; i++) 
                 document.getElementById('actionSyncDevice' + i).style.backgroundColor = "black";
-            document.getElementById('actionSyncDevice' + flag).style.backgroundColor = "gray";
-            document.getElementById("actionsync-down").addEventListener('click', this.checkActionSyncDeviceFlag.bind(this))
+            if(this.actionSyncDevicFlag) {
+                document.getElementById('actionSyncDevice' + flag).style.backgroundColor = "gray";
+                document.getElementById("actionsync-down").addEventListener('click', this.checkActionSyncDeviceFlag.bind(this));
+            }
+            switch(flag) {
+                case 1:
+                    this.devicedragflag = !this.devicedragflag;
+                    if(this.devicedragflag) 
+                        this.enableDeviceDrag(true);
+                    else
+                        this.enableDeviceDrag(false);
+                    break;
+                case 2:
+                    this.deviceframeselectflag = !this.deviceframeselectflag;
+                    if(this.deviceframeselectflag)
+                        this.frameSelectionEvent.emit(true);
+                    else
+                        this.frameSelectionEvent.emit(false);
+                    break;
+            }
         } else {
             /**need to do */
         }
     }
 
     retrunCurrentLightingLayer() {
-        let index = this.lightlayerlist.layerlist.findIndex(x => x.index == this.lightlayerlist.index)
+        let index = this.apModeData.layerlist.findIndex(x => x.index == this.apModeData.index)
         if(index != -1)
-            return this.lightlayerlist.layerlist[index].value;
+            return this.apModeData.layerlist[index].value;
         else
             return undefined;
     }
 
     /**
-     * 回傳lightlayerlist當前的index
+     * 回傳apModeData當前的index
      */
     getlayerlistindex() {
-        let index = this.lightlayerlist.layerlist.findIndex(x => x.index == this.lightlayerlist.index)
+        let index = this.apModeData.layerlist.findIndex(x => x.index == this.apModeData.index)
         if(index != -1)
             return index;
         else
@@ -477,8 +523,8 @@ export class ActionSyncService{
     updateColorSectionArray() {
         let layerindex = this.getlayerlistindex()
         if(layerindex != undefined) {
-            this.lightlayerlist.layerlist[layerindex].ColorSectionArray = this.ColorSectionArray;
-            this.dbService.updateApMode(this.lightlayerlist).then(() => {})
+            this.apModeData.layerlist[layerindex].ColorSectionArray = this.ColorSectionArray;
+            this.dbService.updateApMode(this.apModeData).then(() => {})
         }
     }
 
@@ -504,7 +550,7 @@ export class ActionSyncService{
                 let data = this.dotindex;
                 this.removeColorSection.emit(data);
                 this.dotindex = -1;
-                this.dbService.updateApMode(this.lightlayerlist).then(() => {})
+                this.dbService.updateApMode(this.apModeData).then(() => {})
             } 
         }
     }
