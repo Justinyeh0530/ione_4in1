@@ -42,7 +42,7 @@ export class ActionSyncService{
         { name: 'AudioCap', value: 11, translate: 'AudioCap'},
     ];
     asyncsyncLightingCard:any;
-    actionSyncDevicFlag:boolean = false;
+    actionSyncDevicFlag:number = 0;
     apModeData = {layerlist:[], Device:[], index:0};
     apDeviceList:any = [];
 
@@ -81,7 +81,7 @@ export class ActionSyncService{
     resetflag() {
         this.devicedragflag = false;
         this.deviceframeselectflag = false;
-        this.actionSyncDevicFlag = false;
+        this.actionSyncDevicFlag = 0;
     }
 
     InitData() {
@@ -272,15 +272,18 @@ export class ActionSyncService{
      */
     actionSyncDeviceFunc(flag) {
         if(flag != 0) {
-            this.actionSyncDevicFlag = !this.actionSyncDevicFlag;
+            this.actionSyncDevicFlag = flag;
             for(let i = 1; i <= 3; i++) 
                 document.getElementById('actionSyncDevice' + i).style.backgroundColor = "black";
             if(this.actionSyncDevicFlag) {
                 document.getElementById('actionSyncDevice' + flag).style.backgroundColor = "gray";
+                console.log(44444,'actionSyncDevice' + flag)
                 document.getElementById("actionsync-down").addEventListener('click', this.checkActionSyncDeviceFlag.bind(this));
             }
             switch(flag) {
                 case 1:
+                    this.deviceframeselectflag = false;
+                    this.frameSelectionEvent.emit(false);
                     this.devicedragflag = !this.devicedragflag;
                     if(this.devicedragflag) 
                         this.enableDeviceDrag(true);
@@ -288,6 +291,8 @@ export class ActionSyncService{
                         this.enableDeviceDrag(false);
                     break;
                 case 2:
+                    this.devicedragflag = false;
+                    this.enableDeviceDrag(false);
                     this.deviceframeselectflag = !this.deviceframeselectflag;
                     if(this.deviceframeselectflag)
                         this.frameSelectionEvent.emit(true);
@@ -492,11 +497,11 @@ export class ActionSyncService{
 
     /**
      * 當硬體排列 框選 效果中心被點選時,註冊通知並點選其他地方時會執行取消選取的功能
-     * @param event 
+     * @param event
      */
     checkActionSyncDeviceFlag(event) {
         if(this.actionSyncDevicFlag && event.target.id.indexOf('actionSyncDevice') == -1) {
-            this.actionSyncDevicFlag = false;
+            this.actionSyncDevicFlag = 0;
             this.actionSyncDeviceFunc(0);
             for(let i = 1; i <= 3; i++)
                 document.getElementById('actionSyncDevice' + i).style.backgroundColor = "black";

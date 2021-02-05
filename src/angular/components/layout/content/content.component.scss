@@ -18,6 +18,36 @@
         background-repeat: no-repeat;
         background-position: center;
 
+        .undo {
+            position: absolute;
+            top: 30px;
+            left: 1245px;
+            width: 31px;
+            height: 17px;
+            z-index: 100;
+            background-image: url('./image/undo_normal.png');
+            cursor: pointer;
+        }
+
+        .undo:hover {
+            filter: brightness(150%);
+        }
+
+        .redo {
+            position: absolute;
+            top: 30px;
+            left: 1300px;
+            width: 31px;
+            height: 17px;
+            z-index: 100;
+            background-image: url('./image/redo_normal.png');
+            cursor: pointer;
+        }
+
+        .redo:hover {
+            filter: brightness(150%);
+        }
+
         .lighting-area {
             position: absolute;
             color: #646464;

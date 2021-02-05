@@ -1,6 +1,8 @@
 <div class="content">
     <!--------------------------------------上方列----------------------------------------------->
     <div class="content-main">
+        <div class="undo" (click)="undo()"></div>
+        <div class="redo" (click)="redo()"></div>
         <img src="{{deviceService.currentSupportDevice.mainimage}}" *ngIf="deviceService.checkAllSupportDevice('0x195D0xA005') && functionService.headsetleftfunc != 3">
         <!-- <div *ngIf="functionService.topbarfunc == 2 && deviceService.checkAllSupportDevice('0x195D0xA005')">
             <div class="lighting-area">

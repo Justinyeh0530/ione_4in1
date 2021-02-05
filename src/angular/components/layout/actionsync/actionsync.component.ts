@@ -116,7 +116,7 @@ export class ActionSyncComponent implements OnInit {
 
     checkActionSyncDeviceFlag(event) {
         if(this.actionSyncService.actionSyncDevicFlag && event.target.id.indexOf('actionSyncDevice') == -1) {
-            this.actionSyncService.actionSyncDevicFlag = false;
+            this.actionSyncService.actionSyncDevicFlag = 0;
             this.actionSyncService.actionSyncDeviceFunc(0);
             for(let i = 1; i <= 3; i++)
                 document.getElementById('actionSyncDevice' + i).style.backgroundColor = "black";
@@ -149,7 +149,7 @@ export class ActionSyncComponent implements OnInit {
 
     mousedown(event) {
         let index = this.actionSyncService.apModeData.Device.findIndex(x => x.SN == event.target.id);
-        console.log('down',event)
+        console.log('down',event.target.id,event)
         if(this.actionSyncService.devicedragflag && index != -1) {
             let index = this.actionSyncService.apModeData.Device.findIndex(x => x.SN == event.target.id)
             if(index != -1) {
@@ -209,11 +209,12 @@ export class ActionSyncComponent implements OnInit {
 
             this.actionSyncService.apModeData.Device.forEach((element, deviceindex) => {
                 if(element.SN == "0x195D0xA005") {
+                    let DivOffset = document.getElementById(element.SN);
                     element.led.forEach((item, index) => {
                         check = false;
-                        TempX = Number(document.getElementById(`${element.SN}-led${index}`).style.left.split('px')[0])
+                        TempX = Number(document.getElementById(`${element.SN}-led${index}`).style.left.split('px')[0]) + Number(DivOffset.style.left.split('px')[0])
                         TempWidth = TempX + 20;
-                        TempY = Number(document.getElementById(`${element.SN}-led${index}`).style.top.split('px')[0])
+                        TempY = Number(document.getElementById(`${element.SN}-led${index}`).style.top.split('px')[0]) + Number(DivOffset.style.top.split('px')[0])
                         TempHeight =  TempY + 20;
                         //沒有框選到
                         if((SelectDivYWidth < TempX) || (SelectDivX > TempWidth) || (SelectDivHeight < TempY) || (SelectDivY > TempHeight)) {
@@ -236,7 +237,7 @@ export class ActionSyncComponent implements OnInit {
     mouseup(event) {
         if(this.devicedrag) {
             this.devicedrag = false;
-            for(let i = 0; i <= this.actionSyncService.apModeData.Device.length; i++)
+            for(let i = 0; i < this.actionSyncService.apModeData.Device.length; i++)
                 document.getElementById(`${this.actionSyncService.apModeData.Device[i].SN}`).style.pointerEvents ='auto';
         } else if(this.actionSyncService.deviceframeselectflag) {
             let result = this.checkSelect()
@@ -262,7 +263,6 @@ export class ActionSyncComponent implements OnInit {
     refreshSelectLightingStatus() {
         this.actionSyncService.apModeData.Device.forEach((element) => {
             element.led.forEach((item, index) => {
-                console.log(`${element.SN}-led${index}`,item)
                 if(item == 1)
                     document.getElementById(`${element.SN}-led${index}`).style.borderColor = 'yellow';
                 else
