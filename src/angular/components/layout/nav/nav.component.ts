@@ -95,7 +95,7 @@ export class NavComponent implements OnInit {
 
     checkActionSyncDeviceFlag(event) {
         if(this.actionSyncService.actionSyncDevicFlag) {
-            this.actionSyncService.actionSyncDevicFlag = false;
+            this.actionSyncService.actionSyncDevicFlag = 0;
             this.actionSyncService.actionSyncDeviceFunc(0);
             for(let i = 1; i <= 3; i++) {
                 if(document.getElementById('actionSyncDevice' + i))

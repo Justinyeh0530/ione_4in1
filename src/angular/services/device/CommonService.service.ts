@@ -13,7 +13,7 @@ let env = System._nodeRequire('./backend/others/env');
 
 import { DelayDialogComponent } from '../../components/dialog/delayDialog/delayDialog.component'
 import { CheckDialogComponent } from '../../components/dialog/checkDialog/checkDialog.component'
-import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import { MdDialog, MdDialogConfig, MdDialogRef, TOUCHEND_HIDE_DELAY } from '@angular/material';
 import {TranslateService} from 'ng2-translate';
 
 @Injectable()
@@ -23,6 +23,9 @@ export class CommonService{
 	titlepageFlag:any = 0
 	currentpage:number = 0;
 	WindowSizeFlag: boolean = false;
+	// StepArray = {index:-1, DataArray:[]}
+	StepArray:any = [];
+	StepArrayIndex:number = -1;
 	static instance=undefined;
 	constructor(
 		private http: Http,
@@ -245,4 +248,17 @@ export class CommonService{
 		else if(flag == 1) 
 			window.minimize();
 	}
+
+    getObjectDetail(object) {
+        let array = []
+        for (const [key, value] of Object.entries(object)) {
+            // console.log(`${key}: ${value}`);
+            let obj = {
+                key: key,
+                value: value
+            }
+            array.push(obj);
+        }
+        return array;
+    } 
 }

@@ -3,6 +3,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 let electron_Instance = window['System']._nodeRequire('electron').remote; 
 import { Router } from '@angular/router';
 import { HeadsetFunctionService } from './HeadsetFunctionService.service';
+import { CommonService } from './CommonService.service'
 
 @Injectable()
 export class FunctionService{
@@ -13,7 +14,8 @@ export class FunctionService{
     headsetleftfunc:number = 0;
 
     constructor(private router: Router,
-                private headsetFunctionService: HeadsetFunctionService
+                private headsetFunctionService: HeadsetFunctionService,
+                private commonService: CommonService
                 )
     {
     }
@@ -22,6 +24,7 @@ export class FunctionService{
         this.changeTopbarEvent.emit();
         this.topbarfunc = flag
         this.headsetleftfunc = 0;
+        this.headsetFunctionService.ResetArrayIndex();
         if(flag == 5) {
             this.routerChange.emit('/actionsync');
         } else if(flag == 1 || flag == 2) {

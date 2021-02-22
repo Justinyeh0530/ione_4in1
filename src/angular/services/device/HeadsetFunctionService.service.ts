@@ -6,7 +6,6 @@ let funcVar = System._nodeRequire('./backend/others/FunctionVariable')
 import { CommonService } from './CommonService.service'
 import {TranslateService} from 'ng2-translate';
 import * as _ from 'lodash'
-import { ThrowStmt } from '@angular/compiler/src/output/output_ast';
 
 @Injectable()
 export class HeadsetFunctionService{
@@ -128,10 +127,17 @@ export class HeadsetFunctionService{
     ]
     DirectionSelect:any;
 
+    StepArray:any = [];
+    StepArrayIndex:number = 0;
+    StepDashBoardArray:any = [];
+    TempDashBoardArray:any = {};
+    StepSurroundSoundArray:any = [];
+    TempSurroundSoundArray:any = {};
+
     constructor(
         private deviceService: DeviceService,
         private commonService: CommonService,
-        private translateService: TranslateService,
+        private translateService: TranslateService
         ){
             this.deviceService.updatCurrentDeviceData.subscribe((data) => {
                 if(data.pluginDevice != undefined && data.ModelType == 3) {
@@ -154,10 +160,14 @@ export class HeadsetFunctionService{
         this.ColorShiftStopSelect = _.clone(this.ColorShiftStopList[0]);
         this.DirectionSelect = _.clone(this.DirectionList[0])
         if(this.HeadsetProfileData != undefined) {
+            //init Array
+            this.ResetArrayIndex();
             //init dashboard
             this.VirtualizationValue = this.HeadsetProfileData[this.profileindex].dashboard.VirtualizationValue;
             this.LoudnessValue = this.HeadsetProfileData[this.profileindex].dashboard.LoudnessValue;
             this.DialogEnhancementValue = this.HeadsetProfileData[this.profileindex].dashboard.DialogEnhancementValue;
+            this.BassValue = this.HeadsetProfileData[this.profileindex].dashboard.BassValue;
+            this.HeadphoneEQValue = this.HeadsetProfileData[this.profileindex].dashboard.HeadphoneEQValue;
 
             //init Equlizer
             this.value125 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value125;
@@ -341,9 +351,10 @@ export class HeadsetFunctionService{
      * @param ValueName 
      */
     VolumeArrowLeftClick(ValueName) {
+        if(this[ValueName] == 0)
+            return;
         this[ValueName]--;
-        if(this[ValueName] <= 0)
-            this[ValueName] = 0
+        this.pushStepSurroundSoundArray(ValueName,this[ValueName])
     }
 
     /**
@@ -351,13 +362,15 @@ export class HeadsetFunctionService{
      * @param ValueName 
      */
     VolumeArrowRightClick(ValueName) {
+        if(this[ValueName] == 10)
+            return;
         this[ValueName]++;
-        if(this[ValueName] >= 10)
-            this[ValueName] = 10
+        this.pushStepDashBoardArray(ValueName,this[ValueName])
     }
 
     HeadsetDashborad(ValueName) {
         this[ValueName] = !this[ValueName];
+        this.pushStepDashBoardArray(ValueName,this[ValueName])
     }
 
     
@@ -605,5 +618,77 @@ export class HeadsetFunctionService{
                 this.CurrentLightingTempColor = [[0,0,255],[255,0,0]]
                 break;
         }
+    }
+
+    HeadsetSurroundSoundEnvironment(value) {
+        this.EnvironmentValue = value;
+        this.pushStepSurroundSoundArray('EnvironmentValue', value)
+    }
+
+    HeadsetSurroundSoundStereo(value) {
+        this.StereoValue = value;
+        this.pushStepSurroundSoundArray('StereoValue', value)
+    }
+
+    pushStepDashBoardArray(param,value) {
+        this.TempDashBoardArray = _.cloneDeep(this.TempDashBoardArray)
+        this.TempDashBoardArray[param] = value;
+        this.StepDashBoardArray.push(this.TempDashBoardArray);
+        this.StepArrayIndex++;
+    }
+
+    DashboardUndo() {
+        if(this.StepArrayIndex <= 0)
+            return;
+        this.StepArrayIndex--;
+        let obj:any = this.commonService.getObjectDetail(this.StepDashBoardArray[this.StepArrayIndex]);
+        for(let i = 0; i < obj.length; i++)
+            this[obj[i].key] = obj[i].value;
+    }
+
+    DashboardRedo() {
+        if(this.StepArrayIndex <= this.StepDashBoardArray.length - 2) {
+            this.StepArrayIndex++;
+            let obj:any = this.commonService.getObjectDetail(this.StepDashBoardArray[this.StepArrayIndex]);
+            for(let i =0; i < obj.length; i++)
+                this[obj[i].key] = obj[i].value;
+        }
+    }
+
+    pushStepSurroundSoundArray(param,value) {
+        this.TempSurroundSoundArray = _.cloneDeep(this.TempSurroundSoundArray)
+        this.TempSurroundSoundArray[param] = value;
+        this.StepSurroundSoundArray.push(this.TempSurroundSoundArray);
+        this.StepArrayIndex++;
+    }
+
+    SurroundSoundUndo() {
+        if(this.StepArrayIndex <= 0)
+        return;
+        this.StepArrayIndex--;
+        let obj:any = this.commonService.getObjectDetail(this.StepSurroundSoundArray[this.StepArrayIndex]);
+        console.log(1111,this.StepSurroundSoundArray)
+        for(let i = 0; i < obj.length; i++)
+            this[obj[i].key] = obj[i].value;
+    }
+
+    SurroundSoundRedo() {
+        if(this.StepArrayIndex <= this.StepSurroundSoundArray.length - 2) {
+            this.StepArrayIndex++;
+            let obj:any = this.commonService.getObjectDetail(this.StepSurroundSoundArray[this.StepArrayIndex]);
+            for(let i =0; i < obj.length; i++)
+                this[obj[i].key] = obj[i].value;
+        }
+    }
+
+    ResetArrayIndex() {
+        this.StepArrayIndex = 0;
+        this.StepDashBoardArray = [];
+        this.TempDashBoardArray = _.cloneDeep(this.HeadsetProfileData[this.profileindex].dashboard)
+        this.StepDashBoardArray.push(this.HeadsetProfileData[this.profileindex].dashboard);
+        this.StepSurroundSoundArray = [];
+        this.TempSurroundSoundArray = _.cloneDeep(this.HeadsetProfileData[this.profileindex].surroundsound)
+        this.StepSurroundSoundArray.push(this.HeadsetProfileData[this.profileindex].surroundsound);
+        console.log(222222,this.StepSurroundSoundArray)
     }
 }

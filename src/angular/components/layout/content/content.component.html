@@ -1,8 +1,22 @@
 <div class="content">
     <!--------------------------------------上方列----------------------------------------------->
     <div class="content-main">
-        <div class="undo" (click)="undo()"></div>
-        <div class="redo" (click)="redo()"></div>
+        <div *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 0">
+            <div class="undo" (click)="headsetFunctionService.DashboardUndo()"></div>
+            <div class="redo" (click)="headsetFunctionService.DashboardRedo()"></div>
+        </div>
+        <div *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 1">
+            <div class="undo" (click)="headsetFunctionService.EqulizerUndo()"></div>
+            <div class="redo" (click)="headsetFunctionService.EqulizerRedo()"></div>
+        </div>
+        <div *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 2">
+            <div class="undo" (click)="headsetFunctionService.MicrophoneUndo()"></div>
+            <div class="redo" (click)="headsetFunctionService.MicrophoneRedo()"></div>
+        </div>
+        <div *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 3">
+            <div class="undo" (click)="headsetFunctionService.SurroundSoundUndo()"></div>
+            <div class="redo" (click)="headsetFunctionService.SurroundSoundRedo()"></div>
+        </div>
         <img src="{{deviceService.currentSupportDevice.mainimage}}" *ngIf="deviceService.checkAllSupportDevice('0x195D0xA005') && functionService.headsetleftfunc != 3">
         <!-- <div *ngIf="functionService.topbarfunc == 2 && deviceService.checkAllSupportDevice('0x195D0xA005')">
             <div class="lighting-area">
@@ -291,7 +305,7 @@
                 <div class="item-block">
                     <div class="item-block-item">
                         <label style="margin-right:5px;">
-                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 1" (click)="headsetFunctionService.EnvironmentValue = 1">
+                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 1" (click)="headsetFunctionService.HeadsetSurroundSoundEnvironment(1)">
                             <span></span>
                         </label>
                         <div class="dsc">
@@ -300,7 +314,7 @@
                     </div>
                     <div class="item-block-item">
                         <label style="margin-right:5px;">
-                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 2" (click)="headsetFunctionService.EnvironmentValue = 2">
+                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 2" (click)="headsetFunctionService.HeadsetSurroundSoundEnvironment(2)">
                             <span></span>
                         </label>
                         <div class="dsc">
@@ -309,7 +323,7 @@
                     </div>
                     <div class="item-block-item">
                         <label style="margin-right:5px;">
-                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 3" (click)="headsetFunctionService.EnvironmentValue = 3">
+                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 3" (click)="headsetFunctionService.HeadsetSurroundSoundEnvironment(3)">
                             <span></span>
                         </label>
                         <div class="dsc">
@@ -324,7 +338,7 @@
                 <div class="item-block">
                     <div class="item-block-item">
                         <label style="margin-right:5px;">
-                            <input type="checkbox" name="Stereo" [checked]="headsetFunctionService.StereoValue == 1" (click)="headsetFunctionService.StereoValue = 1">
+                            <input type="checkbox" name="Stereo" [checked]="headsetFunctionService.StereoValue == 1" (click)="headsetFunctionService.HeadsetSurroundSoundStereo(1)">
                             <span></span>
                         </label>
                         <div class="dsc">
@@ -333,7 +347,7 @@
                     </div>
                     <div class="item-block-item">
                         <label style="margin-right:5px;">
-                            <input type="checkbox" name="Stereo" [checked]="headsetFunctionService.StereoValue == 2" (click)="headsetFunctionService.StereoValue = 2">
+                            <input type="checkbox" name="Stereo" [checked]="headsetFunctionService.StereoValue == 2" (click)="headsetFunctionService.HeadsetSurroundSoundStereo(2)">
                             <span></span>
                         </label>
                         <div class="dsc">
@@ -342,7 +356,7 @@
                     </div>
                     <div class="item-block-item">
                         <label style="margin-right:5px;">
-                            <input type="checkbox" name="Stereo" [checked]="headsetFunctionService.StereoValue == 3" (click)="headsetFunctionService.StereoValue = 3">
+                            <input type="checkbox" name="Stereo" [checked]="headsetFunctionService.StereoValue == 3" (click)="headsetFunctionService.HeadsetSurroundSoundStereo(3)">
                             <span></span>
                         </label>
                         <div class="dsc">
