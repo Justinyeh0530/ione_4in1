@@ -29,6 +29,7 @@ export class ContentComponent implements OnInit {
     SettingFlag: any;
     Startup: any;
     subscription: any;
+    EQsubscription: any;
     UpdateData: any;
     LightingSleep: any;
     SleepValue: number = 5;
@@ -65,6 +66,17 @@ export class ContentComponent implements OnInit {
         this.Headsetsubscription = this.functionService.updateFuncStatus.subscribe((data) => {
             this.initData();
         })
+
+        this.EQsubscription = this.headsetFunctionService.refreshEQEvent.subscribe((data) => {
+            this.EQmove('value125');
+            this.EQmove('value250');
+            this.EQmove('value500');
+            this.EQmove('value1K');
+            this.EQmove('value2K');
+            this.EQmove('value4K');
+            this.EQmove('value8K');
+            this.EQmove('value16K');
+        });
     }
 
     initData() {
@@ -79,6 +91,7 @@ export class ContentComponent implements OnInit {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+        this.EQsubscription.unsubscribe();
     }
 
     initEQ() {
@@ -156,11 +169,13 @@ export class ContentComponent implements OnInit {
         }
     }
 
-    MicVolumeChange() {}
+    MicChange(param) {
+        this.headsetFunctionService.HeadsetMicrophone(param);
+    }
 
-    MicVolumeBoundsChange() {}
-
-    MicSideToneChange() {}
+    EQChange(param) {
+        this.headsetFunctionService.HeadsetEQ(param)
+    }
 
     EqulizereSelect() {
         this.headsetFunctionService.EqulizereSelect();

@@ -279,10 +279,10 @@
                 <div class="item-title">{{'Mic Volume'|translate}}</div>
                 <div class="item-block" style="background:url('./image/headset/MicVolume.png') no-repeat center;">
                     <div class="item-block-slider">
-                        <input id="MicVolume" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicVolumeValueTemp" (mouseup)="MicVolumeChange()" (ngModelChange)="SliderMove('MicVolume')" onkeydown="event.preventDefault()">
+                        <input id="MicVolume" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicVolumeValueTemp" (mouseup)="MicChange('MicVolumeValueTemp')" (ngModelChange)="SliderMove('MicVolume')" onkeydown="event.preventDefault()">
                     </div>
                     <div class="item-block-slider" style="top:242px; left:30px; width:422px;">
-                        <input id="MicVolumeBounds" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicVolumeBoundsValueTemp" (mouseup)="MicVolumeBoundsChange()" (ngModelChange)="SliderMove('MicVolumeBounds')" onkeydown="event.preventDefault()">
+                        <input id="MicVolumeBounds" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicVolumeBoundsValueTemp" (mouseup)="MicChange('MicVolumeBoundsValueTemp')" (ngModelChange)="SliderMove('MicVolumeBounds')" onkeydown="event.preventDefault()">
                     </div>
                 </div>
             </div>
@@ -290,7 +290,7 @@
                 <div class="item-title">{{'Mic Side Tone'|translate}}</div>
                 <div class="item-block" style="background:url('./image/headset/MicSideTone.png') no-repeat center;">
                     <div class="item-block-slider" style="top:252px; left:541px; width:422px;">
-                        <input id="MicSideTone" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicSideToneValueTemp" (mouseup)="MicSideToneChange()" (ngModelChange)="SliderMove('MicSideTone')" onkeydown="event.preventDefault()">
+                        <input id="MicSideTone" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicSideToneValueTemp" (mouseup)="MicChange('MicSideToneValueTemp')" (ngModelChange)="SliderMove('MicSideTone')" onkeydown="event.preventDefault()">
                     </div>
                 </div>
             </div>

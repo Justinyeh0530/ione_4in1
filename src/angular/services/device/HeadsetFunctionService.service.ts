@@ -13,6 +13,7 @@ export class HeadsetFunctionService{
     updateColorSection: EventEmitter<object> = new EventEmitter();
     removeColorSection: EventEmitter<number> = new EventEmitter();
     addColorSection: EventEmitter<number> = new EventEmitter();
+    refreshEQEvent: EventEmitter<number> = new EventEmitter();
     MusicPreset = [
         { name: "Music", value:0, translate: 'Music'},
         { name: 'Movie', value: 1, translate: 'Movie'},
@@ -133,6 +134,10 @@ export class HeadsetFunctionService{
     TempDashBoardArray:any = {};
     StepSurroundSoundArray:any = [];
     TempSurroundSoundArray:any = {};
+    StepMicophoneArray:any = [];
+    TempMicophoneArray:any = {};
+    StepEqulizerArray:any = [];
+    TempEqulizerArray:any = {};
 
     constructor(
         private deviceService: DeviceService,
@@ -160,8 +165,6 @@ export class HeadsetFunctionService{
         this.ColorShiftStopSelect = _.clone(this.ColorShiftStopList[0]);
         this.DirectionSelect = _.clone(this.DirectionList[0])
         if(this.HeadsetProfileData != undefined) {
-            //init Array
-            this.ResetArrayIndex();
             //init dashboard
             this.VirtualizationValue = this.HeadsetProfileData[this.profileindex].dashboard.VirtualizationValue;
             this.LoudnessValue = this.HeadsetProfileData[this.profileindex].dashboard.LoudnessValue;
@@ -195,6 +198,9 @@ export class HeadsetFunctionService{
             this.VolumeSR = this.HeadsetProfileData[this.profileindex].surroundsound.VolumeSR;
             this.EnvironmentValue = this.HeadsetProfileData[this.profileindex].surroundsound.EnvironmentValue;
             this.StereoValue = this.HeadsetProfileData[this.profileindex].surroundsound.StereoValue;
+            
+            //init Array
+            this.ResetArrayIndex();
         }
     }
 
@@ -441,6 +447,19 @@ export class HeadsetFunctionService{
         this.value4K = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value4K;
         this.value8K = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value8K;
         this.value16K = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value16K;
+        let obj = {
+            equlizereDataSelect: this.equlizereDataSelect,
+            value125: this.value125,
+            value250: this.value250,
+            value500: this.value500,
+            value1K: this.value1K,
+            value2K: this.value2K,
+            value4K: this.value4K,
+            value8K: this.value8K,
+            value16K: this.value16K
+        }
+        this.TempEqulizerArray = _.cloneDeep(obj)
+        this.pushStepEquizerArray('equlizereDataSelect', this.equlizereDataSelect);
     }
 
     resetCurrentColor() {
@@ -630,9 +649,20 @@ export class HeadsetFunctionService{
         this.pushStepSurroundSoundArray('StereoValue', value)
     }
 
+    HeadsetMicrophone(param) {
+        this.pushStepMicrophoneArray(param, this[param])
+    }
+
+    HeadsetEQ(param) {
+        this.pushStepEquizerArray(param, this[param])
+    }
+
     pushStepDashBoardArray(param,value) {
         this.TempDashBoardArray = _.cloneDeep(this.TempDashBoardArray)
         this.TempDashBoardArray[param] = value;
+        //假如不是最後一筆資料, 移除index後的資料並加入新的資料
+        for(let i = this.StepArrayIndex; i < this.StepDashBoardArray.length - 1; i++)
+            this.StepDashBoardArray.pop();
         this.StepDashBoardArray.push(this.TempDashBoardArray);
         this.StepArrayIndex++;
     }
@@ -644,20 +674,24 @@ export class HeadsetFunctionService{
         let obj:any = this.commonService.getObjectDetail(this.StepDashBoardArray[this.StepArrayIndex]);
         for(let i = 0; i < obj.length; i++)
             this[obj[i].key] = obj[i].value;
+        this.TempDashBoardArray = _.cloneDeep(this.StepDashBoardArray[this.StepArrayIndex])
     }
 
     DashboardRedo() {
         if(this.StepArrayIndex <= this.StepDashBoardArray.length - 2) {
             this.StepArrayIndex++;
             let obj:any = this.commonService.getObjectDetail(this.StepDashBoardArray[this.StepArrayIndex]);
-            for(let i =0; i < obj.length; i++)
+            for(let i = 0; i < obj.length; i++)
                 this[obj[i].key] = obj[i].value;
+            this.TempDashBoardArray = _.cloneDeep(this.StepDashBoardArray[this.StepArrayIndex])
         }
     }
 
     pushStepSurroundSoundArray(param,value) {
         this.TempSurroundSoundArray = _.cloneDeep(this.TempSurroundSoundArray)
         this.TempSurroundSoundArray[param] = value;
+        for(let i = this.StepArrayIndex; i < this.StepSurroundSoundArray.length - 1; i++)
+            this.StepSurroundSoundArray.pop();
         this.StepSurroundSoundArray.push(this.TempSurroundSoundArray);
         this.StepArrayIndex++;
     }
@@ -667,17 +701,78 @@ export class HeadsetFunctionService{
         return;
         this.StepArrayIndex--;
         let obj:any = this.commonService.getObjectDetail(this.StepSurroundSoundArray[this.StepArrayIndex]);
-        console.log(1111,this.StepSurroundSoundArray)
         for(let i = 0; i < obj.length; i++)
             this[obj[i].key] = obj[i].value;
+        this.TempSurroundSoundArray = _.cloneDeep(this.StepSurroundSoundArray[this.StepArrayIndex])
     }
 
     SurroundSoundRedo() {
         if(this.StepArrayIndex <= this.StepSurroundSoundArray.length - 2) {
             this.StepArrayIndex++;
             let obj:any = this.commonService.getObjectDetail(this.StepSurroundSoundArray[this.StepArrayIndex]);
-            for(let i =0; i < obj.length; i++)
+            for(let i = 0; i < obj.length; i++)
                 this[obj[i].key] = obj[i].value;
+            this.TempSurroundSoundArray = _.cloneDeep(this.StepSurroundSoundArray[this.StepArrayIndex])
+        }
+    }
+
+    pushStepMicrophoneArray(param, value) {
+        this.TempMicophoneArray = _.cloneDeep(this.TempMicophoneArray)
+        this.TempMicophoneArray[param] = value;
+        for(let i = this.StepArrayIndex; i < this.StepMicophoneArray.length - 1; i++)
+            this.StepMicophoneArray.pop();
+        this.StepMicophoneArray.push(this.TempMicophoneArray);
+        this.StepArrayIndex++;
+    }
+
+    MicrophoneUndo() {
+        if(this.StepArrayIndex <= 0)
+            return;
+        this.StepArrayIndex--;
+        let obj:any = this.commonService.getObjectDetail(this.StepMicophoneArray[this.StepArrayIndex]);
+        for(let i = 0; i < obj.length; i++)
+            this[obj[i].key] = obj[i].value;
+        this.TempMicophoneArray = _.cloneDeep(this.StepMicophoneArray[this.StepArrayIndex])
+    }
+
+    MicrophoneRedo() {
+        if(this.StepArrayIndex <= this.StepMicophoneArray.length - 2) {
+            this.StepArrayIndex++;
+            let obj:any = this.commonService.getObjectDetail(this.StepMicophoneArray[this.StepArrayIndex]);
+            for(let i = 0; i < obj.length; i++)
+                this[obj[i].key] = obj[i].value;
+            this.TempMicophoneArray = _.cloneDeep(this.StepMicophoneArray[this.StepArrayIndex])
+        }
+    }
+
+    pushStepEquizerArray(param,value) {
+        this.TempEqulizerArray = _.cloneDeep(this.TempEqulizerArray)
+        this.TempEqulizerArray[param] = value;
+        for(let i = this.StepArrayIndex; i < this.StepEqulizerArray.length - 1; i++)
+            this.StepEqulizerArray.pop();
+        this.StepEqulizerArray.push(this.TempEqulizerArray);
+        this.StepArrayIndex++;
+    }
+
+    EqulizerUndo() {
+        if(this.StepArrayIndex <= 0)
+            return;
+        this.StepArrayIndex--;
+        let obj:any = this.commonService.getObjectDetail(this.StepEqulizerArray[this.StepArrayIndex]);
+        for(let i = 0; i < obj.length; i++)
+            this[obj[i].key] = obj[i].value;
+        this.TempEqulizerArray = _.cloneDeep(this.StepEqulizerArray[this.StepArrayIndex])
+        this.refreshEQEvent.emit();
+    }
+
+    EqulizerRedo() {
+        if(this.StepArrayIndex <= this.StepEqulizerArray.length - 2) {
+            this.StepArrayIndex++;
+            let obj:any = this.commonService.getObjectDetail(this.StepEqulizerArray[this.StepArrayIndex]);
+            for(let i = 0; i < obj.length; i++)
+                this[obj[i].key] = obj[i].value;
+            this.TempEqulizerArray = _.cloneDeep(this.StepEqulizerArray[this.StepArrayIndex])
+            this.refreshEQEvent.emit();
         }
     }
 
@@ -689,6 +784,22 @@ export class HeadsetFunctionService{
         this.StepSurroundSoundArray = [];
         this.TempSurroundSoundArray = _.cloneDeep(this.HeadsetProfileData[this.profileindex].surroundsound)
         this.StepSurroundSoundArray.push(this.HeadsetProfileData[this.profileindex].surroundsound);
-        console.log(222222,this.StepSurroundSoundArray)
+        this.StepMicophoneArray = [];
+        this.TempMicophoneArray = _.cloneDeep(this.HeadsetProfileData[this.profileindex].microphone)
+        this.StepMicophoneArray.push(this.HeadsetProfileData[this.profileindex].microphone);
+        this.StepEqulizerArray = [];
+        let obj = {
+            equlizereDataSelect: this.equlizereDataSelect,
+            value125: this.value125,
+            value250: this.value250,
+            value500: this.value500,
+            value1K: this.value1K,
+            value2K: this.value2K,
+            value4K: this.value4K,
+            value8K: this.value8K,
+            value16K: this.value16K
+        }
+        this.TempEqulizerArray = _.cloneDeep(obj)
+        this.StepEqulizerArray.push(obj);
     }
 }
