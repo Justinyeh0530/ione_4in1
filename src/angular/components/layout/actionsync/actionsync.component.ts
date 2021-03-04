@@ -31,7 +31,10 @@ export class ActionSyncComponent implements OnInit {
     StartPosy:number = 0;
     DeviceX:number = 0;
     DeviceY:number = 0;
+    LightingCenterX:number = 0;
+    LightingCenterY:number = 0;
     devicedrag: boolean = false;
+    lightingcenterdrag: boolean = false;
     dragDeviceID:any = "";
     framesubscribe:any;
     topbarsubscribe:any;
@@ -157,10 +160,8 @@ export class ActionSyncComponent implements OnInit {
                 this.devicedrag = true;
                 this.DeviceX = event.srcElement.offsetLeft;
                 this.DeviceY = event.srcElement.offsetTop;
-                for(let i = 0; i < this.actionSyncService.apModeData.Device.length; i++) {
+                for(let i = 0; i < this.actionSyncService.apModeData.Device.length; i++)
                     document.getElementById(`${this.actionSyncService.apModeData.Device[i].SN}`).style.pointerEvents ='none';
-                    console.log(3333,this.actionSyncService.apModeData.Device[i].SN)
-                }
             }
         } else if(this.actionSyncService.deviceframeselectflag) {
             this.selectflag = true;
@@ -178,6 +179,10 @@ export class ActionSyncComponent implements OnInit {
             this.SelectDiv.style.left = event.offsetX + "px";
             this.SelectDiv.style.top = event.offsetY + "px";
             document.getElementById('action-sync-desktop').appendChild(this.SelectDiv);
+        } else if(this.actionSyncService.lightingcenterdragflag && event.target.id == 'lighting-center') {
+            this.lightingcenterdrag = true;
+            this.LightingCenterX = event.srcElement.offsetLeft;
+            this.LightingCenterY = event.srcElement.offsetTop;
         }
         this.StartPosx = event.clientX;
         this.StartPosy = event.clientY;
@@ -192,6 +197,11 @@ export class ActionSyncComponent implements OnInit {
             let moveY = (event.clientY - this.StartPosy) / scale;
             document.getElementById(this.dragDeviceID).style.left = `${this.DeviceX + moveX}px`;
             document.getElementById(this.dragDeviceID).style.top = `${this.DeviceY + moveY}px`;
+            let index = this.actionSyncService.apModeData.Device.findIndex(x => x.SN == this.dragDeviceID);
+            if(index != -1) {
+                this.actionSyncService.apModeData.Device[index].x = this.DeviceX + moveX;
+                this.actionSyncService.apModeData.Device[index].y = this.DeviceY + moveY;
+            }
         } else if(this.actionSyncService.deviceframeselectflag && this.SelectDiv && this.selectflag) {
             this.selectArray = [];
             if(event.clientX < this.StartPosx )
@@ -231,6 +241,14 @@ export class ActionSyncComponent implements OnInit {
                     });
                 }
             });
+        } else if(this.lightingcenterdrag) {
+            let moveX = (event.clientX - this.StartPosx) / scale;
+            let moveY = (event.clientY - this.StartPosy) / scale;
+            document.getElementById('lighting-center').style.left = `${this.LightingCenterX + moveX}px`;
+            document.getElementById('lighting-center').style.top = `${this.LightingCenterY + moveY}px`;
+            
+            this.actionSyncService.apModeData.center.x = this.LightingCenterX + moveX;
+            this.actionSyncService.apModeData.center.y = this.LightingCenterY + moveY;
         }
     }
 
@@ -239,6 +257,7 @@ export class ActionSyncComponent implements OnInit {
             this.devicedrag = false;
             for(let i = 0; i < this.actionSyncService.apModeData.Device.length; i++)
                 document.getElementById(`${this.actionSyncService.apModeData.Device[i].SN}`).style.pointerEvents ='auto';
+            this.dbService.updateApMode(this.actionSyncService.apModeData).then(() => {})
         } else if(this.actionSyncService.deviceframeselectflag) {
             let result = this.checkSelect()
             this.selectArray.forEach((element,index) => {
@@ -256,6 +275,9 @@ export class ActionSyncComponent implements OnInit {
             this.selectflag = false;
             document.getElementById('action-sync-desktop').removeChild(this.SelectDiv);
             this.refreshSelectLightingStatus();
+            this.dbService.updateApMode(this.actionSyncService.apModeData).then(() => {})
+        } else if(this.lightingcenterdrag) {
+            this.lightingcenterdrag = false;
             this.dbService.updateApMode(this.actionSyncService.apModeData).then(() => {})
         }
     }

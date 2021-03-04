@@ -27,6 +27,19 @@
                 pointer-events: none;
             }
 
+            .lighting-center {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                border: 5px solid yellow;
+                cursor: pointer;
+                display: none;
+                z-index: 20;
+            }
+
             .led {
                 position: absolute;
                 width: 20px;

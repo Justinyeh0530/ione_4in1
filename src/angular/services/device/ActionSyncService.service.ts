@@ -43,7 +43,7 @@ export class ActionSyncService{
     ];
     asyncsyncLightingCard:any;
     actionSyncDevicFlag:number = 0;
-    apModeData = {layerlist:[], Device:[], index:0};
+    apModeData = {layerlist:[], Device:[], center:{x:0, y:0}, index:0};
     apDeviceList:any = [];
 
     ColorSectionArray = [
@@ -59,6 +59,7 @@ export class ActionSyncService{
     dotindex:number = -1;
     zoomvalue:number = 10;
     devicedragflag:boolean = false;
+    lightingcenterdragflag:boolean = false;
     deviceframeselectflag:boolean = false;
 
     //event
@@ -266,6 +267,13 @@ export class ActionSyncService{
         }
     }
 
+    enableLightingCenterDrag(flag) {
+        if(flag)
+            document.getElementById('lighting-center').style.display = 'block';
+        else
+            document.getElementById('lighting-center').style.display = 'none';
+    }
+
     /**
      * 
      * @param flag 0:清掉全部資料 1:硬體排列 2:框選 3:效果中心
@@ -277,14 +285,15 @@ export class ActionSyncService{
                 document.getElementById('actionSyncDevice' + i).style.backgroundColor = "black";
             if(this.actionSyncDevicFlag) {
                 document.getElementById('actionSyncDevice' + flag).style.backgroundColor = "gray";
-                console.log(44444,'actionSyncDevice' + flag)
                 document.getElementById("actionsync-down").addEventListener('click', this.checkActionSyncDeviceFlag.bind(this));
             }
             switch(flag) {
                 case 1:
                     this.deviceframeselectflag = false;
+                    this.lightingcenterdragflag = false;
                     this.frameSelectionEvent.emit(false);
                     this.devicedragflag = !this.devicedragflag;
+                    this.enableLightingCenterDrag(false);
                     if(this.devicedragflag) 
                         this.enableDeviceDrag(true);
                     else
@@ -292,12 +301,26 @@ export class ActionSyncService{
                     break;
                 case 2:
                     this.devicedragflag = false;
+                    this.lightingcenterdragflag = false;
                     this.enableDeviceDrag(false);
                     this.deviceframeselectflag = !this.deviceframeselectflag;
+                    this.enableLightingCenterDrag(false);
                     if(this.deviceframeselectflag)
                         this.frameSelectionEvent.emit(true);
                     else
                         this.frameSelectionEvent.emit(false);
+                    break;
+                case 3:
+                    this.devicedragflag = false;
+                    this.lightingcenterdragflag = false;
+                    this.deviceframeselectflag = false
+                    this.frameSelectionEvent.emit(false);
+                    this.enableDeviceDrag(false);
+                    this.lightingcenterdragflag = !this.lightingcenterdragflag;
+                    if(this.lightingcenterdragflag) 
+                        this.enableLightingCenterDrag(true);
+                    else
+                        this.enableLightingCenterDrag(false);
                     break;
             }
         } else {

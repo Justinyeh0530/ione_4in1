@@ -1,10 +1,11 @@
 <div class="actionsync">
     <div class="actionsync-top">
         <div class="desktop" id="action-sync-desktop">
+            <div class="lighting-center" id="lighting-center" [style.left]="actionSyncService.apModeData.center.x + 'px'" [style.top]="actionSyncService.apModeData.center.y + 'px'"></div>
             <div *ngFor="let item of actionSyncService.apModeData.Device; let index = index; let last = last;">
                 <!-- {{last ? actionSyncService.initDevice() : ''}} -->
                 <!-- <img id="{{item.SN}}" src="{{item.img}}" (mousedown)='mousedown($event)' (mousemove)='mousemove($event)' (mouseup)='mouseup($event)'> -->
-                <div id="{{item.SN}}" style="z-index:10; position: absolute; pointer-events: none; width:710px; height:568px;">
+                <div id="{{item.SN}}" style="z-index:10; position: absolute; pointer-events: none; width:710px; height:568px;" [style.left]="actionSyncService.apModeData.Device[index].x + 'px'" [style.top]="actionSyncService.apModeData.Device[index].y + 'px'">
                     <img src="{{item.img}}">
                     <div *ngIf="item.SN == '0x195D0xA005'">
                         <div class="led" id="{{item.SN}}-led0" style="top:280px; left:480px"></div>
