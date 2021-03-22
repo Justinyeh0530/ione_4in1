@@ -87,5 +87,7 @@
     "widthprofile": "Width profile",
     "Onkeypress": "On key press",
     "Clockwise": "Clockwise",
-    "CounterClockwise": "Counter-Clockwise"
+    "CounterClockwise": "Counter-Clockwise",
+    "RESET": "RESET",
+    "EnableDTS": "Enable DTS surround sound"
 }

@@ -111,6 +111,67 @@
             background: url('./image/headset/SurroundSound.png') no-repeat;
             padding-top: 120px;
 
+            .Reset {
+                position:absolute; 
+                display:flex; 
+                justify-content:center; 
+                align-items:center; 
+                top: 550px; 
+                left: 1350px; 
+                width:80px; 
+                height:25px; 
+                color: gray; 
+                background-color: #343434; 
+                cursor: pointer;
+            }
+
+            .Reset:hover {
+                filter: brightness(200%);
+            }
+
+            .DTS {
+                position: absolute;
+                display: flex;
+                align-items: center;
+                top: 550px;
+                left: 50px;
+                height: 30px;
+                font-size: 18px;
+                color: #646464;
+
+                .dsc {
+                    margin-left: 15px;
+                }
+
+                label {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-left: 10px;
+                    background-color: black;
+                    cursor: pointer;
+                }
+
+                input[type=checkbox] {
+                    display: none;
+                }
+                input[type=checkbox] + span{
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    // border-radius: 50%;
+                    // background: url('image/lighting/Check.png') no-repeat center;
+                    background: transparent;
+                    border: 1px solid rgb(100,100,100);
+                }
+        
+                input[type=checkbox]:checked + span {
+                    // background: url('image/lighting/Checked.png') no-repeat center;
+                    border: 1px solid rgb(100,100,100);
+                    background: rgb(190,190,190);
+                }
+            }
+
             .VolumeArrow {
                 position: absolute;
                 display: flex;
@@ -232,13 +293,19 @@
                         #MicVolumeBounds::-webkit-slider-thumb {
                             -webkit-appearance: none;
                             appearance: none;
-                            // width: 1vw;
-                            // height: 1vw;
-                            width: 20px;
-                            height: 20px;
-                            border-radius: 50%;
+                            // width: 20px;
+                            // height: 20px;
+                            // border-radius: 50%;
                             // background: red;
-                            background: url('./image/headset/barball.png') no-repeat center;
+                            // background: url('./image/headset/barball.png') no-repeat center;
+                            width: 8px;
+                            height: 23px;
+                            background: white;
+                            border-radius: 0%;
+                            width: 8px;
+                            height: 23px;
+                            background: white;
+                            border-radius: 0%;
                             cursor: pointer;
                                 content:counter(50)'%';
                         }
@@ -246,13 +313,15 @@
                         #MicSideTone::-webkit-slider-thumb {
                             -webkit-appearance: none;
                             appearance: none;
-                            // width: 1vw;
-                            // height: 1vw;
-                            width: 20px;
-                            height: 20px;
-                            border-radius: 50%;
+                            // width: 20px;
+                            // height: 20px;
+                            // border-radius: 50%;
                             // background: red;
-                            background: url('./image/headset/barball.png') no-repeat center;
+                            // background: url('./image/headset/barball.png') no-repeat center;
+                            width: 8px;
+                            height: 23px;
+                            background: white;
+                            border-radius: 0%;
                             cursor: pointer;
                                 content:counter(50)'%';
                         }
@@ -373,6 +442,28 @@
                     background-color: #282828;
                     color: #646464;
                     cursor: pointer;
+                }
+
+                .Save:hover {
+                    filter: brightness(200%);
+                }
+
+                .Spectrun-Save {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: relative;
+                    left: 430px;
+                    top: 50px;
+                    width: 80px;
+                    height: 25px;
+                    background-color: #282828;
+                    color: #646464;
+                    cursor: pointer;
+                }
+
+                .Spectrun-Save:hover {
+                    filter: brightness(200%);
                 }
 
                 .app-ColorPicker {
@@ -665,10 +756,11 @@
                             appearance: none;
                             // width: 1vw;
                             // height: 1vw;
-                            width: 12px;
-                            height: 12px;
-                            border-radius: 50%;
-                            background: url('./image/headset/barball.png') no-repeat center;
+                            width: 13px;
+                            height: 15px;
+                            // border-radius: 50%;
+                            transform: rotate(90deg);
+                            background: url('./image/headset/slider-icon.png') no-repeat center;
                             cursor: pointer;
                                 content:counter(50)'%';
                         }

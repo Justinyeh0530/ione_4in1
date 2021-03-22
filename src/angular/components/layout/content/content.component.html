@@ -35,6 +35,16 @@
         <!--------Headset surround---------->
         <div class="SurroundSound" *ngIf="functionService.headsetleftfunc == 3">
             <!-- <img src="./image/headset/SurroundSound.png"> -->
+            <div class="Reset" (click)="headsetFunctionService.SurroundSoundReset()">{{'RESET'|translate}}</div>
+            <div class="DTS">
+                <label style="margin-right:5px;">
+                    <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnableDTSValue == 1" (click)="headsetFunctionService.EnableDTS()">
+                    <span></span>
+                </label>
+                <div class="dsc">
+                    {{'EnableDTS'|translate}}
+                </div>
+            </div>
             <div class="VolumeArrow" style="left:550px; top:335px;">
                 <div class="VolumeArrow-img" (click)="headsetFunctionService.VolumeArrowLeftClick('VolumeL')">
                     <img src="./image/headset/left.png">
@@ -191,11 +201,32 @@
         <div class="block" *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 1" style="background: url('./image/spectrumSetting2.png');">
             <div class="block-item" style="width:1022px;">
                 <div class="item-block">
-                    <div class="item-text" style="top:50px; left:50px;">{{'Presets'|translate}}</div>
-                    <app-commonselect style="position:absolute; top:50px; left:130px; width:160px; height:23px; border-color:rgb(100,100,100); border:1px solid;" [componentId]="'Headset-Equlizer'" [inputoption]="headsetFunctionService.MusicPreset" [(ngModel)]="headsetFunctionService.equlizereDataSelect" (ngModelChange)="EqulizereSelect()"></app-commonselect>
+                    <div class="item-text" style="top:20px; left:50px;">{{'Presets'|translate}}</div>
+                    <app-commonselect style="position:absolute; top:20px; left:130px; width:165px; height:23px; border-color:rgb(100,100,100); border:1px solid; z-index:10;" [componentId]="'Headset-Equlizer'" [inputoption]="headsetFunctionService.MusicPreset" [(ngModel)]="headsetFunctionService.equlizereDataSelect" (ngModelChange)="EqulizereSelect()"></app-commonselect>
+                    <div style="position:absolute; left:145px; top:50px; font-size:14px;"> +10dB</div>
+                    <div style="position:absolute; left:158px; top:165px; font-size:14px;"> 0dB</div>
+                    <div style="position:absolute; left:145px; top:275px; font-size:14px;"> -10dB</div>
                 </div>
-                <div class="block-select" style="position: absolute; width:700px; height:85%; left:310px; top:0px">
+                <div class="block-select" style="position: absolute; width:825px; height:85%; left:200px; top:0px">
                     <div class="block-select-item" style="position: absolute; left:0px; top:15px;">
+                        <div class="slider-bar">
+                            <img src="./image/headset/Equlizer-bar.png">
+                            <div class="slider-text"> 31 </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input id="value31" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value31" (mouseup)="EQChange('value31')" (ngModelChange)="EQmove('value31')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                    <div class="block-select-item" style="position: absolute; left:80px; top:15px;">
+                        <div class="slider-bar">
+                            <img src="./image/headset/Equlizer-bar.png">
+                            <div class="slider-text"> 62 </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input id="value62" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value62" (mouseup)="EQChange('value62')" (ngModelChange)="EQmove('value62')" onkeydown="event.preventDefault()">
+                        </div>
+                    </div>
+                    <div class="block-select-item" style="position: absolute; left:160px; top:15px;">
                         <div class="slider-bar">
                             <img src="./image/headset/Equlizer-bar.png">
                             <div class="slider-text"> 125 </div>
@@ -204,7 +235,7 @@
                             <input id="value125" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value125" (mouseup)="EQChange('value125')" (ngModelChange)="EQmove('value125')" onkeydown="event.preventDefault()">
                         </div>
                     </div>
-                    <div class="block-select-item" style="position: absolute; left:80px; top:15px;">
+                    <div class="block-select-item" style="position: absolute; left:240px; top:15px;">
                         <div class="slider-bar">
                             <img src="./image/headset/Equlizer-bar.png">
                             <div class="slider-text"> 250 </div>
@@ -213,7 +244,7 @@
                             <input id="value250" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value250" (mouseup)="EQChange('value250')" (ngModelChange)="EQmove('value250')" onkeydown="event.preventDefault()">
                         </div>
                     </div>
-                    <div class="block-select-item" style="position: absolute; left:160px; top:15px;">
+                    <div class="block-select-item" style="position: absolute; left:320px; top:15px;">
                         <div class="slider-bar">
                             <img src="./image/headset/Equlizer-bar.png">
                             <div class="slider-text"> 500 </div>
@@ -222,7 +253,7 @@
                             <input id="value500" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value500" (mouseup)="EQChange('value500')" (ngModelChange)="EQmove('value500')" onkeydown="event.preventDefault()">
                         </div>
                     </div>
-                    <div class="block-select-item" style="position: absolute; left:240px; top:15px;">
+                    <div class="block-select-item" style="position: absolute; left:400px; top:15px;">
                         <div class="slider-bar">
                             <img src="./image/headset/Equlizer-bar.png">
                             <div class="slider-text"> 1K </div>
@@ -231,7 +262,7 @@
                             <input id="value1K" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value1K" (mouseup)="EQChange('value1K')" (ngModelChange)="EQmove('value1K')" onkeydown="event.preventDefault()">
                         </div>
                     </div>
-                    <div class="block-select-item" style="position: absolute; left:320px; top:15px;">
+                    <div class="block-select-item" style="position: absolute; left:480px; top:15px;">
                         <div class="slider-bar">
                             <img src="./image/headset/Equlizer-bar.png">
                             <div class="slider-text"> 2K </div>
@@ -240,7 +271,7 @@
                             <input id="value2K" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value2K" (mouseup)="EQChange('value2K')" (ngModelChange)="EQmove('value2K')" onkeydown="event.preventDefault()">
                         </div>
                     </div>
-                    <div class="block-select-item" style="position: absolute; left:400px; top:15px;">
+                    <div class="block-select-item" style="position: absolute; left:560px; top:15px;">
                         <div class="slider-bar">
                             <img src="./image/headset/Equlizer-bar.png">
                             <div class="slider-text"> 4K </div>
@@ -249,7 +280,7 @@
                             <input id="value4K" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value4K" (mouseup)="EQChange('value4K')" (ngModelChange)="EQmove('value4K')" onkeydown="event.preventDefault()">
                         </div>
                     </div>
-                    <div class="block-select-item" style="position: absolute; left:480px; top:15px;">
+                    <div class="block-select-item" style="position: absolute; left:640px; top:15px;">
                         <div class="slider-bar">
                             <img src="./image/headset/Equlizer-bar.png">
                             <div class="slider-text"> 8K </div>
@@ -258,7 +289,7 @@
                             <input id="value8K" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.value8K" (mouseup)="EQChange('value8K')" (ngModelChange)="EQmove('value8K')" onkeydown="event.preventDefault()">
                         </div>
                     </div>
-                    <div class="block-select-item" style="position: absolute; left:560px; top:15px;">
+                    <div class="block-select-item" style="position: absolute; left:720px; top:15px;">
                         <div class="slider-bar">
                             <img src="./image/headset/Equlizer-bar.png">
                             <div class="slider-text"> 16K </div>
@@ -281,16 +312,16 @@
                     <div class="item-block-slider">
                         <input id="MicVolume" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicVolumeValueTemp" (mouseup)="MicChange('MicVolumeValueTemp')" (ngModelChange)="SliderMove('MicVolume')" onkeydown="event.preventDefault()">
                     </div>
-                    <div class="item-block-slider" style="top:242px; left:30px; width:422px;">
-                        <input id="MicVolumeBounds" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicVolumeBoundsValueTemp" (mouseup)="MicChange('MicVolumeBoundsValueTemp')" (ngModelChange)="SliderMove('MicVolumeBounds')" onkeydown="event.preventDefault()">
+                    <div class="item-block-slider" style="top:247px; left:41px; width:401px;">
+                        <input id="MicVolumeBounds" type="range" style="height:5px;" min="0" max="10" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicVolumeBoundsValueTemp" (mouseup)="MicChange('MicVolumeBoundsValueTemp')" (ngModelChange)="SliderMove('MicVolumeBounds')" onkeydown="event.preventDefault()">
                     </div>
                 </div>
             </div>
             <div class="block-item" style="width:535px">
                 <div class="item-title">{{'Mic Side Tone'|translate}}</div>
                 <div class="item-block" style="background:url('./image/headset/MicSideTone.png') no-repeat center;">
-                    <div class="item-block-slider" style="top:252px; left:541px; width:422px;">
-                        <input id="MicSideTone" type="range" min="0" max="100" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicSideToneValueTemp" (mouseup)="MicChange('MicSideToneValueTemp')" (ngModelChange)="SliderMove('MicSideTone')" onkeydown="event.preventDefault()">
+                    <div class="item-block-slider" style="top:255px; left:548px; width:406px;">
+                        <input id="MicSideTone" type="range" style="height:5px;" min="0" max="3" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicSideToneValueTemp" (mouseup)="MicChange('MicSideToneValueTemp')" (ngModelChange)="SliderMove('MicSideTone')" onkeydown="event.preventDefault()">
                     </div>
                 </div>
             </div>
@@ -433,7 +464,7 @@
                 <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="true" (ColorChange)="headsetFunctionService.ColorChange($event)" (DynamicColorChange)="headsetFunctionService.DynamicColorChange($event)"></app-ColorPicker>
             </div>
             <div class="block-item" style="width:535px">
-                <div class="Save" (click)="headsetFunctionService.SpectrumSave()">{{'SAVE'|translate}}</div>
+                <div class="Spectrun-Save" (click)="headsetFunctionService.SpectrumSave()">{{'SAVE'|translate}}</div>
             </div>
         </div>
         <!-------------Headset Spectrum Area1 Breathing && Flash(Rain)------------------->
@@ -529,7 +560,7 @@
                 <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="true" (ColorChange)="headsetFunctionService.ColorChange($event)" (DynamicColorChange)="headsetFunctionService.DynamicColorChange($event)"></app-ColorPicker>
             </div>
             <div class="block-item" style="width:535px">
-                <div class="Save" style="position:absolute; left:1460px; top:20px;" (click)="headsetFunctionService.SpectrumSave()">{{'SAVE'|translate}}</div>
+                <div class="Spectrun-Save" style="position:absolute; left:1460px; top:20px;" (click)="headsetFunctionService.SpectrumSave()">{{'SAVE'|translate}}</div>
             </div>
         </div>
         <!-------------Headset Spectrum Area1 Radar------------------->
@@ -633,7 +664,7 @@
                     </div>
                 </div>
                 <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="true" (ColorChange)="headsetFunctionService.ColorChange($event)" (DynamicColorChange)="headsetFunctionService.DynamicColorChange($event)" style="left:1215px;"></app-ColorPicker>
-                <div class="Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
+                <div class="Spectrun-Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
             </div>
         </div>
         <!-------------Headset Spectrum Area1 Wave------------------->
@@ -722,7 +753,7 @@
                     </div>
                 </div>
                 <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="true" (ColorChange)="headsetFunctionService.ColorChange($event)" (DynamicColorChange)="headsetFunctionService.DynamicColorChange($event)" style="left:1215px;"></app-ColorPicker>
-                <div class="Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
+                <div class="Spectrun-Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
             </div>
         </div>
         <!-------------Headset Spectrum Area1 Color shift------------------->
@@ -828,7 +859,7 @@
                     </div>
                 </div>
                 <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="true" (ColorChange)="headsetFunctionService.ColorChange($event)" (DynamicColorChange)="headsetFunctionService.DynamicColorChange($event)" style="left:1215px;"></app-ColorPicker>
-                <div class="Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
+                <div class="Spectrun-Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
             </div>
         </div>
         <!-------------Headset Spectrum Area1 Spiral Rainbow------------------->
@@ -930,7 +961,7 @@
                     </div>
                 </div>
                 <app-ColorPicker class="app-ColorPicker" [Brightnessflag]="true" (ColorChange)="headsetFunctionService.ColorChange($event)" (DynamicColorChange)="headsetFunctionService.DynamicColorChange($event)" style="left:1215px;"></app-ColorPicker>
-                <div class="Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
+                <div class="Spectrun-Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
             </div>
         </div>
         <!-------------Headset Spectrum Area1 Led OFF------------------->
@@ -939,7 +970,7 @@
             </div>
             <div class="block-item" style="display:flex; flex-direction: column; width:535px">
             <div class="block-item" style="width:535px">
-                <div class="Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
+                <div class="Spectrun-Save" (click)="headsetFunctionService.SpectrumSave()" style="position:absolute; left:1460px; top:20px;">{{'SAVE'|translate}}</div>
             </div>
         </div>
     </div>

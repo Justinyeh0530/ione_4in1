@@ -57,6 +57,8 @@ export class HeadsetFunctionService{
     VolumeFR:number = 10;
     VolumeSL:number = 10;
     VolumeSR:number = 10;
+    value31:number = 50;
+    value62:number = 50;
     value125:number = 50;
     value250:number = 50;
     value500:number = 50;
@@ -98,6 +100,7 @@ export class HeadsetFunctionService{
     AlternationFlag:number = 0;
     CurrentLightingTempColor:any;
     DurationValue:number = 2;
+    EnableDTSValue:number = 0;
 
     ColorSectionArray:any = [
         {value:0, left:0, color:[255, 0, 0, 1]},
@@ -173,6 +176,8 @@ export class HeadsetFunctionService{
             this.HeadphoneEQValue = this.HeadsetProfileData[this.profileindex].dashboard.HeadphoneEQValue;
 
             //init Equlizer
+            this.value31 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value31;
+            this.value62 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value62;
             this.value125 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value125;
             this.value250 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value250;
             this.value500 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value500;
@@ -198,6 +203,7 @@ export class HeadsetFunctionService{
             this.VolumeSR = this.HeadsetProfileData[this.profileindex].surroundsound.VolumeSR;
             this.EnvironmentValue = this.HeadsetProfileData[this.profileindex].surroundsound.EnvironmentValue;
             this.StereoValue = this.HeadsetProfileData[this.profileindex].surroundsound.StereoValue;
+            this.EnableDTSValue = this.HeadsetProfileData[this.profileindex].surroundsound.EnableDTSValue;
             
             //init Array
             this.ResetArrayIndex();
@@ -235,6 +241,7 @@ export class HeadsetFunctionService{
      * @param flag 0:Dashboard 1:Equlizer 2:Micro Phone 3:Surround Sound
      */
     HeadsetFuncSave(flag) {
+        this.commonService.delayDialog('main-app',500)
         if(flag == 0)
             this.SetHeadsetDashboard();
         else if(flag == 1)
@@ -280,6 +287,8 @@ export class HeadsetFunctionService{
             SN: this.deviceService.currentDevice.SN,
             Func: funcVar.FuncName.ImportProfile,
             param: {
+                value31: this.value31,
+                value62: this.value62,
                 value125: this.value125,
                 value250: this.value250,
                 value500: this.value500,
@@ -290,6 +299,8 @@ export class HeadsetFunctionService{
                 value16K: this.value16K,
             }
         }
+        this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value31 = this.value31;
+        this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value62 = this.value62;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value125 = this.value125;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value250 = this.value250;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value500 = this.value500;
@@ -337,7 +348,8 @@ export class HeadsetFunctionService{
                 VolumeFL: this.VolumeFL,
                 VolumeFR: this.VolumeFR,
                 VolumeSL: this.VolumeSL,
-                VolumeSR: this.VolumeSR
+                VolumeSR: this.VolumeSR,
+                EnableDTSValue: this.EnableDTSValue
             }
         }
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].surroundsound.VolumeL = this.VolumeL;
@@ -350,6 +362,7 @@ export class HeadsetFunctionService{
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].surroundsound.VolumeSR = this.VolumeSR;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].surroundsound.EnvironmentValue = this.EnvironmentValue;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].surroundsound.StereoValue = this.StereoValue;
+        this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].surroundsound.EnableDTSValue = this.EnableDTSValue;
     }
 
     /**
@@ -439,6 +452,8 @@ export class HeadsetFunctionService{
     }
 
     EqulizereSelect() {
+        this.value31 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value31;
+        this.value62 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value62;
         this.value125 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value125;
         this.value250 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value250;
         this.value500 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value500;
@@ -449,6 +464,8 @@ export class HeadsetFunctionService{
         this.value16K = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value16K;
         let obj = {
             equlizereDataSelect: this.equlizereDataSelect,
+            value31: this.value31,
+            value62: this.value62,
             value125: this.value125,
             value250: this.value250,
             value500: this.value500,
@@ -790,6 +807,8 @@ export class HeadsetFunctionService{
         this.StepEqulizerArray = [];
         let obj = {
             equlizereDataSelect: this.equlizereDataSelect,
+            value31: this.value31,
+            value62: this.value62,
             value125: this.value125,
             value250: this.value250,
             value500: this.value500,
@@ -801,5 +820,16 @@ export class HeadsetFunctionService{
         }
         this.TempEqulizerArray = _.cloneDeep(obj)
         this.StepEqulizerArray.push(obj);
+    }
+
+    SurroundSoundReset() {
+
+    }
+
+    EnableDTS() {
+        if(this.EnableDTSValue == 0)
+            this.EnableDTSValue = 1;
+        else
+            this.EnableDTSValue = 0;
     }
 }

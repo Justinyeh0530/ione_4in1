@@ -68,6 +68,8 @@ export class ContentComponent implements OnInit {
         })
 
         this.EQsubscription = this.headsetFunctionService.refreshEQEvent.subscribe((data) => {
+            this.EQmove('value31');
+            this.EQmove('value62');
             this.EQmove('value125');
             this.EQmove('value250');
             this.EQmove('value500');
@@ -82,6 +84,8 @@ export class ContentComponent implements OnInit {
     initData() {
         if(this.deviceService.currentDevice != undefined && this.deviceService.currentDevice.SN == "0x195D0xA005" && this.functionService.topbarfunc == 1 && this.functionService.headsetleftfunc == 1) {
             this.initEQ();
+        } else if(this.deviceService.currentDevice != undefined && this.deviceService.currentDevice.SN == "0x195D0xA005" && this.functionService.topbarfunc == 1 && this.functionService.headsetleftfunc == 2) {
+            this.initMic();
         }
     }
 
@@ -96,6 +100,8 @@ export class ContentComponent implements OnInit {
 
     initEQ() {
         setTimeout(() => {
+            this.EQmove('value31');
+            this.EQmove('value62');
             this.EQmove('value125');
             this.EQmove('value250');
             this.EQmove('value500');
@@ -104,6 +110,13 @@ export class ContentComponent implements OnInit {
             this.EQmove('value4K');
             this.EQmove('value8K');
             this.EQmove('value16K');
+        });
+    }
+
+    initMic() {
+        setTimeout(() => {
+            this.SliderMove('MicVolumeBounds');
+            this.SliderMove('MicSideTone');
         });
     }
 
@@ -160,13 +173,16 @@ export class ContentComponent implements OnInit {
                 range = 432;
                 break;
             case 'MicVolumeBounds':
+                range = 401;
+                break;
             case 'MicSideTone':
-                range = 422;
+                range = 406;
                 break;
         }
-        if(document.getElementById(id)) {
-            document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,#FDBA3B 0%,#FDBA3B ' + (100 / range * this.headsetFunctionService[id+'ValueTemp']) + '%,#313131 ' + (100 / range * this.headsetFunctionService[id+'ValueTemp']) + '%, #313131 100%)'
-        }
+        if(id == 'MicVolumeBounds' && document.getElementById(id)) 
+            document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,#FFFFFF 0%,#FFFFFF ' + this.headsetFunctionService[id+'ValueTemp'] * 10 + '%,#313131 ' + this.headsetFunctionService[id+'ValueTemp'] * 10 + '%, #313131 100%)'
+        else if(id== 'MicSideTone' && document.getElementById(id))
+            document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,#FFFFFF 0%,#FFFFFF ' + this.headsetFunctionService[id+'ValueTemp'] * 33 + '%,#313131 ' + this.headsetFunctionService[id+'ValueTemp'] * 33 + '%, #313131 100%)'
     }
 
     MicChange(param) {
