@@ -234,12 +234,16 @@ export class HeadsetFunctionService{
         },500);
         if(this.headsetLightEffectSelect.value != 0 && this.headsetLightEffectSelect.value != 3) {
             setTimeout(() =>{
-                document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
-                document.getElementById(`Alternation-color2`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[1][0]},${this.CurrentLightingTempColor[1][1]},${this.CurrentLightingTempColor[1][2]})`;
+                if(document.getElementById(`Alternation-color1`)) {
+                    document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
+                    document.getElementById(`Alternation-color2`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[1][0]},${this.CurrentLightingTempColor[1][1]},${this.CurrentLightingTempColor[1][2]})`;
+                }
             })
         } else if(this.headsetLightEffectSelect.value == 0) {
             setTimeout(() =>{
-                document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
+                if(document.getElementById(`Alternation-color1`)) {
+                    document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
+                }
             })
         }
     }
@@ -425,12 +429,16 @@ export class HeadsetFunctionService{
 
             if(this.headsetLightEffectSelect.value != 0 && this.headsetLightEffectSelect.value != 3) {
                 setTimeout(() =>{
-                    document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
-                    document.getElementById(`Alternation-color2`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[1][0]},${this.CurrentLightingTempColor[1][1]},${this.CurrentLightingTempColor[1][2]})`;
+                    if(document.getElementById(`Alternation-color1`)) {
+                        document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
+                        document.getElementById(`Alternation-color2`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[1][0]},${this.CurrentLightingTempColor[1][1]},${this.CurrentLightingTempColor[1][2]})`;
+                    }
                 })
             } else if(this.headsetLightEffectSelect.value == 0) {
                 setTimeout(() =>{
-                    document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
+                    if(document.getElementById(`Alternation-color1`)) {
+                        document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
+                    }
                 })
             }
         }
