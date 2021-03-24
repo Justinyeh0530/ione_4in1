@@ -287,5 +287,4 @@ export class ContentComponent implements OnInit {
 
     ColorShiftStartClick() {}
     ColorShiftStopClick() {}
-    DirectionClick() {}
 }

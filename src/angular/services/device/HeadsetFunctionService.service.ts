@@ -33,7 +33,7 @@ export class HeadsetFunctionService{
         { name: 'Wave', value: 3, translate: 'Wave'},
         { name: 'Color Shift', value: 4, translate: 'Color Shift'},
         { name: 'Spiral Rainbow', value: 5, translate: 'Spiral Rainbow'},
-        { name: 'Rain', value: 6, translate: 'Rain'},
+        { name: 'Flash', value: 6, translate: 'Flash'},
         { name: 'Led Off', value: 7, translate: 'Led Off'},
     ]
     HeadsetLightLogoEffectData = [
@@ -141,6 +141,7 @@ export class HeadsetFunctionService{
     TempMicophoneArray:any = {};
     StepEqulizerArray:any = [];
     TempEqulizerArray:any = {};
+    Templighting:any = [];
 
     constructor(
         private deviceService: DeviceService,
@@ -204,6 +205,9 @@ export class HeadsetFunctionService{
             this.EnvironmentValue = this.HeadsetProfileData[this.profileindex].surroundsound.EnvironmentValue;
             this.StereoValue = this.HeadsetProfileData[this.profileindex].surroundsound.StereoValue;
             this.EnableDTSValue = this.HeadsetProfileData[this.profileindex].surroundsound.EnableDTSValue;
+
+            //init templighting
+            this.Templighting = this.HeadsetProfileData[this.profileindex].templighting;
             
             //init Array
             this.ResetArrayIndex();
@@ -232,6 +236,10 @@ export class HeadsetFunctionService{
             setTimeout(() =>{
                 document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
                 document.getElementById(`Alternation-color2`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[1][0]},${this.CurrentLightingTempColor[1][1]},${this.CurrentLightingTempColor[1][2]})`;
+            })
+        } else if(this.headsetLightEffectSelect.value == 0) {
+            setTimeout(() =>{
+                document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
             })
         }
     }
@@ -398,6 +406,39 @@ export class HeadsetFunctionService{
      */
     HeadsetLightEffectSelect() {
         this.ResetLightingEffectDefault();
+
+        let index = this.Templighting.findIndex(x => x.value == this.headsetLightEffectSelect.value)
+        if(index != -1) {
+            this.BrightnessValue = this.Templighting[index].BrightnessValue;
+            this.ColorSectionArray = this.Templighting[index].ColorSectionArray;
+            let DirectionIndex = this.DirectionList.findIndex(x => x.value == this.Templighting[index].DirectionValue)
+            setTimeout(() => {
+                if(DirectionIndex != -1)
+                    this.DirectionSelect = this.DirectionList[DirectionIndex];
+                else
+                    this.DirectionSelect = this.DirectionList[0];
+            },500);
+            this.DurationValue = this.Templighting[index].DurationValue;
+            this.SpectrumValue = this.Templighting[index].SpectrumValue;
+            this.SpeedValue = this.Templighting[index].SpeedValue;
+            this.CurrentLightingTempColor = this.Templighting[index].color;
+
+            if(this.headsetLightEffectSelect.value != 0 && this.headsetLightEffectSelect.value != 3) {
+                setTimeout(() =>{
+                    document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
+                    document.getElementById(`Alternation-color2`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[1][0]},${this.CurrentLightingTempColor[1][1]},${this.CurrentLightingTempColor[1][2]})`;
+                })
+            } else if(this.headsetLightEffectSelect.value == 0) {
+                setTimeout(() =>{
+                    document.getElementById(`Alternation-color1`).style.backgroundColor = `rgb(${this.CurrentLightingTempColor[0][0]},${this.CurrentLightingTempColor[0][1]},${this.CurrentLightingTempColor[0][2]})`;
+                })
+            }
+        }
+    }
+
+    
+    DirectionClick() {
+        this.updateTemplightData();
     }
 
     /**
@@ -437,10 +478,13 @@ export class HeadsetFunctionService{
         if(!this.SpectrumValue) {
             if(document.getElementById(`Alternation-color${this.AlternationFlag}`))
                 document.getElementById(`Alternation-color${this.AlternationFlag}`).style.backgroundColor = `rgb(${this.ColorPickerColor.R},${this.ColorPickerColor.G},${this.ColorPickerColor.B})`;
-            this.CurrentLightingTempColor[this.AlternationFlag - 1][0] = this.ColorPickerColor.R;
-            this.CurrentLightingTempColor[this.AlternationFlag - 1][1] = this.ColorPickerColor.G;
-            this.CurrentLightingTempColor[this.AlternationFlag - 1][2] = this.ColorPickerColor.B;
+            if(this.AlternationFlag !- 0) {
+                this.CurrentLightingTempColor[this.AlternationFlag - 1][0] = this.ColorPickerColor.R;
+                this.CurrentLightingTempColor[this.AlternationFlag - 1][1] = this.ColorPickerColor.G;
+                this.CurrentLightingTempColor[this.AlternationFlag - 1][2] = this.ColorPickerColor.B;
+            }
         }
+        this.updateTemplightData();
     }
 
     SetLightingArea(flag) {
@@ -496,6 +540,7 @@ export class HeadsetFunctionService{
             this.ColorPickerColor.G = RGB.g;
             this.ColorPickerColor.B = RGB.b;
         }
+        this.updateTemplightData();
     }
 
     /**
@@ -547,14 +592,17 @@ export class HeadsetFunctionService{
             let index = this.ColorSectionArray.findIndex(x => x.value == this.dotindex);
             if(index != -1) {
                 this.ColorSectionArray[index].color = [ this.ColorPickerColor.R,  this.ColorPickerColor.G,  this.ColorPickerColor.B,  this.ColorPickerColor.A/100];
-                console.log(3333333,this.ColorSectionArray[index].color)
                 this.updateColorSection.emit(this.ColorSectionArray);
             }
         }
+        this.updateTemplightData();
     }
 
     SpectrumSave() {
-        document.getElementById('color-item2').style.backgroundColor = document.getElementById('color-item1').style.backgroundColor;
+        this.commonService.delayDialog('main-app',500);
+        if(document.getElementById('color-item2'))
+            document.getElementById('color-item2').style.backgroundColor = document.getElementById('color-item1').style.backgroundColor;
+
         this.HeadsetProfileData[this.profileindex].lighting.value = this.headsetLightEffectSelect.value;
         this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue = this.BrightnessValue;
         this.HeadsetProfileData[this.profileindex].lighting.SpeedValue = this.SpeedValue;
@@ -564,8 +612,9 @@ export class HeadsetFunctionService{
         this.HeadsetProfileData[this.profileindex].lighting.DurationValue = this.DurationValue;
         this.HeadsetProfileData[this.profileindex].lighting.StartValue = this.ColorShiftStartSelect.value;
         this.HeadsetProfileData[this.profileindex].lighting.StopValue = this.ColorShiftStopSelect.value;
-        this.HeadsetProfileData[this.profileindex].lighting.DirectionValue = this.DirectionSelect.value
-        this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+        this.HeadsetProfileData[this.profileindex].lighting.DirectionValue = this.DirectionSelect.value;
+        //更新templighting資料
+        this.updateTemplightData();
 
         //通知後端 todo
     }
@@ -579,16 +628,19 @@ export class HeadsetFunctionService{
         //         this.HeadsetProfileData[this.profileindex].lighting.SpeedValue = this.SpeedValue;
         //         break;
         // }
+        this.updateTemplightData();
     }
 
     SpectrumClick() {
         this.SpectrumValue = !this.SpectrumValue
+        this.updateTemplightData()
     }
 
     AlternationColorClick(id) {
         this.AlternationFlag = id
         document.getElementById('color-item1').style.backgroundColor = document.getElementById(`Alternation-color${id}`).style.backgroundColor
         document.getElementById('color-item2').style.backgroundColor = document.getElementById(`Alternation-color${id}`).style.backgroundColor
+        this.updateTemplightData();
     }
 
     ColorSectionChange(event) {
@@ -599,6 +651,8 @@ export class HeadsetFunctionService{
     addColor() {
         let value = Math.max.apply(Math, this.ColorSectionArray.map(function(o) {return o.value}))
         this.addColorSection.emit(value);
+        this.updateTemplightData();
+        // this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
     }
 
     removeColor() {
@@ -609,8 +663,9 @@ export class HeadsetFunctionService{
                 let data = this.dotindex;
                 this.removeColorSection.emit(data);
                 this.dotindex = -1;
-                this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
-            } 
+                this.updateTemplightData();
+                // this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+            }
         }
     }
 
@@ -822,6 +877,23 @@ export class HeadsetFunctionService{
         this.StepEqulizerArray.push(obj);
     }
 
+    updateTemplightData() {
+        let lightIndex = this.Templighting.findIndex(x => x.value == this.headsetLightEffectSelect.value)
+        if(lightIndex != -1) {
+            this.Templighting[lightIndex].BrightnessValue = this.BrightnessValue;
+            this.Templighting[lightIndex].SpeedValue = this.SpeedValue;
+            this.Templighting[lightIndex].SpectrumValue = this.SpectrumValue;
+            this.Templighting[lightIndex].color = this.CurrentLightingTempColor;
+            this.Templighting[lightIndex].ColorSectionArray = this.ColorSectionArray;
+            this.Templighting[lightIndex].DurationValue = this.DurationValue;
+            this.Templighting[lightIndex].StartValue = this.ColorShiftStartSelect.value;
+            this.Templighting[lightIndex].StopValue = this.ColorShiftStopSelect.value;
+            this.Templighting[lightIndex].DirectionValue = this.DirectionSelect.value
+            this.HeadsetProfileData[this.profileindex].templighting = this.Templighting
+        }
+        this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+    }
+
     SurroundSoundReset() {
 
     }
@@ -831,5 +903,13 @@ export class HeadsetFunctionService{
             this.EnableDTSValue = 1;
         else
             this.EnableDTSValue = 0;
+    }
+
+    /**
+     * Reset Function
+     * @param flag  1.Equlizer 2.Mic Volume 3.Mic Side Tone
+     */
+    reset(flag) {
+
     }
 }

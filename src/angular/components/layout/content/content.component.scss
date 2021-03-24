@@ -221,6 +221,21 @@
                 width: 485px;
                 height: 355px;
 
+                .reset {
+                    position: absolute;
+                    top: 20px;
+                    left: 970px;
+                    width: 29px;
+                    height: 26px;
+                    background-image: url('./image/reset.png');
+                    z-index:30;
+                    cursor: pointer;
+                }
+
+                .reset:hover {
+                    filter: brightness(200%);
+                }
+
                 .item-title {
                     display: flex;
                     align-items: center;
@@ -452,9 +467,9 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    position: relative;
-                    left: 430px;
-                    top: 50px;
+                    position: absolute;
+                    left: 1465px;
+                    top: 20px;
                     width: 80px;
                     height: 25px;
                     background-color: #282828;

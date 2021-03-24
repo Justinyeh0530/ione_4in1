@@ -40,6 +40,7 @@
     "Color Shift": "Color Shift",
     "Spiral Rainbow": "Spiral Rainbow",
     "Rain": "Rain",
+    "Flash": "Flash",
     "Led Off": "Led Off",
     "ConicBand": "ConicBand",
     "Spiral": "Spiral",
@@ -89,5 +90,6 @@
     "Clockwise": "Clockwise",
     "CounterClockwise": "Counter-Clockwise",
     "RESET": "RESET",
-    "EnableDTS": "Enable DTS surround sound"
+    "EnableDTS": "Enable DTS surround sound",
+    "SingleColor": "Single Color"
 }
