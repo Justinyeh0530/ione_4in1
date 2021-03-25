@@ -26,7 +26,7 @@ gulp.task('watch',['install'], function () {
     // gulp.watch('./src/angular/**/*.ts', ['reTs']);
     // gulp.watch('./src/angular/**/*.html', ['html']);
     // gulp.watch('./src/angular/**/*.scss', ['css']);
-    if (packagejson.BuildCode == 1)
+    if (packagejson.BuildCode == 1 && isWindows)
        gulp.watch(['./src/angular/**/*.ts', './src/angular/**/*.html', './src/angular/**/*.scss'], ['html']);
 });
 
