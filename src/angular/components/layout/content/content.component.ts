@@ -39,6 +39,7 @@ export class ContentComponent implements OnInit {
     Minimize: any;
     WindowSizeFlag: any = false;
     Headsetsubscription:any;
+    Micsubscription:any;
 
     SleepTimeData: any = [
         { name: "5minutes", value: 5, translate: '5minutes' },
@@ -78,6 +79,9 @@ export class ContentComponent implements OnInit {
             this.EQmove('value4K');
             this.EQmove('value8K');
             this.EQmove('value16K');
+        });
+        this.Micsubscription = this.headsetFunctionService.refreshMicEvent.subscribe((data) => {
+            this.initMic();
         });
     }
 

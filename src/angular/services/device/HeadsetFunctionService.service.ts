@@ -14,6 +14,7 @@ export class HeadsetFunctionService{
     removeColorSection: EventEmitter<number> = new EventEmitter();
     addColorSection: EventEmitter<number> = new EventEmitter();
     refreshEQEvent: EventEmitter<number> = new EventEmitter();
+    refreshMicEvent: EventEmitter<number> = new EventEmitter();
     MusicPreset = [
         { name: "Music", value:0, translate: 'Music'},
         { name: 'Movie', value: 1, translate: 'Movie'},
@@ -918,6 +919,37 @@ export class HeadsetFunctionService{
      * @param flag  1.Equlizer 2.Mic Volume 3.Mic Side Tone
      */
     reset(flag) {
-
+        let mic;
+        let defaultData = this.deviceService.currentDevice.defaultProfile[0];
+        switch(flag) {
+            case 1:
+                let equlizer = defaultData.equlizer;
+                let index = equlizer.findIndex(x => x.value == this.equlizereDataSelect.value)
+                if(index != -1) {
+                    this.value31 = equlizer[index].value31;
+                    this.value62 = equlizer[index].value62;
+                    this.value125 = equlizer[index].value125;
+                    this.value250 = equlizer[index].value250;
+                    this.value500 = equlizer[index].value500;
+                    this.value1K = equlizer[index].value1K;
+                    this.value2K = equlizer[index].value2K;
+                    this.value4K = equlizer[index].value4K;
+                    this.value8K = equlizer[index].value8K;
+                    this.value16K = equlizer[index].value16K;
+                    this.refreshEQEvent.emit();
+                }
+                break;
+            case 2:
+                mic = defaultData.microphone;
+                this.MicVolumeValueTemp = mic.MicVolumeValueTemp;
+                this.MicVolumeBoundsValueTemp = mic.MicVolumeBoundsValueTemp;
+                this.refreshMicEvent.emit();
+                break;
+            case 3:
+                mic = defaultData.microphone;
+                this.MicSideToneValueTemp = mic.MicSideToneValueTemp;
+                this.refreshMicEvent.emit();
+                break;
+        }
     }
 }
