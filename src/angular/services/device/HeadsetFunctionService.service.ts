@@ -456,7 +456,7 @@ export class HeadsetFunctionService{
      */
     ColorChange(event) {
         console.log('ColorChange:',event)
-        if(this.switchDscFlag)
+        if(this.switchDscFlag && this.deviceService.currentDevice.pluginDevice != undefined)
             this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
         if(this.headsetLightEffectSelect.value == 3 && this.dotindex != -1) {
             let index = this.ColorSectionArray.findIndex(x => x.value == this.dotindex);
@@ -900,7 +900,8 @@ export class HeadsetFunctionService{
             this.Templighting[lightIndex].DirectionValue = this.DirectionSelect.value
             this.HeadsetProfileData[this.profileindex].templighting = this.Templighting
         }
-        this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+        if(this.deviceService.currentDevice.pluginDevice != undefined)
+            this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
     }
 
     SurroundSoundReset() {
