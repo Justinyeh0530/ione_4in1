@@ -1,9 +1,9 @@
 let debug = require('../../package.json')
 let UpdateUrl = ""
 if (debug.BuildCode)
-    UpdateUrl = 'https://sfo2.digitaloceanspaces.com/gloriouscore-test/Glorious_Core/Version.json'
+    UpdateUrl = ''
 else {
-    UpdateUrl = 'https://gloriouscore.nyc3.digitaloceanspaces.com/Glorious_Core/Version.json'
+    UpdateUrl = ''
 }
 function getUpdateUrl() {
     return UpdateUrl

@@ -102,13 +102,13 @@
         "maximizable": false
     },
     "project": {
-        "projectname": "IONE_ACTION_AIO1",
+        "projectname": "IONE_ACTION_AIO",
         "projectsetupname": "ione_SETUP",
         "tray": {
             "title": "IONE_ACTION_AIO",
             "tooltip": "IONE_ACTION_AIO"
         }
     },
-    "BuiltType": 1,
+    "BuiltType": 0,
     "BuildCode": 1
 }

@@ -21,7 +21,6 @@ var APPDATADir = process.env.APPDATA;
 if (exports.isMac) 
     APPDATADir = os.homedir;
 
-// exports.appRoot = APPDATADir+"\\Glorious";
 if(exports.isMac)
     exports.appRoot = APPDATADir+`/${packageJson.project.projectname}`
 else 
