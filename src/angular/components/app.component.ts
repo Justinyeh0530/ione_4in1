@@ -37,7 +37,7 @@ export class AppComponent implements OnInit{
         private translate: TranslateService
     ){
         let langObj = [];
-        langObj.push(`Open ${Project.project.projectname}`);langObj.push(`Quite ${Project.project.projectname}`); 
+        langObj.push(`Open ${Project.project.projectname}`);langObj.push(`Quit ${Project.project.projectname}`); 
         ipcRenderer.send("Open", langObj);
         icpEventService.event();
         this.getAppService.getAppsettingFormDB();
