@@ -1,0 +1,13 @@
+D:\專案\C#\ione\A08sdll\A08sdll\bin\Release\netstandard2.0\A08sdll.deps.json
+D:\專案\C#\ione\A08sdll\A08sdll\bin\Release\netstandard2.0\A08sdll.dll
+D:\專案\C#\ione\A08sdll\A08sdll\bin\Release\netstandard2.0\A08sdll.pdb
+D:\專案\C#\ione\A08sdll\A08sdll\obj\Release\netstandard2.0\A08sdll.csproj.CoreCompileInputs.cache
+D:\專案\C#\ione\A08sdll\A08sdll\obj\Release\netstandard2.0\A08sdll.AssemblyInfoInputs.cache
+D:\專案\C#\ione\A08sdll\A08sdll\obj\Release\netstandard2.0\A08sdll.AssemblyInfo.cs
+D:\專案\C#\ione\A08sdll\A08sdll\obj\Release\netstandard2.0\A08sdll.dll
+D:\專案\C#\ione\A08sdll\A08sdll\obj\Release\netstandard2.0\A08sdll.pdb
+D:\專案\C#\ione\A08sdll\A08sdll\obj\Release\netstandard2.0\A08sdll.csprojAssemblyReference.cache
+D:\專案\C#\ione\A08sdll\A08sdll\bin\Release\netstandard2.0\Newtonsoft.Json.dll
+D:\專案\C#\ione\A08sdll\A08sdll\obj\Release\netstandard2.0\A08sdll.csproj.CopyComplete
+D:\專案\C#\ione\A08sdll\A08sdll\bin\Release\netstandard2.0\LED_USB_Control.dll
+D:\專案\C#\ione\A08sdll\A08sdll\obj\Release\netstandard2.0\A08sdll.csproj.ResolveComReference.cache
