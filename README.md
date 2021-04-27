@@ -3,8 +3,8 @@
 Allen NeW JeNkInS tEsT
 
 環境:
-nodejs: 8.12.0
-electron: 4.0.0
+nodejs: 10.17.0
+electron: 4.0.5
 
 
 打包:

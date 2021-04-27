@@ -24,6 +24,7 @@
         "angulartics2": "~1.1.2",
         "color-convert": "~1.9.3",
         "core-js": "~2.4.1",
+        "electron-edge-js": "^12.18.5",
         "electron-notifications": "1.0.0",
         "gulp-concat": "^2.6.1",
         "gulp-uglify-es": "^2.0.0",
@@ -109,6 +110,6 @@
             "tooltip": "IONE_ACTION_AIO"
         }
     },
-    "BuiltType": 0,
-    "BuildCode": 0
+    "BuiltType": 1,
+    "BuildCode": 1
 }
