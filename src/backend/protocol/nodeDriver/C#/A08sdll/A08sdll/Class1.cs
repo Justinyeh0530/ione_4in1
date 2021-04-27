@@ -16,6 +16,8 @@ namespace A08sdll
             public int Speed { get; set; }
             public int ColorMode { get; set; }
             public int SetColorMode { get; set; }
+            public int [] Color1 { get; set; }
+            public int[] Color2 { get; set; }
         }
         public async Task<object> ModeSet(dynamic input)
         {
@@ -57,9 +59,9 @@ namespace A08sdll
                 if (colordata.ColorMode == 0)
                 {
                     Color color1 = new Color();
-                    color1 = Color.FromArgb(0, 255, 0);
+                    color1 = Color.FromArgb(colordata.Color1[0], colordata.Color1[1], colordata.Color1[2]);
                     Color color2 = new Color();
-                    color2 = Color.FromArgb(0, 0, 255);
+                    color2 = Color.FromArgb(colordata.Color2[0], colordata.Color2[1], colordata.Color2[2]);
                     Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, color1, color2);
                 }
                 //Spectrum
@@ -76,7 +78,7 @@ namespace A08sdll
                 if(colordata.ColorMode == 0)
                 {
                     Color color1 = new Color();
-                    color1 = Color.FromArgb(0, 255, 0);
+                    color1 = Color.FromArgb(colordata.Color1[0], colordata.Color1[1], colordata.Color1[2]);
                     Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, color1, color1);
                 }
                 //Spectrum
@@ -87,10 +89,14 @@ namespace A08sdll
                 //Altemation
                 else if (colordata.ColorMode == 2)
                 {
-                    Color color1 = new Color();
-                    color1 = Color.FromArgb(0, 255, 0);
+                    /*Color color1 = new Color();
+                    color1 = Color.FromArgb(colordata.Color1R, colordata.Color1G, colordata.Color1B);
                     Color color2 = new Color();
-                    color2 = Color.FromArgb(0, 0, 255);
+                    color2 = Color.FromArgb(colordata.Color2R, colordata.Color2G, colordata.Color2B);*/
+                    Color color1 = new Color();
+                    color1 = Color.FromArgb(colordata.Color1[0], colordata.Color1[1], colordata.Color1[2]);
+                    Color color2 = new Color();
+                    color2 = Color.FromArgb(colordata.Color2[0], colordata.Color2[1], colordata.Color2[2]);
                     Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, color1, color2);
                 }
             }
@@ -101,7 +107,7 @@ namespace A08sdll
                 if (colordata.ColorMode == 0)
                 {
                     Color color1 = new Color();
-                    color1 = Color.FromArgb(0, 255, 0);
+                    color1 = Color.FromArgb(colordata.Color1[0], colordata.Color1[1], colordata.Color1[2]);
                     Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, color1, color1);
                 }
                 //Spectrum
@@ -113,9 +119,9 @@ namespace A08sdll
                 else if (colordata.ColorMode == 2)
                 {
                     Color color1 = new Color();
-                    color1 = Color.FromArgb(0, 255, 0);
+                    color1 = Color.FromArgb(colordata.Color1[0], colordata.Color1[1], colordata.Color1[2]);
                     Color color2 = new Color();
-                    color2 = Color.FromArgb(0, 0, 255);
+                    color2 = Color.FromArgb(colordata.Color2[0], colordata.Color2[1], colordata.Color2[2]);
                     Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, color1, color2);
                 }
             }
