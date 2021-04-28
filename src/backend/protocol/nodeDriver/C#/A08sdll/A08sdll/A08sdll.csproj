@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <Reference Include="LED_USB_Control">
-      <HintPath>C:\Users\ururo\AppData\Roaming\IONE_ACTION_AIO\data\LED_USB_Control.dll</HintPath>
+      <HintPath>C:\Users\ururo\AppData\Roaming\IONE_ACTION_AIO\data\dll\LED_USB_Control.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>C:\Users\ururo\Downloads\electron-edge-js-quick-start-master\electron-edge-js-quick-start-master\src\QuickStart.Core\bin\Debug\netcoreapp2.0\Newtonsoft.Json.dll</HintPath>
