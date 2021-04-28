@@ -6,6 +6,7 @@ let funcVar = System._nodeRequire('./backend/others/FunctionVariable')
 import { CommonService } from './CommonService.service'
 import {TranslateService} from 'ng2-translate';
 import * as _ from 'lodash'
+import {protocolService} from '../service/protocol.service';
 
 @Injectable()
 export class HeadsetFunctionService{
@@ -147,7 +148,8 @@ export class HeadsetFunctionService{
     constructor(
         private deviceService: DeviceService,
         private commonService: CommonService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private protocol: protocolService
         ){
             this.deviceService.updatCurrentDeviceData.subscribe((data) => {
                 if(data.pluginDevice != undefined && data.ModelType == 3) {
@@ -626,6 +628,32 @@ export class HeadsetFunctionService{
         this.updateTemplightData();
 
         //通知後端 todo
+        this.setHardware()
+    }
+
+    setHardware() {
+        let data = {
+            lightingvalue : this.HeadsetProfileData[this.profileindex].lighting.value,
+            BrightnessValue: this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue,
+            SpeedValue: this.HeadsetProfileData[this.profileindex].lighting.SpeedValue,
+            SpectrumValue: this.HeadsetProfileData[this.profileindex].lighting.SpectrumValue,
+            color: this.HeadsetProfileData[this.profileindex].lighting.color,
+            ColorSectionArray: this.HeadsetProfileData[this.profileindex].lighting.ColorSectionArray,
+            DurationValue : this.HeadsetProfileData[this.profileindex].lighting.DurationValue,
+            StartValue: this.HeadsetProfileData[this.profileindex].lighting.StartValue,
+            StopValue: this.HeadsetProfileData[this.profileindex].lighting.StopValue,
+            DirectionValue: this.HeadsetProfileData[this.profileindex].lighting.DirectionValue
+        }
+
+        let obj = {
+            Type: funcVar.FuncType.Device,
+            SN: this.deviceService.currentDevice.SN,
+            Func: funcVar.FuncName.setLighting,
+            Param: data
+        }
+
+        this.protocol.RunSetFunction(obj).then((data)=>{
+        });
     }
 
     SliderChange(id) {

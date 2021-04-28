@@ -138,6 +138,8 @@ class DeviceService extends EventEmitter {
             _this.GetSupportDevice().then(()=>{  
                 for(var i = 0; i < _this.SupportDevice.length; i++) {
                     var result = _this.hid.FindDevice(_this.SupportDevice[i].set.usagepage, _this.SupportDevice[i].set.usage,_this.SupportDevice[i].vid, _this.SupportDevice[i].pid)
+                    if(_this.SupportDevice[i].vid.toLowerCase() == '0x195d'|| _this.SupportDevice[i].pid.toLowerCase() == '0xa005')
+                        result = 1;
                     if(result != 0 || env.BuiltType != 0) {
                         var sn = _this.SupportDevice[i].vid+_this.SupportDevice[i].pid
                         var dev = {};
@@ -147,8 +149,10 @@ class DeviceService extends EventEmitter {
                         filterDevice.push(dev);
 
                         //--------------DeviceCallback----------------
-                        var rtn = _this.hid.DeviceDataCallback(_this.SupportDevice[i].get.usagepage, _this.SupportDevice[i].get.usage,_this.SupportDevice[i].vid, _this.SupportDevice[i].pid,_this.HIDEP2DataFromDevice);
-                        env.log('initDevice', 'Init DeviceDataCallback : ', rtn);
+                        if(_this.SupportDevice[i].vid.toLowerCase() != '0x195d'|| _this.SupportDevice[i].pid.toLowerCase() != '0xa005') {
+                            var rtn = _this.hid.DeviceDataCallback(_this.SupportDevice[i].get.usagepage, _this.SupportDevice[i].get.usage,_this.SupportDevice[i].vid, _this.SupportDevice[i].pid,_this.HIDEP2DataFromDevice);
+                            env.log('initDevice', 'Init DeviceDataCallback : ', rtn);
+                        }
                         //------------------------------
                     }
                 }
@@ -288,10 +292,14 @@ class DeviceService extends EventEmitter {
                     if(parseInt(_this.SupportDevice[i].vid) == obj.vid && parseInt(_this.SupportDevice[i].pid) == obj.pid) {
                         var self = this;
                         var result = _this.hid.FindDevice(_this.SupportDevice[i].set.usagepage, _this.SupportDevice[i].set.usage,_this.SupportDevice[i].vid, _this.SupportDevice[i].pid)
+                        if(_this.SupportDevice[i].vid.toLowerCase() == '0x195d'|| _this.SupportDevice[i].pid.toLowerCase() == '0xa005')
+                            result = 1;
                         if(result != 0) {
                             //--------------DeviceCallback----------------
-                            var rtn = _this.hid.DeviceDataCallback(_this.SupportDevice[i].get.usagepage, _this.SupportDevice[i].get.usage,_this.SupportDevice[i].vid, _this.SupportDevice[i].pid,_this.HIDEP2DataFromDevice);
-                            env.log('HotPlug', 'DeviceDataCallback : ', rtn);
+                            if(_this.SupportDevice[i].vid.toLowerCase() != '0x195d'|| _this.SupportDevice[i].pid.toLowerCase() != '0xa005') {
+                                var rtn = _this.hid.DeviceDataCallback(_this.SupportDevice[i].get.usagepage, _this.SupportDevice[i].get.usage,_this.SupportDevice[i].vid, _this.SupportDevice[i].pid,_this.HIDEP2DataFromDevice);
+                                env.log('HotPlug', 'DeviceDataCallback : ', rtn);
+                            }
                             //--------------DeviceCallback----------------
                             var sn = _this.SupportDevice[i].vid+_this.SupportDevice[i].pid
                             var dev = {};
@@ -311,6 +319,8 @@ class DeviceService extends EventEmitter {
                     if(parseInt(_this.SupportDevice[i].vid) == obj.vid && parseInt(_this.SupportDevice[i].pid) == obj.pid) {
                         var sn = _this.SupportDevice[i].vid+_this.SupportDevice[i].pid;
                         var result = _this.hid.FindDevice(_this.SupportDevice[i].set.usagepage, _this.SupportDevice[i].set.usage,_this.SupportDevice[i].vid, _this.SupportDevice[i].pid)
+                        if(_this.SupportDevice[i].vid.toLowerCase() == '0x195d'|| _this.SupportDevice[i].pid.toLowerCase() == '0xa005')
+                            result = 1;
                         if(result == 0) {
                             _this.AllDevices.delete(sn);
                             _this.SavePluginDevice();

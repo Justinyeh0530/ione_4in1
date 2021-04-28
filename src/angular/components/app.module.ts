@@ -18,6 +18,7 @@ import { CustomerColorPickerModule } from './support/customerColorPicker/custome
 import { CommonselectselectModule } from './support/commonselect/commonselect.module';
 import { ColorSectionModule } from './support/colorsection/colorsection.module'
 import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate';
+import { protocolService } from '../services/service/protocol.service'
 
 // app routes
 import { routes } from './app.routes';
@@ -70,6 +71,7 @@ routerModule = RouterModule.forRoot(routes, {useHash: true});
         GetAppService,
         DeviceService,
         EmitService,
+        protocolService,
         {
             provide: APP_BASE_HREF,
             useValue: '<%= APP_BASE %>'

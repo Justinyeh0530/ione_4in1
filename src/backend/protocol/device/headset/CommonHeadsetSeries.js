@@ -1,5 +1,7 @@
 const env = require('../../../others/env');
 var headset = require('./headset');
+var edge = require('electron-edge-js');
+var path = require('path')
 
 'use strict';
 var _this;
@@ -10,6 +12,11 @@ class CommonHeadsetSeries extends headset {
         super();
         _this = this;
         _this.hid = hid;
+        _this.A80sControlMode = edge.func({
+            assemblyFile: path.join(env.appDBRoot,'A08sdll.dll'),
+            typeName: 'A08sdll.Class1',
+            methodName: 'ControlMode'
+        })
     }
 
     static getInstance(hid) {

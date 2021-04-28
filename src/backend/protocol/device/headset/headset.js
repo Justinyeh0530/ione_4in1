@@ -2,15 +2,17 @@ const env = require('../../../others/env');
 const logger  = require('../../../others/logger')
 const loggertitle = "headset"
 var Device = require('../Device')
-var nedbObj = require('../../../dbapi/AppDB')
+var nedbObj = require('../../../dbapi/AppDB');
+const { isObjectLike } = require('lodash');
 var evtType = require('../../../others/EventVariable').EventTypes;
+// var edge = require('electron-edge-js');
 
 'use strict';
 var _this;
 
 class Headset extends Device {
     constructor() {
-        env.log('Headset','Keyboardclass','begin');
+        env.log('Headset','Headsetclass','begin');
         super();
         _this = this;
         _this.nedbObj = nedbObj.getInstance();
@@ -161,6 +163,62 @@ class Headset extends Device {
                 });
             })
         });
+    }
+
+    setLighting(dev, obj) {
+        try {
+            console.log(111111111111111111111,obj, obj.color.length);
+            var _this = this, ColorMode, color1, color2, SetColorMode;
+            switch(obj.lightingvalue) {
+                //static
+                case 0:
+                    if(obj.SpectrumValue)
+                        ColorMode = 1; //spectrum
+                    else
+                        ColorMode = 0; //single
+                    SetColorMode = 1;
+                    break;
+                //breath;
+                case 1:
+                    if(obj.SpectrumValue)
+                        ColorMode = 1; //spectrum
+                    else
+                        ColorMode = 2; //Alternation
+                    SetColorMode = 2;
+                    break;
+                //flash;
+                case 6:
+                    if(obj.SpectrumValue)
+                        ColorMode = 1; //spectrum
+                    else
+                        ColorMode = 2; //Alternation
+                    SetColorMode = 3;
+                    break;
+            }
+            color1 = obj.color[0];
+            if(obj.color.length > 1)
+                color2 = obj.color[1];
+            else
+                color2 = color1;
+            let param = {
+                Bright: obj.BrightnessValue * 10,
+                Speed: obj.SpeedValue * 10,
+                ColorMode: ColorMode,
+                SetColorMode: SetColorMode,
+                Color1: color1,
+                Color2: color2
+            }
+            console.log(2222222,param)
+            _this.A80sControlMode(param, function(err,result) {
+                if (err) {
+                    throw err; 
+                } else {  
+                    console.log(result);
+                }
+            })
+        } catch(e) {
+            logger.error(loggertitle,'setLighting', `${e}`)
+        }
     }
 }
 
