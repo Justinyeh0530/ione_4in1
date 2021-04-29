@@ -168,7 +168,7 @@ class Headset extends Device {
     setLighting(dev, obj) {
         try {
             console.log(111111111111111111111,obj, obj.color.length);
-            var _this = this, ColorMode, color1, color2, SetColorMode;
+            var _this = this, ColorMode, color1, color2, SetColorMode, Duration = 0, colorArray = [];
             switch(obj.lightingvalue) {
                 //static
                 case 0:
@@ -194,6 +194,67 @@ class Headset extends Device {
                         ColorMode = 2; //Alternation
                     SetColorMode = 3;
                     break;
+
+
+
+                //wave
+                case 3: 
+                {
+                    // if(obj.SpectrumValue)
+                    //     ColorMode = 0; //spectrum
+                    // else
+                    //     ColorMode = 1; //Alternation
+                    ColorMode = 1;
+                    SetColorMode = 5;
+                    
+                    for(var i = 0; i < obj.ColorSectionArray.length; i++) {
+                        colorArray.push(obj.ColorSectionArray[i].color[0]);
+                        colorArray.push(obj.ColorSectionArray[i].color[1]);
+                        colorArray.push(obj.ColorSectionArray[i].color[2]);
+                    }
+                    env.log('111', '3', JSON.stringify(colorArray));
+
+
+                    break;
+                }
+                //spiral rainbow
+                case 5: 
+                {
+                    if(obj.SpectrumValue)
+                        ColorMode = 1; //spectrum
+                    else
+                        ColorMode = 3; //Alternation
+
+                    ColorMode = ColorMode + obj.DirectionValue;
+                    SetColorMode = 4;
+                    break;    
+
+                }
+              
+                //color shift
+                case 4:
+                    ColorMode = 0;
+                    SetColorMode = 6;
+                    break;
+                    
+                //radar
+                case 2:
+                {
+                    if(obj.SpectrumValue)
+                        ColorMode = 1; //spectrum
+                    else
+                        ColorMode = 2; //Alternation
+                    SetColorMode = 7;
+
+                    Duration = obj.DurationValue-1;
+                    break;         
+                }           
+                //LED off;
+                case 7:
+                    ColorMode = 0;
+                    SetColorMode = 8;
+                break;
+
             }
             color1 = obj.color[0];
             if(obj.color.length > 1)
@@ -201,14 +262,17 @@ class Headset extends Device {
             else
                 color2 = color1;
             let param = {
-                Bright: obj.BrightnessValue * 10,
-                Speed: obj.SpeedValue * 10,
+                Bright: obj.BrightnessValue*10,
+                Speed: obj.SpeedValue*10,
                 ColorMode: ColorMode,
                 SetColorMode: SetColorMode,
+                RadarDuration: Duration,
                 Color1: color1,
-                Color2: color2
+                Color2: color2,
+                ColorArray: colorArray
             }
             console.log(2222222,param)
+            env.log('2222222','1',param)
             _this.A80sControlMode(param, function(err,result) {
                 if (err) {
                     throw err; 

@@ -16,8 +16,10 @@ namespace A08sdll
             public int Speed { get; set; }
             public int ColorMode { get; set; }
             public int SetColorMode { get; set; }
+            public int RadarDuration { get; set; }
             public int [] Color1 { get; set; }
             public int[] Color2 { get; set; }
+            public byte[] ColorArray { get; set; }
         }
         public async Task<object> ModeSet(dynamic input)
         {
@@ -44,15 +46,11 @@ namespace A08sdll
             bool Mode = false;
             Mode = Device.OpenDevice(0x195D, 0xA005);
             Thread.Sleep(500);
-            //Device.AppConnectSend(true);
-            //Thread.Sleep(500);
             Device.Bright = colordata.Bright;
             Device.Speed = colordata.Speed;
-            //Device.ColorMode = 2;
-            //Device.ControlMode(input);
 
             //static
-            if(colordata.SetColorMode == 1)
+            if (colordata.SetColorMode == 1)
             {
                 Device.StaticColorMode = colordata.ColorMode;
                 //Single
@@ -75,7 +73,7 @@ namespace A08sdll
             {
                 Device.BreathingColorMode = colordata.ColorMode;
                 //Single
-                if(colordata.ColorMode == 0)
+                if (colordata.ColorMode == 0)
                 {
                     Color color1 = new Color();
                     color1 = Color.FromArgb(colordata.Color1[0], colordata.Color1[1], colordata.Color1[2]);
@@ -125,6 +123,75 @@ namespace A08sdll
                     Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, color1, color2);
                 }
             }
+            //Sprial rainbow
+            else if (colordata.SetColorMode == 4)
+            {
+                Device.ColorSpiralRainBow1 = Color.Empty;
+                Device.ColorSpiralRainBow2 = Color.Empty;
+                //Single
+                if (colordata.ColorMode == 1 || colordata.ColorMode == 2)
+                {
+                    Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, Color.Empty, Color.Empty);
+                }
+                //Spectrum
+                else if (colordata.ColorMode == 3 || colordata.ColorMode == 4)
+                {
+                    Color color1 = new Color();
+                    color1 = Color.FromArgb(colordata.Color1[0], colordata.Color1[1], colordata.Color1[2]);
+                    Color color2 = new Color();
+                    color2 = Color.FromArgb(colordata.Color2[0], colordata.Color2[1], colordata.Color2[2]);
+                    Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, color1, color2);
+                }
+
+            }
+            //Wave
+            else if (colordata.SetColorMode == 5)
+            {
+                if(colordata.ColorMode == 0)
+                {
+                    Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, Color.Empty, Color.Empty);
+                }
+                else
+                {
+                    byte[] specturmColor1;
+                    specturmColor1 = colordata.ColorArray;
+                    Device.PatternSet(specturmColor1, true);
+                    Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, Color.Empty, Color.Empty);
+                }
+            }
+            //ColorShift
+            else if (colordata.SetColorMode == 6)
+            {
+                Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, Color.Empty, Color.Empty);
+            }
+            //Radar
+            else if (colordata.SetColorMode == 7)
+            {
+                Color color1 = new Color();
+                Color color2 = new Color();
+
+                Device.ColorRadar1 = Color.Empty;
+                Device.ColorRadar2 = Color.Empty;
+
+                if (colordata.ColorMode == 1)
+                {
+                    color1 = color2 = Color.Empty;
+                }
+                //Altemation
+                else if (colordata.ColorMode == 2)
+                {
+                    color1 = Color.FromArgb(colordata.Color1[0], colordata.Color1[1], colordata.Color1[2]);
+                    color2 = Color.FromArgb(colordata.Color2[0], colordata.Color2[1], colordata.Color2[2]);
+                }
+
+                Device.ControlMode(colordata.SetColorMode, colordata.ColorMode, colordata.Bright, colordata.Speed, colordata.RadarDuration, color1, color2);
+            }
+            //Led Off
+            else if (colordata.SetColorMode == 8)
+            {
+                Device.ControlMode(8);
+            }
+
                 return $"Success";
         }
 
