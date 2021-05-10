@@ -34,6 +34,20 @@ class Headset extends Device {
     initDevice(dev) {
         var _this = this;
         env.log('Headset','initDevice','begin')
+
+        if (env.isWindows){
+            if (env.arch == 'ia32'){
+                _this.dtsController = require(`../../nodeDriver/x32/DTSLibrary.node`);
+            }else{
+                _this.dtsController = require(`../../nodeDriver/x64/DTSLibrary.node`);
+            }
+
+            env.log('Headset','initDevice','dtsController Initialization');
+            _this.dtsController.Initialization();
+            
+        }
+
+
         return new Promise(function(resolve, reject) {
             _this.nedbObj.getDevice(dev.BaseInfo.SN).then((exist) => {
                 if(exist) {
@@ -52,6 +66,8 @@ class Headset extends Device {
             })
         })
     }
+
+    
 
     SaveProfileToDevice(dev, callback) {
         env.log('Device', 'SaveProfileToDevice', `SaveProfileToDevice`);
@@ -167,6 +183,7 @@ class Headset extends Device {
 
     setLighting(dev, obj) {
         try {
+            env.log('headset','setLighting', 'begin...');
             console.log(111111111111111111111,obj, obj.color.length);
             var _this = this, ColorMode, color1, color2, SetColorMode, Duration = 0, colorArray = [];
             switch(obj.lightingvalue) {
@@ -178,6 +195,7 @@ class Headset extends Device {
                         ColorMode = 0; //single
                     SetColorMode = 1;
                     break;
+
                 //breath;
                 case 1:
                     if(obj.SpectrumValue)
@@ -271,15 +289,9 @@ class Headset extends Device {
                 Color2: color2,
                 ColorArray: colorArray
             }
-            console.log(2222222,param)
-            env.log('2222222','1',param)
-            _this.A80sControlMode(param, function(err,result) {
-                if (err) {
-                    throw err; 
-                } else {  
-                    console.log(result);
-                }
-            })
+            // console.log(2222222,param)
+            // env.log('2222222','1',param)
+            
         } catch(e) {
             logger.error(loggertitle,'setLighting', `${e}`)
         }
