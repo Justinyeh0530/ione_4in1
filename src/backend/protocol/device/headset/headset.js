@@ -44,6 +44,7 @@ class Headset extends Device {
 
             env.log('Headset','initDevice','dtsController Initialization');
             _this.dtsController.Initialization();
+            _this.dtsController.DTSApoGetSupportMode();
             
         }
 
@@ -180,6 +181,105 @@ class Headset extends Device {
             })
         });
     }
+    /**
+     * 
+     * @param {*} dev 
+     * @param {*} obj 
+     */
+    setDTSMode(dev, obj) {
+        var str = [  "ApoOpMode:APO4-Off/APO4-Headphone",
+                        "ApoOpMode:APO4-Music/APO4-Headphone",
+                        "ApoOpMode:APO4-Movie/APO4-Headphone",
+                        "ApoOpMode:APO4-Voice/APO4-Headphone",
+                        "ApoOpMode:APO4-Game1/APO4-Headphone",
+                        "ApoOpMode:APO4-Game2/APO4-Headphone",
+                        "ApoOpMode:APO4-Game3/APO4-Headphone",
+                        "ApoOpMode:APO4-Custom Audio/APO4-Headphone"
+                     ];
+
+        _this.dtsController.DTSApoSetMode(str[0]);
+    }
+
+    /**
+     * setModeValue
+     * @param {*} dev 
+     * @param {*} obj 
+     */
+    setModeValue(dev, obj) {
+        var value = 1; //0 : disable or 1 : enable
+        var str = ["SFX:Eagle-I3DA Enable", //Virtualization
+                    "SFX:Eagle-LC Enable",  //Loudness Control
+                    "SFX:Eagle-DE Enable",  //Dialog Enhancement
+                    "MFX:Eagle-TBHDX Enable", //Bass (TBHDX)
+                    "MFX:Eagle-AEQ Enable" //Headphone EQ
+                  ]
+
+
+        _this.dtsController.DTSApoSetModeValue(str[0], value);
+    }
+
+    /**
+     * setModeValue
+     * @param {*} dev 
+     * @param {*} obj 
+     * 
+     * obj.value
+     * Eagle-I3DA Room Entertainment = 0 for Entertainment
+     * Eagle- I3DA Room Game = 1 for Game
+     * Eagle- I3DA Room Sports = 2 for Sports 
+
+     */
+    setRoom(dev, obj) {
+        
+        _this.dtsController.DTSApoSetModeValue("SFX:Eagle-I3DA Room Index", obj.value);
+    }
+
+    /**
+     * 
+     * @param {*} dev 
+     * @param {*} obj 
+     * 
+     * obj.vaule
+     * Eagle-Stereo Mode = 1 for Front
+     * Eagle-Stereo Mode = 2 for Wide.
+     * Eagle-Stereo Mode = 3 for Traditional
+     */
+    setStereoPreference(dev, obj) {
+        
+        _this.dtsController.DTSApoSetModeValue("Eagle-Stereo Mode", obj.value);
+    }
+
+    /**
+     * 
+     * @param {*} dev 
+     * @param {*} obj 
+     * 
+     * Value = 0, EQ off
+     * Value = 1, EQ on
+     */
+    setEQOnOff(dev, obj) {
+        _this.dtsController.DTSApoSetEQOnOff(obj.value);
+    }
+
+    /**
+     * 
+     * @param {*} dev 
+     * @param {*} obj 
+     * 
+     * obj.num = EQ Band Number
+     * obj.value = EQ Band Number Value
+     */
+    setEQValue(dev, obj) {
+        // for(var i = 0; i <= 9; i++) {
+        //     _this.dtsController.DTSApoSetEQBandValue(i, 10);
+        // }
+        for(var i = 0; i <= 9; i++) {
+            _this.dtsController.DTSApoSetEQBandValue(obj.num, obj.value);
+        }
+    }
+
+
+    
 
     setLighting(dev, obj) {
         try {
@@ -204,6 +304,8 @@ class Headset extends Device {
                         ColorMode = 2; //Alternation
                     SetColorMode = 2;
                     break;
+
+                
                 //flash;
                 case 6:
                     if(obj.SpectrumValue)
@@ -212,9 +314,6 @@ class Headset extends Device {
                         ColorMode = 2; //Alternation
                     SetColorMode = 3;
                     break;
-
-
-
                 //wave
                 case 3: 
                 {
@@ -231,8 +330,6 @@ class Headset extends Device {
                         colorArray.push(obj.ColorSectionArray[i].color[2]);
                     }
                     env.log('111', '3', JSON.stringify(colorArray));
-
-
                     break;
                 }
                 //spiral rainbow
@@ -253,6 +350,7 @@ class Headset extends Device {
                 case 4:
                     ColorMode = 0;
                     SetColorMode = 6;
+
                     break;
                     
                 //radar
