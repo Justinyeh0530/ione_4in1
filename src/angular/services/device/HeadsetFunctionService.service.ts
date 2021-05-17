@@ -292,6 +292,7 @@ export class HeadsetFunctionService{
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].dashboard.DialogEnhancementValue = this.DialogEnhancementValue;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].dashboard.BassValue = this.BassValue;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].dashboard.HeadphoneEQValue = this.HeadphoneEQValue;
+        this.setHardware(0);
     }
     /**
      * set headset Equlizer function to device
@@ -324,6 +325,7 @@ export class HeadsetFunctionService{
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value4K = this.value4K;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value8K = this.value8K;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value16K = this.value16K;
+        this.setHardware(1);
     }
 
     /**
@@ -628,32 +630,73 @@ export class HeadsetFunctionService{
         this.updateTemplightData();
 
         //通知後端 todo
-        this.setHardware()
+        this.setHardware(4)
     }
 
-    setHardware() {
-        let data = {
-            lightingvalue : this.HeadsetProfileData[this.profileindex].lighting.value,
-            BrightnessValue: this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue,
-            SpeedValue: this.HeadsetProfileData[this.profileindex].lighting.SpeedValue,
-            SpectrumValue: this.HeadsetProfileData[this.profileindex].lighting.SpectrumValue,
-            color: this.HeadsetProfileData[this.profileindex].lighting.color,
-            ColorSectionArray: this.HeadsetProfileData[this.profileindex].lighting.ColorSectionArray,
-            DurationValue : this.HeadsetProfileData[this.profileindex].lighting.DurationValue,
-            StartValue: this.HeadsetProfileData[this.profileindex].lighting.StartValue,
-            StopValue: this.HeadsetProfileData[this.profileindex].lighting.StopValue,
-            DirectionValue: this.HeadsetProfileData[this.profileindex].lighting.DirectionValue
-        }
+    /**
+     * 
+     * @param flag 0:Dashboard 1:Equlizer 2:Microphone 3:Surround Sound 4:spectrum
+     */
+    setHardware(flag) {
+        let obj = {};
+        if(flag == 0) {
+            obj = {
+                Type: funcVar.FuncType.Device,
+                SN: this.deviceService.currentDevice.SN,
+                Func: funcVar.FuncName.setDashboard,
+                Param: {
+                    VirtualizationValue: this.VirtualizationValue,
+                    LoudnessValue: this.LoudnessValue,
+                    DialogEnhancementValue: this.DialogEnhancementValue,
+                    BassValue: this.BassValue,
+                    HeadphoneEQValue: this.HeadphoneEQValue
+                }
+            }
+        } else if(flag == 1) {
+            obj = {
+                Type: funcVar.FuncType.Device,
+                SN: this.deviceService.currentDevice.SN,
+                Func: funcVar.FuncName.setEqulizer,
+                Param: {
+                    value31: this.value31,
+                    value62: this.value62,
+                    value125: this.value125,
+                    value250: this.value250,
+                    value500: this.value500,
+                    value1K: this.value1K,
+                    value2K: this.value2K,
+                    value4K: this.value4K,
+                    value8K: this.value8K,
+                    value16K: this.value16K,
+                }
+            }
+        } else if(flag == 2) {
 
-        let obj = {
-            Type: funcVar.FuncType.Device,
-            SN: this.deviceService.currentDevice.SN,
-            Func: funcVar.FuncName.setLighting,
-            Param: data
-        }
+        } else if(flag == 3) {
 
-        this.protocol.RunSetFunction(obj).then((data)=>{
-        });
+        } else if(flag == 4) {
+            let data = {
+                lightingvalue : this.HeadsetProfileData[this.profileindex].lighting.value,
+                BrightnessValue: this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue,
+                SpeedValue: this.HeadsetProfileData[this.profileindex].lighting.SpeedValue,
+                SpectrumValue: this.HeadsetProfileData[this.profileindex].lighting.SpectrumValue,
+                color: this.HeadsetProfileData[this.profileindex].lighting.color,
+                ColorSectionArray: this.HeadsetProfileData[this.profileindex].lighting.ColorSectionArray,
+                DurationValue : this.HeadsetProfileData[this.profileindex].lighting.DurationValue,
+                StartValue: this.HeadsetProfileData[this.profileindex].lighting.StartValue,
+                StopValue: this.HeadsetProfileData[this.profileindex].lighting.StopValue,
+                DirectionValue: this.HeadsetProfileData[this.profileindex].lighting.DirectionValue
+            }
+
+            obj = {
+                Type: funcVar.FuncType.Device,
+                SN: this.deviceService.currentDevice.SN,
+                Func: funcVar.FuncName.setLighting,
+                Param: data
+            }
+        }
+        if(obj.hasOwnProperty("Type"))
+            this.protocol.RunSetFunction(obj).then((data)=>{});
     }
 
     SliderChange(id) {

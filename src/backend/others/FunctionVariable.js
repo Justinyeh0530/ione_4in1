@@ -29,7 +29,9 @@ var FuncName = {
     MaxSize:'MaxSize',
     GA:'GA',
     DeleteMacroFunction : "DeleteMacroFunction",
-    setLighting: "setLighting"
+    setLighting: "setLighting",
+    setDashboard: "setDashboard",
+    setEqulizer: "setEqulizer"
 };
 
 var FuncType = {

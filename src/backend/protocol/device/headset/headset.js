@@ -181,6 +181,19 @@ class Headset extends Device {
             })
         });
     }
+
+    setDashboard(dev, obj, callback) {
+        var _this = this;
+        _this.setModeValue(obj)
+        callback();
+    }
+
+    setEqulizer(dev, obj, callback) {
+        var _this = this;
+        _this.setEQValue(obj);
+        callback();
+    }
+
     /**
      * 
      * @param {*} dev 
@@ -202,20 +215,21 @@ class Headset extends Device {
 
     /**
      * setModeValue
-     * @param {*} dev 
      * @param {*} obj 
      */
-    setModeValue(dev, obj) {
-        var value = 1; //0 : disable or 1 : enable
+    setModeValue(obj) {
+        // var value = 1; //0 : disable or 1 : enable
         var str = ["SFX:Eagle-I3DA Enable", //Virtualization
                     "SFX:Eagle-LC Enable",  //Loudness Control
                     "SFX:Eagle-DE Enable",  //Dialog Enhancement
                     "MFX:Eagle-TBHDX Enable", //Bass (TBHDX)
                     "MFX:Eagle-AEQ Enable" //Headphone EQ
                   ]
-
-
-        _this.dtsController.DTSApoSetModeValue(str[0], value);
+        _this.dtsController.DTSApoSetModeValue(str[0], obj.VirtualizationValue);
+        _this.dtsController.DTSApoSetModeValue(str[1], obj.LoudnessValue);
+        _this.dtsController.DTSApoSetModeValue(str[2], obj.DialogEnhancementValue);
+        _this.dtsController.DTSApoSetModeValue(str[3], obj.BassValue);
+        _this.dtsController.DTSApoSetModeValue(str[4], obj.HeadphoneEQValue);
     }
 
     /**
@@ -269,7 +283,7 @@ class Headset extends Device {
      * obj.num = EQ Band Number
      * obj.value = EQ Band Number Value
      */
-    setEQValue(dev, obj) {
+    setEQValue(obj) {
         // for(var i = 0; i <= 9; i++) {
         //     _this.dtsController.DTSApoSetEQBandValue(i, 10);
         // }
