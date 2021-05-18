@@ -31,7 +31,8 @@ var FuncName = {
     DeleteMacroFunction : "DeleteMacroFunction",
     setLighting: "setLighting",
     setDashboard: "setDashboard",
-    setEqulizer: "setEqulizer"
+    setEqulizer: "setEqulizer",
+    setSurroundSound: "setSurroundSound"
 };
 
 var FuncType = {

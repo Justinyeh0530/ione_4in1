@@ -381,6 +381,7 @@ export class HeadsetFunctionService{
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].surroundsound.EnvironmentValue = this.EnvironmentValue;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].surroundsound.StereoValue = this.StereoValue;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].surroundsound.EnableDTSValue = this.EnableDTSValue;
+        this.setHardware(3);
     }
 
     /**
@@ -675,7 +676,15 @@ export class HeadsetFunctionService{
         } else if(flag == 2) {
 
         } else if(flag == 3) {
-
+            obj = {
+                Type: funcVar.FuncType.Device,
+                SN: this.deviceService.currentDevice.SN,
+                Func: funcVar.FuncName.setSurroundSound,
+                Param: {
+                    EnvironmentValue: this.EnvironmentValue,
+                    StereoValue: this.StereoValue,
+                }
+            }
         } else if(flag == 4) {
             let data = {
                 lightingvalue : this.HeadsetProfileData[this.profileindex].lighting.value,

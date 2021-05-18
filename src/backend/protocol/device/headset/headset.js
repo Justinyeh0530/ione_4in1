@@ -197,6 +197,12 @@ class Headset extends Device {
         });
     }
 
+    setSurroundSound(dev, obj, callback) {
+        _this.setRoom(obj);
+        _this.setStereoPreference(obj);
+        callback();
+    }
+
     /**
      * 
      * @param {*} dev 
@@ -273,9 +279,8 @@ class Headset extends Device {
      * Eagle- I3DA Room Sports = 2 for Sports 
 
      */
-    setRoom(dev, obj) {
-        
-        _this.dtsController.DTSApoSetModeValue("SFX:Eagle-I3DA Room Index", obj.value);
+    setRoom(obj) {
+        _this.dtsController.DTSApoSetModeValue("SFX:Eagle-I3DA Room Index", obj.EnvironmentValue);
     }
 
     /**
@@ -288,9 +293,8 @@ class Headset extends Device {
      * Eagle-Stereo Mode = 2 for Wide.
      * Eagle-Stereo Mode = 3 for Traditional
      */
-    setStereoPreference(dev, obj) {
-        
-        _this.dtsController.DTSApoSetModeValue("Eagle-Stereo Mode", obj.value);
+    setStereoPreference(obj) {
+        _this.dtsController.DTSApoSetModeValue("Eagle-Stereo Mode", obj.StereoValue);
     }
 
     /**
