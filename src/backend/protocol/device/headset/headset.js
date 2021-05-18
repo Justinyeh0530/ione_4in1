@@ -190,6 +190,7 @@ class Headset extends Device {
 
     setEqulizer(dev, obj, callback) {
         var _this = this;
+        _this.setDTSMode(obj);
         _this.setEQValue(obj);
         callback();
     }
@@ -199,8 +200,8 @@ class Headset extends Device {
      * @param {*} dev 
      * @param {*} obj 
      */
-    setDTSMode(dev, obj) {
-        var str = [  "ApoOpMode:APO4-Off/APO4-Headphone",
+    setDTSMode(obj) {
+        var str =   [   "ApoOpMode:APO4-Off/APO4-Headphone",
                         "ApoOpMode:APO4-Music/APO4-Headphone",
                         "ApoOpMode:APO4-Movie/APO4-Headphone",
                         "ApoOpMode:APO4-Voice/APO4-Headphone",
@@ -208,9 +209,35 @@ class Headset extends Device {
                         "ApoOpMode:APO4-Game2/APO4-Headphone",
                         "ApoOpMode:APO4-Game3/APO4-Headphone",
                         "ApoOpMode:APO4-Custom Audio/APO4-Headphone"
-                     ];
-
-        _this.dtsController.DTSApoSetMode(str[0]);
+                    ];
+        let result = str[0];
+        switch(obj.mode) {
+            case 0: //Music
+                result = str[1];
+                break;
+            case 1: //Movie
+                result = str[2];
+                break;
+            case 2: //Voice
+                result = str[3];
+                break;
+            case 3: //GAME(FPS)
+                result = str[4];
+                break;
+            case 4: //GAME(MOBA)
+                result = str[5];
+                break;
+            case 5: //GAME(MMO)
+                result = str[6];
+                break;
+            case 6: //CUSTOM
+                result = str[7];
+                break;
+            case 8: //OFF
+                result = str[0];
+                break;
+        }
+        _this.dtsController.DTSApoSetMode(result);
     }
 
     /**

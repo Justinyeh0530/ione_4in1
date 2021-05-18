@@ -275,18 +275,18 @@ export class HeadsetFunctionService{
      * set headset Dashboard function to device
      */
     SetHeadsetDashboard() {
-        let obj = {
-            Type: funcVar.FuncType.Headset,
-            SN: this.deviceService.currentDevice.SN,
-            Func: funcVar.FuncName.ImportProfile,
-            param: {
-                VirtualizationValue: this.VirtualizationValue,
-                LoudnessValue: this.LoudnessValue,
-                DialogEnhancementValue: this.DialogEnhancementValue,
-                BassValue: this.BassValue,
-                HeadphoneEQValue: this.HeadphoneEQValue
-            }
-        }
+        // let obj = {
+        //     Type: funcVar.FuncType.Headset,
+        //     SN: this.deviceService.currentDevice.SN,
+        //     Func: funcVar.FuncName.ImportProfile,
+        //     param: {
+        //         VirtualizationValue: this.VirtualizationValue,
+        //         LoudnessValue: this.LoudnessValue,
+        //         DialogEnhancementValue: this.DialogEnhancementValue,
+        //         BassValue: this.BassValue,
+        //         HeadphoneEQValue: this.HeadphoneEQValue
+        //     }
+        // }
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].dashboard.VirtualizationValue = this.VirtualizationValue;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].dashboard.LoudnessValue = this.LoudnessValue;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].dashboard.DialogEnhancementValue = this.DialogEnhancementValue;
@@ -298,23 +298,24 @@ export class HeadsetFunctionService{
      * set headset Equlizer function to device
      */
     SetHeadsetEqulizer() {
-        let obj = {
-            Type: funcVar.FuncType.Headset,
-            SN: this.deviceService.currentDevice.SN,
-            Func: funcVar.FuncName.ImportProfile,
-            param: {
-                value31: this.value31,
-                value62: this.value62,
-                value125: this.value125,
-                value250: this.value250,
-                value500: this.value500,
-                value1K: this.value1K,
-                value2K: this.value2K,
-                value4K: this.value4K,
-                value8K: this.value8K,
-                value16K: this.value16K,
-            }
-        }
+        // let obj = {
+        //     Type: funcVar.FuncType.Headset,
+        //     SN: this.deviceService.currentDevice.SN,
+        //     Func: funcVar.FuncName.ImportProfile,
+        //     param: {
+        //         mode: this.equlizereDataSelect.value,
+        //         value31: this.value31,
+        //         value62: this.value62,
+        //         value125: this.value125,
+        //         value250: this.value250,
+        //         value500: this.value500,
+        //         value1K: this.value1K,
+        //         value2K: this.value2K,
+        //         value4K: this.value4K,
+        //         value8K: this.value8K,
+        //         value16K: this.value16K,
+        //     }
+        // }
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value31 = this.value31;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value62 = this.value62;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value125 = this.value125;
@@ -658,6 +659,7 @@ export class HeadsetFunctionService{
                 SN: this.deviceService.currentDevice.SN,
                 Func: funcVar.FuncName.setEqulizer,
                 Param: {
+                    mode: this.equlizereDataSelect.value,
                     value31: this.value31,
                     value62: this.value62,
                     value125: this.value125,
