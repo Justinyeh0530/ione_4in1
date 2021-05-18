@@ -190,9 +190,11 @@ class Headset extends Device {
 
     setEqulizer(dev, obj, callback) {
         var _this = this;
-        _this.setDTSMode(obj);
-        _this.setEQValue(obj);
-        callback();
+        _this.setDTSMode(obj, function(data) {
+            console.log(4444,data)
+            _this.setEQValue(obj);
+            callback();
+        });
     }
 
     /**
@@ -200,7 +202,7 @@ class Headset extends Device {
      * @param {*} dev 
      * @param {*} obj 
      */
-    setDTSMode(obj) {
+    setDTSMode(obj,callback) {
         var str =   [   "ApoOpMode:APO4-Off/APO4-Headphone",
                         "ApoOpMode:APO4-Music/APO4-Headphone",
                         "ApoOpMode:APO4-Movie/APO4-Headphone",
@@ -237,7 +239,8 @@ class Headset extends Device {
                 result = str[0];
                 break;
         }
-        _this.dtsController.DTSApoSetMode(result);
+        let flag = _this.dtsController.DTSApoSetMode(result);
+        callback(flag);
     }
 
     /**
