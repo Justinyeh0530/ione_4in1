@@ -320,16 +320,16 @@ class Headset extends Device {
         //     _this.dtsController.DTSApoSetEQBandValue(obj.num, obj.value);
         // }
         _this.setEQOnOff(1);
-        _this.dtsController.DTSApoSetEQBandValue(0,obj.value31/10)
-        _this.dtsController.DTSApoSetEQBandValue(1,obj.value62/10)
-        _this.dtsController.DTSApoSetEQBandValue(2,obj.value125/10)
-        _this.dtsController.DTSApoSetEQBandValue(3,obj.value250/10)
-        _this.dtsController.DTSApoSetEQBandValue(4,obj.value500/10)
-        _this.dtsController.DTSApoSetEQBandValue(5,obj.value1K/10)
-        _this.dtsController.DTSApoSetEQBandValue(6,obj.value2K/10)
-        _this.dtsController.DTSApoSetEQBandValue(7,obj.value4K/10)
-        _this.dtsController.DTSApoSetEQBandValue(8,obj.value8K/10)
-        _this.dtsController.DTSApoSetEQBandValue(9,obj.value16K/10)
+        _this.dtsController.DTSApoSetEQBandValue(0,obj.value31)
+        _this.dtsController.DTSApoSetEQBandValue(1,obj.value62)
+        _this.dtsController.DTSApoSetEQBandValue(2,obj.value125)
+        _this.dtsController.DTSApoSetEQBandValue(3,obj.value250)
+        _this.dtsController.DTSApoSetEQBandValue(4,obj.value500)
+        _this.dtsController.DTSApoSetEQBandValue(5,obj.value1K)
+        _this.dtsController.DTSApoSetEQBandValue(6,obj.value2K)
+        _this.dtsController.DTSApoSetEQBandValue(7,obj.value4K)
+        _this.dtsController.DTSApoSetEQBandValue(8,obj.value8K)
+        _this.dtsController.DTSApoSetEQBandValue(9,obj.value16K)
     }
 
 
