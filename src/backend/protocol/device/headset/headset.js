@@ -181,13 +181,27 @@ class Headset extends Device {
             })
         });
     }
+
+    setDashboard(dev, obj, callback) {
+        var _this = this;
+        _this.setModeValue(obj)
+        callback();
+    }
+
+    setEqulizer(dev, obj, callback) {
+        var _this = this;
+        _this.setDTSMode(obj);
+        _this.setEQValue(obj);
+        callback();
+    }
+
     /**
      * 
      * @param {*} dev 
      * @param {*} obj 
      */
-    setDTSMode(dev, obj) {
-        var str = [  "ApoOpMode:APO4-Off/APO4-Headphone",
+    setDTSMode(obj) {
+        var str =   [   "ApoOpMode:APO4-Off/APO4-Headphone",
                         "ApoOpMode:APO4-Music/APO4-Headphone",
                         "ApoOpMode:APO4-Movie/APO4-Headphone",
                         "ApoOpMode:APO4-Voice/APO4-Headphone",
@@ -195,27 +209,54 @@ class Headset extends Device {
                         "ApoOpMode:APO4-Game2/APO4-Headphone",
                         "ApoOpMode:APO4-Game3/APO4-Headphone",
                         "ApoOpMode:APO4-Custom Audio/APO4-Headphone"
-                     ];
-
-        _this.dtsController.DTSApoSetMode(str[0]);
+                    ];
+        let result = str[0];
+        switch(obj.mode) {
+            case 0: //Music
+                result = str[1];
+                break;
+            case 1: //Movie
+                result = str[2];
+                break;
+            case 2: //Voice
+                result = str[3];
+                break;
+            case 3: //GAME(FPS)
+                result = str[4];
+                break;
+            case 4: //GAME(MOBA)
+                result = str[5];
+                break;
+            case 5: //GAME(MMO)
+                result = str[6];
+                break;
+            case 6: //CUSTOM
+                result = str[7];
+                break;
+            case 8: //OFF
+                result = str[0];
+                break;
+        }
+        _this.dtsController.DTSApoSetMode(result);
     }
 
     /**
      * setModeValue
-     * @param {*} dev 
      * @param {*} obj 
      */
-    setModeValue(dev, obj) {
-        var value = 1; //0 : disable or 1 : enable
+    setModeValue(obj) {
+        // var value = 1; //0 : disable or 1 : enable
         var str = ["SFX:Eagle-I3DA Enable", //Virtualization
                     "SFX:Eagle-LC Enable",  //Loudness Control
                     "SFX:Eagle-DE Enable",  //Dialog Enhancement
                     "MFX:Eagle-TBHDX Enable", //Bass (TBHDX)
                     "MFX:Eagle-AEQ Enable" //Headphone EQ
                   ]
-
-
-        _this.dtsController.DTSApoSetModeValue(str[0], value);
+        _this.dtsController.DTSApoSetModeValue(str[0], obj.VirtualizationValue);
+        _this.dtsController.DTSApoSetModeValue(str[1], obj.LoudnessValue);
+        _this.dtsController.DTSApoSetModeValue(str[2], obj.DialogEnhancementValue);
+        _this.dtsController.DTSApoSetModeValue(str[3], obj.BassValue);
+        _this.dtsController.DTSApoSetModeValue(str[4], obj.HeadphoneEQValue);
     }
 
     /**
@@ -269,13 +310,23 @@ class Headset extends Device {
      * obj.num = EQ Band Number
      * obj.value = EQ Band Number Value
      */
-    setEQValue(dev, obj) {
+    setEQValue(obj) {
         // for(var i = 0; i <= 9; i++) {
         //     _this.dtsController.DTSApoSetEQBandValue(i, 10);
         // }
-        for(var i = 0; i <= 9; i++) {
-            _this.dtsController.DTSApoSetEQBandValue(obj.num, obj.value);
-        }
+        // for(var i = 0; i <= 9; i++) {
+        //     _this.dtsController.DTSApoSetEQBandValue(obj.num, obj.value);
+        // }
+        _this.dtsController.DTSApoSetEQBandValue(0,obj.value31)
+        _this.dtsController.DTSApoSetEQBandValue(1,obj.value62)
+        _this.dtsController.DTSApoSetEQBandValue(2,obj.value125)
+        _this.dtsController.DTSApoSetEQBandValue(3,obj.value250)
+        _this.dtsController.DTSApoSetEQBandValue(4,obj.value500)
+        _this.dtsController.DTSApoSetEQBandValue(5,obj.value1K)
+        _this.dtsController.DTSApoSetEQBandValue(6,obj.value2K)
+        _this.dtsController.DTSApoSetEQBandValue(7,obj.value4K)
+        _this.dtsController.DTSApoSetEQBandValue(8,obj.value8K)
+        _this.dtsController.DTSApoSetEQBandValue(9,obj.value16K)
     }
 
 
