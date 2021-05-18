@@ -651,7 +651,8 @@ export class HeadsetFunctionService{
                     LoudnessValue: this.LoudnessValue,
                     DialogEnhancementValue: this.DialogEnhancementValue,
                     BassValue: this.BassValue,
-                    HeadphoneEQValue: this.HeadphoneEQValue
+                    HeadphoneEQValue: this.HeadphoneEQValue,
+                    EnvironmentValue: this.EnvironmentValue,//因VirtualizationValue enble時要重新在下一次此函數才有作用
                 }
             }
         } else if(flag == 1) {

@@ -185,6 +185,8 @@ class Headset extends Device {
 
     setDashboard(dev, obj, callback) {
         _this.setModeValue(obj)
+        if(obj.VirtualizationValue)
+            _this.setRoom(obj)
         callback();
     }
 
