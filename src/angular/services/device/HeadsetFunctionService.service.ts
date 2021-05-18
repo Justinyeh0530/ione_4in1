@@ -24,7 +24,7 @@ export class HeadsetFunctionService{
         { name: 'GAME(MOBA)', value: 4, translate: 'GAME(MOBA)'},
         { name: 'GAME(MMO)', value: 5, translate: 'GAME(MMO)'},
         { name: 'CUSTOM1', value: 6, translate: 'CUSTOM1'},
-        { name: 'CUSTOM2', value: 7, translate: 'CUSTOM2'},
+        // { name: 'CUSTOM2', value: 7, translate: 'CUSTOM2'},
         { name: 'OFF', value: 8, translate: 'OFF'},
     ]
     LightingEffect = [];
