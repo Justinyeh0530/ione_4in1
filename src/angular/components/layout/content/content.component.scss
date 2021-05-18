@@ -747,7 +747,7 @@
                         border-left:0.1vh rgb(231, 230, 230) solid;
                         border-right:0.1vh rgb(230, 224, 224) solid;
                         border-color: rgb(209, 202, 202);
-                        transform: rotate(90deg);
+                        transform: rotate(270deg);
 
                         input {
                             border:0px solid transparent;
@@ -774,7 +774,7 @@
                             width: 13px;
                             height: 15px;
                             // border-radius: 50%;
-                            transform: rotate(90deg);
+                            transform: rotate(270deg);
                             background: url('./image/headset/slider-icon.png') no-repeat center;
                             cursor: pointer;
                                 content:counter(50)'%';

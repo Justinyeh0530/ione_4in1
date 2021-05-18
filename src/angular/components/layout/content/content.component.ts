@@ -204,7 +204,7 @@ export class ContentComponent implements OnInit {
 
     EQmove(id) {
         if(document.getElementById(id)) {
-            document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,rgb(190, 190, 190) 0%,rgb(190, 190, 190) ' + this.headsetFunctionService[id] * 10+ '%,rgb(40,40,40) ' + this.headsetFunctionService[id] * 10+ '%, rgb(40,40,40) 100%)'}
+            document.getElementById(id).style.backgroundImage = '-webkit-linear-gradient(left ,rgb(190, 190, 190) 0%,rgb(190, 190, 190) ' + (this.headsetFunctionService[id] +100) / 2+ '%,rgb(40,40,40) ' + (this.headsetFunctionService[id] + 100) / 2+ '%, rgb(40,40,40) 100%)'}
     }
 
     SliderChangeMove(id) {

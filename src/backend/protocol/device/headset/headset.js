@@ -16,6 +16,7 @@ class Headset extends Device {
         super();
         _this = this;
         _this.nedbObj = nedbObj.getInstance();
+        _this.test = 0;
     }
 
     static getInstance() {
@@ -300,8 +301,8 @@ class Headset extends Device {
      * Value = 0, EQ off
      * Value = 1, EQ on
      */
-    setEQOnOff(obj) {
-        _this.dtsController.DTSApoSetEQOnOff(obj.value);
+    setEQOnOff(value) {
+        _this.dtsController.DTSApoSetEQOnOff(value);
     }
 
     /**
@@ -313,12 +314,6 @@ class Headset extends Device {
      * obj.value = EQ Band Number Value
      */
     setEQValue(obj) {
-        // for(var i = 0; i <= 9; i++) {
-        //     _this.dtsController.DTSApoSetEQBandValue(i, 10);
-        // }
-        // for(var i = 0; i <= 9; i++) {
-        //     _this.dtsController.DTSApoSetEQBandValue(obj.num, obj.value);
-        // }
         _this.setEQOnOff(1);
         _this.dtsController.DTSApoSetEQBandValue(0,obj.value31)
         _this.dtsController.DTSApoSetEQBandValue(1,obj.value62)
