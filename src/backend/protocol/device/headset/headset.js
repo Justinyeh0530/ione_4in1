@@ -287,9 +287,19 @@ class Headset extends Device {
         // for(var i = 0; i <= 9; i++) {
         //     _this.dtsController.DTSApoSetEQBandValue(i, 10);
         // }
-        for(var i = 0; i <= 9; i++) {
-            _this.dtsController.DTSApoSetEQBandValue(obj.num, obj.value);
-        }
+        // for(var i = 0; i <= 9; i++) {
+        //     _this.dtsController.DTSApoSetEQBandValue(obj.num, obj.value);
+        // }
+        _this.dtsController.DTSApoSetEQBandValue(0,obj.value31)
+        _this.dtsController.DTSApoSetEQBandValue(1,obj.value62)
+        _this.dtsController.DTSApoSetEQBandValue(2,obj.value125)
+        _this.dtsController.DTSApoSetEQBandValue(3,obj.value250)
+        _this.dtsController.DTSApoSetEQBandValue(4,obj.value500)
+        _this.dtsController.DTSApoSetEQBandValue(5,obj.value1K)
+        _this.dtsController.DTSApoSetEQBandValue(6,obj.value2K)
+        _this.dtsController.DTSApoSetEQBandValue(7,obj.value4K)
+        _this.dtsController.DTSApoSetEQBandValue(8,obj.value8K)
+        _this.dtsController.DTSApoSetEQBandValue(9,obj.value16K)
     }
 
 
