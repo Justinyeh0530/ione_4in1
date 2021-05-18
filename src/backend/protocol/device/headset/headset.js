@@ -183,17 +183,16 @@ class Headset extends Device {
     }
 
     setDashboard(dev, obj, callback) {
-        var _this = this;
         _this.setModeValue(obj)
         callback();
     }
 
     setEqulizer(dev, obj, callback) {
-        var _this = this;
         _this.setDTSMode(obj, function(data) {
-            console.log(4444,data)
-            _this.setEQValue(obj);
-            callback();
+            if(data == 1) {
+                _this.setEQValue(obj,function(){ callback() });
+            } else
+                callback();
         });
     }
 
@@ -301,7 +300,7 @@ class Headset extends Device {
      * Value = 0, EQ off
      * Value = 1, EQ on
      */
-    setEQOnOff(dev, obj) {
+    setEQOnOff(obj) {
         _this.dtsController.DTSApoSetEQOnOff(obj.value);
     }
 
@@ -320,16 +319,17 @@ class Headset extends Device {
         // for(var i = 0; i <= 9; i++) {
         //     _this.dtsController.DTSApoSetEQBandValue(obj.num, obj.value);
         // }
-        _this.dtsController.DTSApoSetEQBandValue(0,obj.value31)
-        _this.dtsController.DTSApoSetEQBandValue(1,obj.value62)
-        _this.dtsController.DTSApoSetEQBandValue(2,obj.value125)
-        _this.dtsController.DTSApoSetEQBandValue(3,obj.value250)
-        _this.dtsController.DTSApoSetEQBandValue(4,obj.value500)
-        _this.dtsController.DTSApoSetEQBandValue(5,obj.value1K)
-        _this.dtsController.DTSApoSetEQBandValue(6,obj.value2K)
-        _this.dtsController.DTSApoSetEQBandValue(7,obj.value4K)
-        _this.dtsController.DTSApoSetEQBandValue(8,obj.value8K)
-        _this.dtsController.DTSApoSetEQBandValue(9,obj.value16K)
+        _this.setEQOnOff(1);
+        _this.dtsController.DTSApoSetEQBandValue(0,obj.value31/10)
+        _this.dtsController.DTSApoSetEQBandValue(1,obj.value62/10)
+        _this.dtsController.DTSApoSetEQBandValue(2,obj.value125/10)
+        _this.dtsController.DTSApoSetEQBandValue(3,obj.value250/10)
+        _this.dtsController.DTSApoSetEQBandValue(4,obj.value500/10)
+        _this.dtsController.DTSApoSetEQBandValue(5,obj.value1K/10)
+        _this.dtsController.DTSApoSetEQBandValue(6,obj.value2K/10)
+        _this.dtsController.DTSApoSetEQBandValue(7,obj.value4K/10)
+        _this.dtsController.DTSApoSetEQBandValue(8,obj.value8K/10)
+        _this.dtsController.DTSApoSetEQBandValue(9,obj.value16K/10)
     }
 
 
