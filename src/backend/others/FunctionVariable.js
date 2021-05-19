@@ -32,7 +32,8 @@ var FuncName = {
     setLighting: "setLighting",
     setDashboard: "setDashboard",
     setEqulizer: "setEqulizer",
-    setSurroundSound: "setSurroundSound"
+    setSurroundSound: "setSurroundSound",
+    setMicrophone: "setMicrophone"
 };
 
 var FuncType = {

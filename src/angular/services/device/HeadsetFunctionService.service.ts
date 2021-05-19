@@ -346,6 +346,8 @@ export class HeadsetFunctionService{
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].microphone.MicVolumeValueTemp = this.MicVolumeValueTemp;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].microphone.MicVolumeBoundsValueTemp = this.MicVolumeBoundsValueTemp;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].microphone.MicSideToneValueTemp = this.MicSideToneValueTemp;
+
+        this.setHardware(4)
     }
 
     /** 
@@ -632,12 +634,12 @@ export class HeadsetFunctionService{
         this.updateTemplightData();
 
         //通知後端 todo
-        this.setHardware(4)
+        this.setHardware(5)
     }
 
     /**
      * 
-     * @param flag 0:Dashboard 1:Equlizer 2:Microphone 3:Surround Sound 4:spectrum
+     * @param flag 0:Dashboard 1:Equlizer 2:Microphone 3:Surround Sound 4:Micophone 5:spectrum
      */
     setHardware(flag) {
         let obj = {};
@@ -687,6 +689,17 @@ export class HeadsetFunctionService{
                 }
             }
         } else if(flag == 4) {
+            obj = {
+                Type: funcVar.FuncType.Device,
+                SN: this.deviceService.currentDevice.SN,
+                Func: funcVar.FuncName.setMicrophone,
+                Param: {
+                    MicVolumeValueTemp: this.MicVolumeValueTemp,
+                    MicVolumeBoundsValueTemp: this.MicVolumeBoundsValueTemp,
+                    MicSideToneValueTemp: this.MicSideToneValueTemp
+                }
+            }
+        } else if(flag == 5) {
             let data = {
                 lightingvalue : this.HeadsetProfileData[this.profileindex].lighting.value,
                 BrightnessValue: this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue,

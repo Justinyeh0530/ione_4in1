@@ -205,10 +205,23 @@ class Headset extends Device {
         callback();
     }
 
+    setMicrophone(dev, obj, callback) {
+        _this.SetMicrophoneVolume(obj.)
+    }
+
     /**
      * 
-     * @param {*} dev 
      * @param {*} obj 
+     * @param {*} callback 
+     */
+    SetMicrophoneVolume(volume, callback) {
+        this.dtsController.SetMicrophoneVolume(volume)
+    }
+
+    /**
+     * 
+     * @param {*} obj 
+     * @param {*} callback 
      */
     setDTSMode(obj,callback) {
         var str =   [   "ApoOpMode:APO4-Off/APO4-Headphone",
