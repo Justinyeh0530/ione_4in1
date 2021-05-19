@@ -206,7 +206,8 @@ class Headset extends Device {
     }
 
     setMicrophone(dev, obj, callback) {
-        _this.SetMicrophoneVolume(obj)
+        _this.SetMicrophoneVolume(obj.MicVolumeValueTemp);
+        callback();
     }
 
     /**
@@ -214,8 +215,8 @@ class Headset extends Device {
      * @param {*} obj 
      * @param {*} callback 
      */
-    SetMicrophoneVolume(obj, callback) {
-        this.dtsController.SetMicrophoneVolume(volume)
+    SetMicrophoneVolume(volume) {
+        _this.dtsController.SetMicrophoneVolume(volume);
     }
 
     /**
