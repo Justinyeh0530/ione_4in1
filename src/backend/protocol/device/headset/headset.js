@@ -46,7 +46,7 @@ class Headset extends Device {
             env.log('Headset','initDevice','dtsController Initialization');
             _this.dtsController.Initialization();
             _this.dtsController.DTSApoGetSupportMode();
-            
+            _this.dtsController.VolumeInitialization();
         }
 
 
