@@ -347,7 +347,7 @@ export class HeadsetFunctionService{
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].microphone.MicVolumeBoundsValueTemp = this.MicVolumeBoundsValueTemp;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].microphone.MicSideToneValueTemp = this.MicSideToneValueTemp;
 
-        this.setHardware(4)
+        this.setHardware(2)
     }
 
     /** 
@@ -634,16 +634,16 @@ export class HeadsetFunctionService{
         this.updateTemplightData();
 
         //通知後端 todo
-        this.setHardware(5)
+        this.setHardware(4)
     }
 
     /**
      * 
-     * @param flag 0:Dashboard 1:Equlizer 2:Microphone 3:Surround Sound 4:Micophone 5:spectrum
+     * @param flag 0:Dashboard 1:Equlizer 2:Microphone 3:Surround Sound 4:spectrum
      */
     setHardware(flag) {
         let obj = {};
-        if(flag == 0) {
+        if(flag == 0) { //Dashborad
             obj = {
                 Type: funcVar.FuncType.Device,
                 SN: this.deviceService.currentDevice.SN,
@@ -657,7 +657,7 @@ export class HeadsetFunctionService{
                     EnvironmentValue: this.EnvironmentValue,//因VirtualizationValue enble時要重新在下一次此函數才有作用
                 }
             }
-        } else if(flag == 1) {
+        } else if(flag == 1) { //Equlizer
             obj = {
                 Type: funcVar.FuncType.Device,
                 SN: this.deviceService.currentDevice.SN,
@@ -676,19 +676,7 @@ export class HeadsetFunctionService{
                     value16K: this.value16K,
                 }
             }
-        } else if(flag == 2) {
-
-        } else if(flag == 3) {
-            obj = {
-                Type: funcVar.FuncType.Device,
-                SN: this.deviceService.currentDevice.SN,
-                Func: funcVar.FuncName.setSurroundSound,
-                Param: {
-                    EnvironmentValue: this.EnvironmentValue,
-                    StereoValue: this.StereoValue,
-                }
-            }
-        } else if(flag == 4) {
+        } else if(flag == 2) { //Microphone
             obj = {
                 Type: funcVar.FuncType.Device,
                 SN: this.deviceService.currentDevice.SN,
@@ -699,7 +687,26 @@ export class HeadsetFunctionService{
                     MicSideToneValueTemp: this.MicSideToneValueTemp
                 }
             }
-        } else if(flag == 5) {
+        } else if(flag == 3) { //Surround Sound
+            obj = {
+                Type: funcVar.FuncType.Device,
+                SN: this.deviceService.currentDevice.SN,
+                Func: funcVar.FuncName.setSurroundSound,
+                Param: {
+                    EnvironmentValue: this.EnvironmentValue,
+                    StereoValue: this.StereoValue,
+                    VolumeL: this.VolumeL,
+                    VolumeR: this.VolumeR,
+                    VolumeC: this.VolumeC,
+                    VolumeLFE: this.VolumeLFE,
+                    VolumeFL: this.VolumeFL,
+                    VolumeFR: this.VolumeFR,
+                    VolumeSL: this.VolumeSL,
+                    VolumeSR: this.VolumeSR,
+                    EnableDTSValue: this.EnableDTSValue
+                }
+            }
+        } else if(flag == 4) { //spectrum
             let data = {
                 lightingvalue : this.HeadsetProfileData[this.profileindex].lighting.value,
                 BrightnessValue: this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue,

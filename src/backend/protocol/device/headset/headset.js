@@ -202,16 +202,19 @@ class Headset extends Device {
     setSurroundSound(dev, obj, callback) {
         _this.setRoom(obj);
         _this.setStereoPreference(obj);
+        _this.SetVolumChannel(0, obj.VolumeFL);
+        _this.SetVolumChannel(1, obj.VolumeFR);
+        _this.SetVolumChannel(2, obj.VolumeC);
+        _this.SetVolumChannel(3, obj.VolumeLFE);
+        _this.SetVolumChannel(4, obj.VolumeSL);
+        _this.SetVolumChannel(5, obj.VolumeSR);
+        _this.SetVolumChannel(6, obj.VolumeL);
+        _this.SetVolumChannel(7, obj.VolumeR);
         callback();
     }
 
     setMicrophone(dev, obj, callback) {
         _this.SetMicrophoneVolume(obj.MicVolumeValueTemp);
-        callback();
-    }
-
-    setVolume(dev, obj, callback) {
-        _this.SetVolumChannel(obj.channel, obj.volume);
         callback();
     }
 
@@ -224,7 +227,7 @@ class Headset extends Device {
      *          
     */
     SetVolumChannel(channel, volume) {
-        _this.dtsController.SetVolumChannel(channel, volume)
+        _this.dtsController.SetVolumChannel(channel, volume * 10)
     }
 
     /**
