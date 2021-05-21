@@ -32,9 +32,10 @@ var HID = (function () {
     HID.prototype.GetFWVersion = function(DeviceId) {
         return _this.hid.GetFWVersion(DeviceId);
     }
+    HID.prototype.SetHidWrite = function(DeviceId, param1, param2, buf) {
+        return _this.hid.SetHidWrite(DeviceId, param1, param2, buf);
+    }
     
-    
-
     HID.prototype.hid = undefined;
     return HID;
 })();

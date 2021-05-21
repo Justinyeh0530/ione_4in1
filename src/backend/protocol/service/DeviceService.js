@@ -94,7 +94,7 @@ class DeviceService extends EventEmitter {
         return hex;
     };
 
-    HIDEP2DataFromDevice(Obj,Obj2) {
+    HIDReadDataFromDevice(Obj,Obj2) {
         try {
             if(env.BuiltType == 1) {
                 return;
@@ -103,23 +103,16 @@ class DeviceService extends EventEmitter {
             var DeviceInfo = Obj2;
             if (DeviceInfo.vid != undefined && DeviceInfo.pid != undefined) {
                 var SN;
-                for(var i = 0; i < _this.SupportDevice.length; i++) {
-                    for (var iState = 0; iState < _this.SupportDevice[i].pid.length; iState++) {
-                        if (_this.SupportDevice[i].vid[iState] == DeviceInfo.vid && _this.SupportDevice[i].pid[iState] == DeviceInfo.pid) {
-                            SN = "0x"+ _this.NumTo16Decimal(_this.SupportDevice[i].vid[0]) + "0x"+ _this.NumTo16Decimal(_this.SupportDevice[i].pid[0]);
-                            break;
-                        }
-                    }
-                }
-                //var SN = "0x"+ _this.NumTo16Decimal(DeviceInfo.vid) + "0x"+ _this.NumTo16Decimal(DeviceInfo.pid) ;
-
+                var SN = "0x"+ _this.NumTo16Decimal(DeviceInfo.vid) + "0x"+ _this.NumTo16Decimal(DeviceInfo.pid) ;
                 var dev = _this.AllDevices.get(SN);
-                var devfun = dev.SeriesInstance["HIDEP2Data"];
+                var devfun = dev.SeriesInstance["HIDReadData"];
+
                 if(devfun === undefined) {
-                    env.log('DeviceService','HIDEP2DataFromDevice',`${Obj.Func}`);
+                    env.log('DeviceService','HIDReadDataFromDevice',`${Obj.Func}`);
                 }
                 else{
-                    dev.SeriesInstance["HIDEP2Data"](dev, EP2Array);
+                    console.log('HIDReadData', EP2Array);
+                    dev.SeriesInstance["HIDReadData"](dev, EP2Array);
                 }
 
             }
@@ -127,7 +120,7 @@ class DeviceService extends EventEmitter {
             return; 
 
         } catch(e) {
-            env.log('DeviceService', 'HIDEP2DataFromDevice', `Error ${e}`);
+            env.log('DeviceService', 'HIDReadDataFromDevice', `Error ${e}`);
         }
     }
     
@@ -149,8 +142,8 @@ class DeviceService extends EventEmitter {
                         filterDevice.push(dev);
 
                         //--------------DeviceCallback----------------
-                        if(_this.SupportDevice[i].vid.toLowerCase() != '0x195d'|| _this.SupportDevice[i].pid.toLowerCase() != '0xa005') {
-                            var rtn = _this.hid.DeviceDataCallback(_this.SupportDevice[i].get.usagepage, _this.SupportDevice[i].get.usage,_this.SupportDevice[i].vid, _this.SupportDevice[i].pid,_this.HIDEP2DataFromDevice);
+                        if(_this.SupportDevice[i].vid.toLowerCase() == '0x195d'&& _this.SupportDevice[i].pid.toLowerCase() == '0xa005') {
+                            var rtn = _this.hid.DeviceDataCallback(_this.SupportDevice[i].get.usagepage, _this.SupportDevice[i].get.usage,_this.SupportDevice[i].vid, _this.SupportDevice[i].pid,_this.HIDReadDataFromDevice);
                             env.log('initDevice', 'Init DeviceDataCallback : ', rtn);
                         }
                         //------------------------------
@@ -296,8 +289,8 @@ class DeviceService extends EventEmitter {
                             result = 1;
                         if(result != 0) {
                             //--------------DeviceCallback----------------
-                            if(_this.SupportDevice[i].vid.toLowerCase() != '0x195d'|| _this.SupportDevice[i].pid.toLowerCase() != '0xa005') {
-                                var rtn = _this.hid.DeviceDataCallback(_this.SupportDevice[i].get.usagepage, _this.SupportDevice[i].get.usage,_this.SupportDevice[i].vid, _this.SupportDevice[i].pid,_this.HIDEP2DataFromDevice);
+                            if(_this.SupportDevice[i].vid.toLowerCase() == '0x195d'|| _this.SupportDevice[i].pid.toLowerCase() == '0xa005') {
+                                var rtn = _this.hid.DeviceDataCallback(_this.SupportDevice[i].get.usagepage, _this.SupportDevice[i].get.usage,_this.SupportDevice[i].vid, _this.SupportDevice[i].pid,_this.HIDReadDataFromDevice);
                                 env.log('HotPlug', 'DeviceDataCallback : ', rtn);
                             }
                             //--------------DeviceCallback----------------

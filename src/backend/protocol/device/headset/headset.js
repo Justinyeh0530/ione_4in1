@@ -183,6 +183,10 @@ class Headset extends Device {
         });
     }
 
+    HIDReadData(dev, objData) {
+        console.log('HIDReadData begin data :',objData);
+    }
+
     setDashboard(dev, obj, callback) {
         _this.setModeValue(obj)
         if(obj.VirtualizationValue)
@@ -376,7 +380,7 @@ class Headset extends Device {
     setLighting(dev, obj) {
         try {
             env.log('headset','setLighting', 'begin...');
-            console.log(111111111111111111111,obj, obj.color.length);
+            console.log(1111111111,obj, obj.color.length);
             var _this = this, ColorMode, color1, color2, SetColorMode, Duration = 0, colorArray = [];
             switch(obj.lightingvalue) {
                 //static
