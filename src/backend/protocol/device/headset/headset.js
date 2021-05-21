@@ -210,11 +210,31 @@ class Headset extends Device {
         callback();
     }
 
+    setVolume(dev, obj, callback) {
+        _this.SetVolumChannel(obj.channel, obj.volume);
+        callback();
+    }
+
     /**
      * 
      * @param {*} obj 
      * @param {*} callback 
-     */
+     * channel => 0:左前, 1: 右前, 2:中前, 3:重低, 4:左後, 5:右後, 6:左側, 7:右側
+     * volume => 音量大小 (0-100)
+     *          
+    */
+    SetVolumChannel(channel, volume) {
+        _this.dtsController.SetVolumChannel(channel, volume)
+    }
+
+    /**
+     * 
+     * @param {*} obj 
+     * @param {*} callback 
+     *
+     * volume => 麥克風大小 (0-100)
+     *          
+    */
     SetMicrophoneVolume(volume) {
         _this.dtsController.SetMicrophoneVolume(volume);
     }
