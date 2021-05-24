@@ -706,8 +706,8 @@
                 <div class="item-title" style="color:#646464; margin-left:15px; margin-top:20px;"> {{'ColorSections'|translate}} </div>
                 <app-ColorSection class="app-ColorSection" id="app-ColorSection-lighting" [id]="'headsetlighting'" [ColorSectionArray]="headsetFunctionService.ColorSectionArray" (ColorSectionChange)="headsetFunctionService.ColorSectionChange($event)"></app-ColorSection>
                 <div class="section">
-                    <div class="addColor" (click)="headsetFunctionService.addColor()"></div>
-                    <div class="removeColor" (click)="headsetFunctionService.removeColor()"></div>
+                    <div class="addColor" (click)="headsetFunctionService.addColor()" [style.pointerEvents]="headsetFunctionService.ColorSectionArray.length >= 10 ? 'none':'auto'"></div>
+                    <div class="removeColor" (click)="headsetFunctionService.removeColor()" [style.pointerEvents]="headsetFunctionService.ColorSectionArray.length == 2 ? 'none':'auto'"></div>
                 </div>
             </div>
             <div class="block-item" style="display:flex; flex-direction: column; width:535px">
