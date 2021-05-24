@@ -374,8 +374,117 @@ class Headset extends Device {
         _this.dtsController.DTSApoSetEQBandValue(9,obj.value16K)
     }
 
+    /**
+     * 
+     * @param {*} obj 
+     * 
+     * Bright: 亮度,
+     * Speed: 呼吸燈速度,
+        ColorMode: LED模式,
+        SetColorMode: SetColorMode,
+        RadarDuration: Duration,
+        Color1: color1,
+        Color2: color2,
+        ColorArray: colorArray
+     */
+    setLightToDevice(dev, obj) {
 
-    
+            
+        try {
+            if(obj.SetColorMode == 4){
+                var data = Buffer.alloc(16);
+                console.log('333333333', obj.ColorArray.length, obj.ColorArray);
+
+                var length = obj.ColorArray.length;
+                var flag = 0;
+                //wave mode
+
+                for(var i = 0; i < 4; i++) {
+                    for(var x = 0; x < 16; x++)
+                        data[x] = 0;
+
+                    data[0] = 0xFF;
+                    data[1] = 0x03;
+                    data[2] = 0x04;
+                    data[3] = i*4;
+
+                    for(var j = 0; j < 12; j++) {
+                        if(obj.ColorArray[(i*12)+j] != null)
+                            data[4+j] = obj.ColorArray[(i*4)+j];
+                        //else
+                            //data[4+j] = 0;
+                            // console.log('data', data);
+            
+                        else {
+                            console.log('flag = 1');
+                            flag = 1;
+                            break;
+                        }
+                    }
+                    console.log('set wave data to device : ', data);
+                    _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data);
+
+                    if(flag == 1) 
+                        break;                        
+                }
+
+                for(var x = 0; x < 16; x++) 
+                    data[x] = 0;
+
+                data[0] = 0xFF;
+                data[1] = 0x02;
+                data[2] = 0x00;
+                data[3] = 0x02;
+                data[4] = 0x32;
+                data[5] = 0x32;
+                data[6] = 0xFF;
+
+                console.log('set wave 1 data to device : ', data);
+                _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data);
+
+
+                for(var x = 0; x < 16; x++) 
+                    data[x] = 0;
+
+                data[0] = 0xFF;
+                data[1] = 0x02;
+                data[2] = obj.SetColorMode;
+                data[3] = obj.ColorMode;
+                data[4] = obj.Speed;
+                data[5] = obj.Bright;
+
+                console.log('set wave 1 data to device : ', data);
+                _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data);
+            }
+            else { 
+                console.log('obj :', obj);
+                var data = Buffer.alloc(16);
+                data[0] = 0xFF;
+                data[1] = 0x02;
+                data[2] = obj.SetColorMode;
+                data[3] = obj.ColorMode;
+                data[4] = obj.Speed;
+                data[5] = obj.Bright;
+                data[6] = obj.Color1[0];
+                data[7] = obj.Color1[1];
+                data[8] = obj.Color1[2];
+                data[9] = obj.Color2[0];
+                data[10] = obj.Color2[1];
+                data[11] = obj.Color2[2];
+                data[12] = 0x00;
+                data[13] = 0x00;
+                data[14] = 0x00;
+                data[15] = 0x00;
+
+
+                console.log('set led data to device : ', data);
+                _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data)
+            }
+        }catch(e) {
+            env.log('ERROR','setLighting', `${e}`);
+        }
+    }
+
 
     setLighting(dev, obj) {
         try {
@@ -389,7 +498,8 @@ class Headset extends Device {
                         ColorMode = 1; //spectrum
                     else
                         ColorMode = 0; //single
-                    SetColorMode = 1;
+                    SetColorMode = 0;
+                  
                     break;
 
                 //breath;
@@ -398,7 +508,7 @@ class Headset extends Device {
                         ColorMode = 1; //spectrum
                     else
                         ColorMode = 2; //Alternation
-                    SetColorMode = 2;
+                    SetColorMode = 1;
                     break;
 
                 
@@ -408,7 +518,7 @@ class Headset extends Device {
                         ColorMode = 1; //spectrum
                     else
                         ColorMode = 2; //Alternation
-                    SetColorMode = 3;
+                    SetColorMode = 2;
                     break;
                 //wave
                 case 3: 
@@ -418,14 +528,13 @@ class Headset extends Device {
                     // else
                     //     ColorMode = 1; //Alternation
                     ColorMode = 1;
-                    SetColorMode = 5;
+                    SetColorMode = 4;
                     
                     for(var i = 0; i < obj.ColorSectionArray.length; i++) {
                         colorArray.push(obj.ColorSectionArray[i].color[0]);
                         colorArray.push(obj.ColorSectionArray[i].color[1]);
                         colorArray.push(obj.ColorSectionArray[i].color[2]);
                     }
-                    env.log('111', '3', JSON.stringify(colorArray));
                     break;
                 }
                 //spiral rainbow
@@ -437,7 +546,7 @@ class Headset extends Device {
                         ColorMode = 3; //Alternation
 
                     ColorMode = ColorMode + obj.DirectionValue;
-                    SetColorMode = 4;
+                    SetColorMode = 3;
                     break;    
 
                 }
@@ -445,7 +554,7 @@ class Headset extends Device {
                 //color shift
                 case 4:
                     ColorMode = 0;
-                    SetColorMode = 6;
+                    SetColorMode = 5;
 
                     break;
                     
@@ -456,15 +565,21 @@ class Headset extends Device {
                         ColorMode = 1; //spectrum
                     else
                         ColorMode = 2; //Alternation
-                    SetColorMode = 7;
+                    SetColorMode = 6;
 
                     Duration = obj.DurationValue-1;
+                    if(obj.DurationValue == 1)
+                        SetColorMode = 6;
+                    else if(obj.DurationValue == 2)
+                        SetColorMode = 0x16;
+                    else 
+                        SetColorMode = 0x26;
                     break;         
                 }           
                 //LED off;
                 case 7:
                     ColorMode = 0;
-                    SetColorMode = 8;
+                    SetColorMode = 7;
                 break;
 
             }
@@ -473,9 +588,10 @@ class Headset extends Device {
                 color2 = obj.color[1];
             else
                 color2 = color1;
+
             let param = {
                 Bright: obj.BrightnessValue*10,
-                Speed: obj.SpeedValue*10,
+                Speed: Math.abs(100 - obj.SpeedValue*10),
                 ColorMode: ColorMode,
                 SetColorMode: SetColorMode,
                 RadarDuration: Duration,
@@ -483,9 +599,9 @@ class Headset extends Device {
                 Color2: color2,
                 ColorArray: colorArray
             }
-            // console.log(2222222,param)
-            // env.log('2222222','1',param)
-            
+
+            _this.setLightToDevice(dev, param);
+           
         } catch(e) {
             logger.error(loggertitle,'setLighting', `${e}`)
         }
