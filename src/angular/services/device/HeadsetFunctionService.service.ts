@@ -495,7 +495,7 @@ export class HeadsetFunctionService{
         if(!this.SpectrumValue) {
             if(document.getElementById(`Alternation-color${this.AlternationFlag}`))
                 document.getElementById(`Alternation-color${this.AlternationFlag}`).style.backgroundColor = `rgb(${this.ColorPickerColor.R},${this.ColorPickerColor.G},${this.ColorPickerColor.B})`;
-            if(this.AlternationFlag !- 0) {
+            if(this.AlternationFlag != 0) {
                 this.CurrentLightingTempColor[this.AlternationFlag - 1][0] = this.ColorPickerColor.R;
                 this.CurrentLightingTempColor[this.AlternationFlag - 1][1] = this.ColorPickerColor.G;
                 this.CurrentLightingTempColor[this.AlternationFlag - 1][2] = this.ColorPickerColor.B;
@@ -604,6 +604,12 @@ export class HeadsetFunctionService{
         }
         if(document.getElementById('color-item1'))
             document.getElementById('color-item1').style.backgroundColor = "#" + this.ColorPickerColor.hex;
+        if(!this.switchDscFlag && document.getElementById(`Alternation-color${this.AlternationFlag}`)) {
+            document.getElementById(`Alternation-color${this.AlternationFlag}`).style.backgroundColor = `rgb(${this.ColorPickerColor.R},${this.ColorPickerColor.G},${this.ColorPickerColor.B})`;
+            this.CurrentLightingTempColor[this.AlternationFlag - 1][0] = this.ColorPickerColor.R;
+            this.CurrentLightingTempColor[this.AlternationFlag - 1][1] = this.ColorPickerColor.G;
+            this.CurrentLightingTempColor[this.AlternationFlag - 1][2] = this.ColorPickerColor.B;
+        }
 
         if(this.headsetLightEffectSelect.value == 3 && this.dotindex != -1) {
             let index = this.ColorSectionArray.findIndex(x => x.value == this.dotindex);
