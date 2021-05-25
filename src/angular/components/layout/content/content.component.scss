@@ -443,6 +443,20 @@
                             filter: brightness(170%);
                         }
                     }
+
+                    .micMointer {
+                        position: absolute;
+                        border: 1px solid #646464;
+                        width: 300px;
+                        height: 100px;
+                        top: 113px;
+                        margin-left: 117px;
+                        cursor: pointer;
+                    }
+
+                    .micMointer:hover {
+                        filter: brightness(170%);
+                    }
                 }
 
                 .Save {

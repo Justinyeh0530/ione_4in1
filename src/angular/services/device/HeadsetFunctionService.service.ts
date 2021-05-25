@@ -44,6 +44,7 @@ export class HeadsetFunctionService{
         { name: 'Color Shift', value: 2, translate: 'Color Shift'},
         { name: 'Led Off', value: 3, translate: 'Led Off'},
     ]
+    MicMonitor:boolean= false
     VirtualizationValue:boolean = false;
     LoudnessValue:boolean = false;
     DialogEnhancementValue:boolean = false;
@@ -192,6 +193,7 @@ export class HeadsetFunctionService{
             this.value16K = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value16K;
 
             //init Micro phone
+            this.MicMonitor = this.HeadsetProfileData[this.profileindex].microphone.MicMonitor;
             this.MicVolumeValueTemp = this.HeadsetProfileData[this.profileindex].microphone.MicVolumeValueTemp;
             this.MicVolumeBoundsValueTemp = this.HeadsetProfileData[this.profileindex].microphone.MicVolumeBoundsValueTemp;
             this.MicSideToneValueTemp = this.HeadsetProfileData[this.profileindex].microphone.MicSideToneValueTemp;
@@ -340,12 +342,14 @@ export class HeadsetFunctionService{
             param: {
                 MicVolumeValueTemp: this.MicVolumeValueTemp,
                 MicVolumeBoundsValueTemp: this.MicVolumeBoundsValueTemp,
-                MicSideToneValueTemp: this.MicSideToneValueTemp
+                MicSideToneValueTemp: this.MicSideToneValueTemp,
+                MicMonitor: this.MicMonitor
             }
         }
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].microphone.MicVolumeValueTemp = this.MicVolumeValueTemp;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].microphone.MicVolumeBoundsValueTemp = this.MicVolumeBoundsValueTemp;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].microphone.MicSideToneValueTemp = this.MicSideToneValueTemp;
+        this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].microphone.MicMonitor = this.MicMonitor;
 
         this.setHardware(2)
     }
@@ -690,7 +694,8 @@ export class HeadsetFunctionService{
                 Param: {
                     MicVolumeValueTemp: this.MicVolumeValueTemp,
                     MicVolumeBoundsValueTemp: this.MicVolumeBoundsValueTemp,
-                    MicSideToneValueTemp: this.MicSideToneValueTemp
+                    MicSideToneValueTemp: this.MicSideToneValueTemp,
+                    MicMonitor: this.MicMonitor
                 }
             }
         } else if(flag == 3) { //Surround Sound
@@ -1058,8 +1063,14 @@ export class HeadsetFunctionService{
             case 3:
                 mic = defaultData.microphone;
                 this.MicSideToneValueTemp = mic.MicSideToneValueTemp;
+                this.MicMonitor = mic.MicMonitor;
                 this.refreshMicEvent.emit();
                 break;
         }
+    }
+
+    setMicMonter() {
+        this.MicMonitor = !this.MicMonitor
+        this.HeadsetMicrophone('MicMonitor');
     }
 }
