@@ -89,7 +89,6 @@ export class ColorSectionComponent implements OnInit{
         var x = document.getElementById(`ColorSection-${this.id}`);
         while (x.firstChild)
             x.removeChild(x.firstChild);
-
         for(let i = 0; i < this.ColorSectionArray.length; i++) 
             this.CreateElement(this.ColorSectionArray[i].value, this.ColorSectionArray[i].left);
         if(this.dotindex != -1) {
@@ -97,8 +96,8 @@ export class ColorSectionComponent implements OnInit{
                 document.getElementById(`color-item-up-${this.id}` + this.ColorSectionArray[i].value).style.display = 'none';
                 document.getElementById(`color-item-down-${this.id}` + this.ColorSectionArray[i].value).style.display = 'none';
             }
-            document.getElementById(`color-item-up-${this.id}` + this.dotindex).style.display = 'block';
-            document.getElementById(`color-item-down-${this.id}` + this.dotindex).style.display = 'block';
+            // document.getElementById(`color-item-up-${this.id}` + this.dotindex).style.display = 'block';
+            // document.getElementById(`color-item-down-${this.id}` + this.dotindex).style.display = 'block';
         }
         this.repaint();
     }
