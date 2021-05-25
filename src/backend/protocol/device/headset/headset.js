@@ -388,8 +388,6 @@ class Headset extends Device {
         ColorArray: colorArray
      */
     setLightToDevice(dev, obj) {
-
-            
         try {
             if(obj.SetColorMode == 4){
                 var data = Buffer.alloc(16);
@@ -407,25 +405,21 @@ class Headset extends Device {
                     data[1] = 0x03;
                     data[2] = 0x04;
                     data[3] = i*4;
+                    data[4] = obj.ColorArray[i*4][0];
+                    data[5] = obj.ColorArray[i*4][1];
+                    data[6] = obj.ColorArray[i*4][2];
+                    data[7] = obj.ColorArray[i*4+1][0];
+                    data[8] = obj.ColorArray[i*4+1][1];
+                    data[9] = obj.ColorArray[i*4+1][2];
+                    data[10] = obj.ColorArray[i*4+2][0];
+                    data[11] = obj.ColorArray[i*4+2][1];
+                    data[12] = obj.ColorArray[i*4+2][2];
+                    data[13] = obj.ColorArray[i*4+3][0];
+                    data[14] = obj.ColorArray[i*4+3][1];
+                    data[15] = obj.ColorArray[i*4+3][2];
 
-                    for(var j = 0; j < 12; j++) {
-                        if(obj.ColorArray[(i*12)+j] != null)
-                            data[4+j] = obj.ColorArray[(i*4)+j];
-                        //else
-                            //data[4+j] = 0;
-                            // console.log('data', data);
-            
-                        else {
-                            console.log('flag = 1');
-                            flag = 1;
-                            break;
-                        }
-                    }
                     console.log('set wave data to device : ', data);
-                    _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data);
-
-                    if(flag == 1) 
-                        break;                        
+                    _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data);                   
                 }
 
                 for(var x = 0; x < 16; x++) 
@@ -530,10 +524,77 @@ class Headset extends Device {
                     ColorMode = 1;
                     SetColorMode = 4;
                     
-                    for(var i = 0; i < obj.ColorSectionArray.length; i++) {
-                        colorArray.push(obj.ColorSectionArray[i].color[0]);
-                        colorArray.push(obj.ColorSectionArray[i].color[1]);
-                        colorArray.push(obj.ColorSectionArray[i].color[2]);
+                    // for(var i = 0; i < obj.ColorSectionArray.length; i++) {
+                    //     colorArray.push(obj.ColorSectionArray[i].color[0]);
+                    //     colorArray.push(obj.ColorSectionArray[i].color[1]);
+                    //     colorArray.push(obj.ColorSectionArray[i].color[2]);
+                    // }
+
+                    if(obj.ColorSectionArray.length == 2){
+                        for(var i = 0; i < 8; i++) {
+                            colorArray.push(obj.ColorSectionArray[0].color);
+                        }
+                        for(var i = 0; i < 8; i++) {
+                            colorArray.push(obj.ColorSectionArray[1].color);
+                        }
+                    }else if(obj.ColorSectionArray.length == 3){
+                        for(var i = 0; i < 5; i++) {
+                            colorArray.push(obj.ColorSectionArray[0].color);
+                        }
+                        for(var i = 0; i < 5; i++) {
+                            colorArray.push(obj.ColorSectionArray[1].color);
+                        }
+                        for(var i = 0; i < 6; i++) {
+                            colorArray.push(obj.ColorSectionArray[1].color);
+                        }
+                    }
+                    else if(obj.ColorSectionArray.length == 4){
+                        for(var i = 0; i < 4; i++) {
+                            for(var j = 0; j < 4; j++)
+                                colorArray.push(obj.ColorSectionArray[i].color);
+                        }
+                    }
+                    else if(obj.ColorSectionArray.length == 5){
+                        for(var i = 0; i < 5; i++) {
+                            for(var j = 0; j < 3; j++)
+                                colorArray.push(obj.ColorSectionArray[i].color);
+                        }
+                        colorArray.push(obj.ColorSectionArray[4].color);
+                    }
+                    else if(obj.ColorSectionArray.length == 6){
+                        for(var i = 0; i < 6; i++) {
+                            for(var j = 0; j < 2; j++)
+                                colorArray.push(obj.ColorSectionArray[i].color);
+                        }
+                        colorArray.push(obj.ColorSectionArray[5].color);
+                        colorArray.push(obj.ColorSectionArray[5].color);
+                        colorArray.push(obj.ColorSectionArray[5].color);
+                        colorArray.push(obj.ColorSectionArray[5].color);
+                    }
+                    else if(obj.ColorSectionArray.length == 7){
+                        for(var i = 0; i < 7; i++) {
+                            for(var j = 0; j < 2; j++)
+                                colorArray.push(obj.ColorSectionArray[i].color);
+                        }
+                        colorArray.push(obj.ColorSectionArray[7].color);
+                        colorArray.push(obj.ColorSectionArray[7].color);
+                    }
+                    else if(obj.ColorSectionArray.length == 8){
+                        for(var i = 0; i < 8; i++) {
+                            for(var j = 0; j < 2; j++)
+                                colorArray.push(obj.ColorSectionArray[i].color);
+                        }
+                    }
+                    else {
+                        for(var i = 0; i < obj.ColorSectionArray.length; i++) {
+                            colorArray.push(obj.ColorSectionArray[i].color);
+                        }
+
+                        if(obj.ColorSectionArray.length < 16){
+                            for(var i = obj.ColorSectionArray.length; i < 16; i++) {
+                                colorArray.push(obj.ColorSectionArray[obj.ColorSectionArray.length-1].color);
+                            }
+                        }
                     }
                     break;
                 }
