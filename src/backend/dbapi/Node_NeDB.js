@@ -58,7 +58,7 @@ var DB = (function ()
         lockFile.check(filePath, (error, isLocked) => {
             //console.error('DB.prototype.queryCmd-lock',filePath, error, isLocked,db);
             if (error) {
-                console.error('DB.prototype.queryCmd.er',filePath,opts,error);
+                // console.error('DB.prototype.queryCmd.er',filePath,opts,error);
                 env.log(env.level.ERROR, 'queryCmd', 'lockFile', error);
                 // throw er;/;
             }
@@ -70,9 +70,7 @@ var DB = (function ()
         
 
     };
-    DB.prototype.showlog= function (message){
-        console.log('DB.prototype.showlog_',message);
-    }
+
     DB.prototype.insertCmd = function (tbname, m, callback) {
         var opts = { retries: 5, retryWait: 100 }
         lockFile.lock(tbname, opts, function (er) {
@@ -103,7 +101,7 @@ var DB = (function ()
         var opts = { retries: 5, retryWait: 100 }
         lockFile.check(filePath, (error, isLocked) => {
             if (error) {
-                console.error('DB.prototype.updateCmd_error',filePath,opts,er);
+                // console.error('DB.prototype.updateCmd_error',filePath,opts,er);
                 env.log('updateCmdERROR', 'updateCmd', 'lockFile', er);
                 // throw er;
             }
@@ -128,7 +126,7 @@ var DB = (function ()
             }
             db.update(om, { $push: nm }, { multi: true }, function (err, numReplaced) {
                 db.persistence.compactDatafile();
-                console.error('DB.prototype.updateDataCmd_ER',tbname,opts,err);
+                // console.error('DB.prototype.updateDataCmd_ER',tbname,opts,err);
                 lockFile.unlock(tbname, function (er) {
                     callback(err);
                 })

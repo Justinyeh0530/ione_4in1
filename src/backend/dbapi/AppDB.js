@@ -30,7 +30,6 @@ class AppDB {
     getPluginDevice(){
         return new Promise(function (resolve, reject) {
             return _this.PluginDB.getPluginDevice().then(function(data){
-                console.log('APPDB.getPluginDevice',data)
                 resolve(data);
             });
         });

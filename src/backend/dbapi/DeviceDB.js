@@ -49,7 +49,6 @@ var DeviceDB = (function (){
     DeviceDB.prototype.getAllDevice = function(){
         return new Promise(function (resolve, reject) {
             return  _this.Node_NeDB.queryCmd('DeviceDB',{},function(docs){  
-                console.log('DeviceDB.prototype.getAllDevice', docs);
                 resolve(docs);     
             })
               

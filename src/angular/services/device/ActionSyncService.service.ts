@@ -142,7 +142,27 @@ export class ActionSyncService{
     }
 
     save() {
-        this.commonService.delayDialog('main-app',500)
+        // this.commonService.delayDialog('main-app',500)
+        let index = this.apModeData.layerlist.findIndex(x => x.index == this.apModeData.index)
+        if(index != -1) {
+            this.apModeData.layerlist[index].opacityvalue = this.opacityvalue;
+            this.apModeData.layerlist[index].speedvalue = this.speedvalue;
+            this.apModeData.layerlist[index].bandwidthvalue = this.bandwidthvalue;
+            this.apModeData.layerlist[index].anglevalue = this.anglevalue;
+            this.apModeData.layerlist[index].gapvalue = this.gapvalue;
+            this.apModeData.layerlist[index].numbervalue = this.numbervalue;
+            this.apModeData.layerlist[index].firevalue = this.firevalue;
+            this.apModeData.layerlist[index].amplitudevalue = this.amplitudevalue;
+            this.apModeData.layerlist[index].gradientvalue = this.gradientvalue;
+            this.apModeData.layerlist[index].directionvalue = this.directionvalue;
+            this.apModeData.layerlist[index].fadvalue = this.fadvalue;
+            this.apModeData.layerlist[index].bidirectionalvalue = this.bidirectionalvalue;
+            this.apModeData.layerlist[index].separatevalue = this.separatevalue;
+            this.apModeData.layerlist[index].bumpvalue = this.bumpvalue;
+            this.dbService.updateApMode(this.apModeData).then(() => {
+                this.commonService.delayDialog('main-app',500);
+            })
+        }
     }
 
     addlayer() {
@@ -154,7 +174,7 @@ export class ActionSyncService{
         this.ColorSectionArray = [
             {value:0, left:0, color:[255, 0, 0, 1]},
         ]
-        let layerobj = {index:index, value:this.LightingEffectData[0].value, enable:true, ColorSectionArray:this.ColorSectionArray}
+        let layerobj = {index:index, value:this.LightingEffectData[0].value, enable:true, ColorSectionArray:this.ColorSectionArray, opacityvalue: this.opacityvalue, speedvalue:this.speedvalue, bandwidthvalue:this.bandwidthvalue, anglevalue:this.anglevalue, gapvalue:this.gapvalue, numbervalue:this.numbervalue, firevalue:this.firevalue, amplitudevalue:this.amplitudevalue, gradientvalue:this.gradientvalue, directionvalue:this.directionvalue, fadvalue:this.fadvalue, bidirectionalvalue:this.bidirectionalvalue, separatevalue:this.separatevalue, bumpvalue:this.bumpvalue}
         this.apModeData.layerlist.push(layerobj);
         this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
     }
@@ -248,6 +268,20 @@ export class ActionSyncService{
         let layerindex = this.getlayerlistindex()
         if(layerindex != undefined) {
             this.ColorSectionArray = this.apModeData.layerlist[layerindex].ColorSectionArray;
+            this.opacityvalue = this.apModeData.layerlist[layerindex].opacityvalue;
+            this.speedvalue = this.apModeData.layerlist[layerindex].speedvalue;
+            this.bandwidthvalue = this.apModeData.layerlist[layerindex].bandwidthvalue;
+            this.anglevalue = this.apModeData.layerlist[layerindex].anglevalue;
+            this.gapvalue = this.apModeData.layerlist[layerindex].gapvalue;
+            this.numbervalue = this.apModeData.layerlist[layerindex].numbervalue;
+            this.firevalue = this.apModeData.layerlist[layerindex].firevalue;
+            this.amplitudevalue = this.apModeData.layerlist[layerindex].amplitudevalue;
+            this.gradientvalue = this.apModeData.layerlist[layerindex].gradientvalue;
+            this.directionvalue = this.apModeData.layerlist[layerindex].directionvalue;
+            this.fadvalue = this.apModeData.layerlist[layerindex].fadvalue;
+            this.bidirectionalvalue = this.apModeData.layerlist[layerindex].bidirectionalvalue;
+            this.separatevalue = this.apModeData.layerlist[layerindex].separatevalue;
+            this.bumpvalue = this.apModeData.layerlist[layerindex].bumpvalue;
             this.updateColorSection.emit(this.ColorSectionArray)
         }
         // this.updateColorSectionArray();
