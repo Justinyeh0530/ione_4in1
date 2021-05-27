@@ -374,6 +374,88 @@ class Headset extends Device {
         _this.dtsController.DTSApoSetEQBandValue(9,obj.value16K)
     }
 
+    setLEDPatten(dev, obj, callback) {
+        // var color = [[255,0,0], [0,255,0], [255,0,0], [0,255,0],
+        // [255,0,0], [0,255,0], [255,0,0], [0,255,0],
+        // [255,0,0], [0,255,0], [255,0,0], [0,255,0],[255,0,0], [0,255,0], [255,0,0], [0,255,0]];
+        // var color1 = [[0,255,0], [0,255,0], [0,255,0], [0,255,0],
+        // [0,255,0], [0,255,0], [0,255,0], [0,255,0],
+        // [0,255,0], [0,255,0], [0,255,0], [0,255,0],
+        // [0,255,0], [0,255,0], [0,255,0], [0,255,0]];
+        // let param = {ledNum : 16,
+        //              colorArray : color};
+        // let param1 = {ledNum : 16,
+        //             colorArray : color1};
+        // for(var i = 0; i < 100; i++)
+        //     _this.setLEDPatten(dev, param1);
+
+
+        // for(var i = 0; i < 100; i++)
+        //     _this.setLEDPatten(dev, param);
+
+        // for(var i = 0; i < 100; i++)
+        //     _this.setLEDPatten(dev, param1);
+
+        callback();
+    }
+
+    /**
+     * 
+     * @param {*} dev 
+     * @param {*} obj 
+     * 
+     * obj.LedNum : LED 數量，最大16組
+     * obj.colorArray : LED 顏色陣列，依照LED數量
+     * 
+     */
+    setLEDPatten(dev, obj) {
+        env.log('headset','setLEDPatten', obj);
+        
+        var data = Buffer.alloc(16);
+        data[0] = 0xFF;
+        
+        
+        var num = Math.ceil(obj.ledNum/4);
+
+        // console.log('777 num',num)
+        var i, j;
+        for(i = 0; i < num; i++) {
+            data[1] = 0x03;
+            
+            for(var x = 4; x < 16; x++){
+                data[x] = 0;
+            }
+            for(j = 0; j < 4; j++) {
+                if(obj.colorArray[(4*i)+(j)][0] != null) {
+                    data[4+(3*j)] = obj.colorArray[(4*i)+(j)][0];
+                    data[4+(3*j)+1] = obj.colorArray[(4*i)+(j)][1];
+                    data[4+(3*j)+2] = obj.colorArray[(4*i)+(j)][2];
+                }
+                else{
+                    break;
+                }
+            }
+            data[2] = j;
+            data[3] = 4*i;
+
+            // console.log('555555555 data', data);
+            _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data); 
+        }
+
+        for(var x = 1; x < 16; x++){
+            data[x] = 0;
+        }
+
+        data[1] = 0x02
+        data[2] = 0x00;
+        data[3] = 0x02;
+        data[4] = 0x32;
+        data[5] = 0x32;
+
+        // console.log('555555555 data', data);
+        _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data);
+    }
+
     /**
      * 
      * @param {*} obj 
