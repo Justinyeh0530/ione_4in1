@@ -640,6 +640,15 @@ export class HeadsetFunctionService{
         this.HeadsetProfileData[this.profileindex].lighting.StartValue = this.ColorShiftStartSelect.value;
         this.HeadsetProfileData[this.profileindex].lighting.StopValue = this.ColorShiftStopSelect.value;
         this.HeadsetProfileData[this.profileindex].lighting.DirectionValue = this.DirectionSelect.value;
+        let obj={
+            Type:funcVar.FuncType.Apmode,
+            Func:funcVar.FuncName.StopApMode,
+            SN:"",
+            Param: ""
+        }
+        this.protocol.RunSetFunction(obj).then((data)=>{
+            console.log('Set ApMode Finish');
+        });
         //更新templighting資料
         this.updateTemplightData();
 

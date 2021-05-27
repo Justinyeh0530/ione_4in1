@@ -105,6 +105,7 @@ export class ActionSyncComponent implements OnInit {
         document.getElementById("action-sync-desktop").addEventListener('mousedown', this.mousedown.bind(this));
         document.getElementById("action-sync-desktop").addEventListener('mousemove', this.mousemove.bind(this));
         document.getElementById("action-sync-desktop").addEventListener('mouseup', this.mouseup.bind(this));
+        this.actionSyncService.StartApMode();
     }
 
     ngOnDestroy() {

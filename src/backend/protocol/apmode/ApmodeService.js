@@ -82,7 +82,10 @@ class ApmodeService extends EventEmitter {
     }
 
     StopApMode(obj, callback) {
-
+        clearInterval(_this.m_iTimerAllLED);
+        clearInterval(_this.m_iTimerDeviceLED);
+        if(_this.SpecEffects != undefined)
+            _this.SpecEffects.SwitchTimer(false);
     }
 
     ReadApModeDBAndSet(obj) {

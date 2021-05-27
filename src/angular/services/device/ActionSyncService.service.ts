@@ -112,6 +112,18 @@ export class ActionSyncService{
         })
     }
 
+    StartApMode() {
+        let obj={
+            Type:funcVar.FuncType.Apmode,
+            Func:funcVar.FuncName.StartApmode,
+            SN:"",
+            Param: this.apModeData
+        }
+        this.protocol.RunSetFunction(obj).then((data)=>{
+            console.log('Set ApMode Finish');
+        });
+    }
+
     initDevice() {
         console.log('init APMode Device')
     }
@@ -172,7 +184,7 @@ export class ActionSyncService{
                     Param: this.apModeData
                 }
                 this.protocol.RunSetFunction(obj).then((data)=>{
-                    console.log('SetAllDB Finish');
+                    console.log('Set ApMode Finish');
                 });
             })
         }
@@ -313,14 +325,17 @@ export class ActionSyncService{
         } else {
             for(let i = 0; i < this.apModeData.Device.length; i++) 
             document.getElementById(`${this.apModeData.Device[i].SN}`).style.pointerEvents = "none";
+            this.save();
         }
     }
 
     enableLightingCenterDrag(flag) {
         if(flag)
             document.getElementById('lighting-center').style.display = 'block';
-        else
+        else {
             document.getElementById('lighting-center').style.display = 'none';
+            this.save();
+        }
     }
 
     /**
@@ -374,6 +389,7 @@ export class ActionSyncService{
             }
         } else {
             /**need to do */
+            this.save();
         }
     }
 
@@ -587,6 +603,9 @@ export class ActionSyncService{
      */
     ColorChange(event) {
         document.getElementById('colorbox').style.backgroundColor = `rgb(${event.R}, ${event.G}, ${event.B}, ${event.A/100})`
+        let layerindex = this.getlayerlistindex()
+        if(this.dotindex == -1 && layerindex != -1 && this.apModeData.layerlist[layerindex].value == 0) //static
+            this.dotindex = 0
         if(this.dotindex != -1){
             let index = this.ColorSectionArray.findIndex(x => x.value == this.dotindex);
             if(index != -1) {
@@ -601,7 +620,8 @@ export class ActionSyncService{
         let layerindex = this.getlayerlistindex()
         if(layerindex != undefined) {
             this.apModeData.layerlist[layerindex].ColorSectionArray = this.ColorSectionArray;
-            this.dbService.updateApMode(this.apModeData).then(() => {})
+            // this.dbService.updateApMode(this.apModeData).then(() => {})
+            this.save();
         }
     }
 

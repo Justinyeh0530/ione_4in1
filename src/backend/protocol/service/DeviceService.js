@@ -30,7 +30,7 @@ class DeviceService extends EventEmitter {
             //------------------ApmodeService------------------
             _this.ApmodeService = ApmodeService.getInstance();
             _this.ApmodeService.on(evtType.ProtocolMessage, _this.OnApmodeMessage)
-            _this.ApmodeService.StartApmode(1,function(){})
+            // _this.ApmodeService.StartApmode(1,function(){})
             //------------------ApmodeService------------------
 
         } catch(e) {
@@ -342,8 +342,12 @@ class DeviceService extends EventEmitter {
     //原OnSpecrumMessage
     OnApmodeMessage(obj) {
         if(obj.Func == evtType.SendSyncLED) {
-            // for(var val of _this.AllDevices.values()) {
-            // }
+            for(var val of _this.AllDevices.values()) {
+                if(val.BaseInfo.SN == '0x195D0xA005') {
+                    var Data = obj.Param.Data[0]
+                    _this[val.BaseInfo.routerID].setApMode(val, Data);
+                }
+            }
             _this.emit(evtType.ProtocolMessage, obj);
         }
     }

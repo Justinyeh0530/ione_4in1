@@ -374,7 +374,7 @@ class Headset extends Device {
         _this.dtsController.DTSApoSetEQBandValue(9,obj.value16K)
     }
 
-    setLEDPatten(dev, obj, callback) {
+    setApMode(dev, obj) {
         // var color = [[255,0,0], [0,255,0], [255,0,0], [0,255,0],
         // [255,0,0], [0,255,0], [255,0,0], [0,255,0],
         // [255,0,0], [0,255,0], [255,0,0], [0,255,0],[255,0,0], [0,255,0], [255,0,0], [0,255,0]];
@@ -395,8 +395,8 @@ class Headset extends Device {
 
         // for(var i = 0; i < 100; i++)
         //     _this.setLEDPatten(dev, param1);
-
-        callback();
+        let param = {ledNum : 16, colorArray : obj};
+        _this.setLEDPatten(dev, param);
     }
 
     /**
@@ -409,19 +409,15 @@ class Headset extends Device {
      * 
      */
     setLEDPatten(dev, obj) {
-        env.log('headset','setLEDPatten', obj);
-        
+        // env.log('headset','setLEDPatten', obj);
         var data = Buffer.alloc(16);
         data[0] = 0xFF;
-        
-        
         var num = Math.ceil(obj.ledNum/4);
 
         // console.log('777 num',num)
         var i, j;
         for(i = 0; i < num; i++) {
             data[1] = 0x03;
-            
             for(var x = 4; x < 16; x++){
                 data[x] = 0;
             }

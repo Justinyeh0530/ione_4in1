@@ -34,7 +34,8 @@ var FuncName = {
     setEqulizer: "setEqulizer",
     setSurroundSound: "setSurroundSound",
     setMicrophone: "setMicrophone",
-    StartApmode: "StartApmode"
+    StartApmode: "StartApmode",
+    StopApMode: "StopApMode"
 };
 
 var FuncType = {
