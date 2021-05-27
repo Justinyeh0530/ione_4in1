@@ -561,7 +561,6 @@ class Headset extends Device {
     setLighting(dev, obj) {
         try {
             env.log('headset','setLighting', 'begin...');
-            console.log(1111111111,obj, obj.color.length);
             var _this = this, ColorMode, color1, color2, SetColorMode, Duration = 0, colorArray = [];
             switch(obj.lightingvalue) {
                 //static
