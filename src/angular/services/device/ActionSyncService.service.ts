@@ -1,9 +1,11 @@
+declare var System;
 import { Injectable, EventEmitter, ViewChild } from '@angular/core';
 let electron_Instance = window['System']._nodeRequire('electron').remote; 
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { CommonService } from './index';
+import { protocolService } from '../../services/service/protocol.service'
+let funcVar = System._nodeRequire('./backend/others/FunctionVariable');
 import * as _ from 'lodash'
-import { xor } from 'lodash';
 
 @Injectable()
 export class ActionSyncService{
@@ -69,6 +71,7 @@ export class ActionSyncService{
 
     constructor(
         private translateService: TranslateService,
+        private protocol: protocolService,
         private commonService: CommonService
     ){
         document.addEventListener('click',(event) => {
@@ -137,6 +140,7 @@ export class ActionSyncService{
                 this.apModeData.layerlist[layerindex].value = index;
                 this.setightParamToDefault(index);
                 this.updateColorSectionArray();
+                this.save();
             }
         })
     }
@@ -161,6 +165,15 @@ export class ActionSyncService{
             this.apModeData.layerlist[index].bumpvalue = this.bumpvalue;
             this.dbService.updateApMode(this.apModeData).then(() => {
                 this.commonService.delayDialog('main-app',500);
+                let obj={
+                    Type:funcVar.FuncType.Apmode,
+                    Func:funcVar.FuncName.StartApmode,
+                    SN:"",
+                    Param: this.apModeData
+                }
+                this.protocol.RunSetFunction(obj).then((data)=>{
+                    console.log('SetAllDB Finish');
+                });
             })
         }
     }
@@ -170,13 +183,14 @@ export class ActionSyncService{
         if(this.apModeData.layerlist.length > 0) 
             index = this.apModeData.layerlist[this.apModeData.layerlist.length - 1].index;
         index++;
-        this.createLayer(index, this.LightingEffectData[0].value, 1, 1);
         this.ColorSectionArray = [
             {value:0, left:0, color:[255, 0, 0, 1]},
         ]
         let layerobj = {index:index, value:this.LightingEffectData[0].value, enable:true, ColorSectionArray:this.ColorSectionArray, opacityvalue: this.opacityvalue, speedvalue:this.speedvalue, bandwidthvalue:this.bandwidthvalue, anglevalue:this.anglevalue, gapvalue:this.gapvalue, numbervalue:this.numbervalue, firevalue:this.firevalue, amplitudevalue:this.amplitudevalue, gradientvalue:this.gradientvalue, directionvalue:this.directionvalue, fadvalue:this.fadvalue, bidirectionalvalue:this.bidirectionalvalue, separatevalue:this.separatevalue, bumpvalue:this.bumpvalue}
         this.apModeData.layerlist.push(layerobj);
-        this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
+        // this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
+        this.apModeData.index = index;
+        this.createLayer(index, this.LightingEffectData[0].value, 1, 1);
     }
 
     /**
@@ -211,7 +225,8 @@ export class ActionSyncService{
         else
             document.getElementById('actionsync-lighting-show' + index).style.backgroundImage = "url(./image/unshow.png)"
         if(flag == 1) {
-            this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
+            // this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
+            this.save();
         }
     }
 

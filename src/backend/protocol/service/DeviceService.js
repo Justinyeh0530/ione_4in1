@@ -8,9 +8,9 @@ var CommonKeyboardSeries = require('../device/keyboard/CommonKeyboardSeries');
 var CommonHeadsetSeries = require('../device/headset/CommonHeadsetSeries');
 var funcVar = require('../../others/FunctionVariable');
 const { Logger } = require('log4js');
-const { ROUTER_CONFIGURATION } = require('@angular/router');
 const loggertitle = "DeviceService"
 var evtType = require('../../others/EventVariable').EventTypes;
+var ApmodeService = require('../apmode/ApmodeService')
 
 
 'use strict';
@@ -26,6 +26,13 @@ class DeviceService extends EventEmitter {
             _this.AllDevices = new Map();
             _this.hid = HID.HIDInstance;
             _this.SetPluginDB = false;
+
+            //------------------ApmodeService------------------
+            _this.ApmodeService = ApmodeService.getInstance();
+            _this.ApmodeService.on(evtType.ProtocolMessage, _this.OnApmodeMessage)
+            _this.ApmodeService.StartApmode(1,function(){})
+            //------------------ApmodeService------------------
+
         } catch(e) {
             env.log('ERROR','DeviceService',e)
         }
@@ -65,6 +72,14 @@ class DeviceService extends EventEmitter {
             return;
         }
         try {
+            if(Obj.Type == funcVar.FuncType.Apmode) {
+                var apmode = _this.ApmodeService[Obj.Func];
+                if(apmode === undefined)
+                    throw new Error(`Specfun Error: ${Obj.Func}`)
+                apmode(Obj.Param, callback);
+                return;
+            }
+
             if( _this.AllDevices.size <= 0)
                 throw new Error('Please initDevice first');
             
@@ -322,6 +337,15 @@ class DeviceService extends EventEmitter {
                 }
             }
         },1500)
+    }
+
+    //原OnSpecrumMessage
+    OnApmodeMessage(obj) {
+        if(obj.Func == evtType.SendSyncLED) {
+            // for(var val of _this.AllDevices.values()) {
+            // }
+            _this.emit(evtType.ProtocolMessage, obj);
+        }
     }
 
     /**

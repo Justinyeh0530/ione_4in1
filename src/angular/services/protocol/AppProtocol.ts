@@ -16,15 +16,9 @@ export class AppProtocol {
         // env.log('AppProtocol','RunSetFunction',JSON.stringify(obj));
         if (obj.Type === funcVar.FuncType.System ){
             this.RunSetFunctionSystem(obj,callback);           
-        } else if (obj.Type === funcVar.FuncType.Device){
+        } else {
             this.RunSetFunctionDevice(obj,callback);
-        } else if (obj.Type === funcVar.FuncType.Mouse){
-            this.RunSetFunctionDevice(obj,callback);
-        } else if (obj.Type === funcVar.FuncType.Keyboard){
-            this.RunSetFunctionDevice(obj,callback);
-        } else if (obj.Type === funcVar.FuncType.Headset){
-            this.RunSetFunctionDevice(obj,callback);
-        }
+        } 
     }
    
     public RunGetFunction(obj:any,callback:any){

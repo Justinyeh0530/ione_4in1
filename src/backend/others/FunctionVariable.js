@@ -33,14 +33,16 @@ var FuncName = {
     setDashboard: "setDashboard",
     setEqulizer: "setEqulizer",
     setSurroundSound: "setSurroundSound",
-    setMicrophone: "setMicrophone"
+    setMicrophone: "setMicrophone",
+    StartApmode: "StartApmode"
 };
 
 var FuncType = {
     System : 0x01,
     Mouse : 0x02,
     Keyboard :0x03,
-    Device : 0x04
+    Device : 0x04,
+    Apmode: 0x05
 };
 var FuncKeyCode = [
     '', '', '', '','a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',

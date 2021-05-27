@@ -9,7 +9,7 @@ let env = System._nodeRequire('./backend/others/env');
 import { DeviceService, GetAppService, CommonService, FunctionService, HeadsetFunctionService, ActionSyncService} from '../../../services/device/index';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
-import { connectableObservableDescriptor } from 'rxjs/observable/ConnectableObservable';
+import { EmitService } from '../../../services/libs/electron/index'
 let remote = System._nodeRequire('electron').remote;
 let win = remote.getGlobal('MainWindow').win;
 let SupportLanguage = System._nodeRequire('./backend/others/SupportData').SupportLanguage;
@@ -38,6 +38,7 @@ export class ActionSyncComponent implements OnInit {
     dragDeviceID:any = "";
     framesubscribe:any;
     topbarsubscribe:any;
+    Syncsubscription:any;
 
     //選擇框
     SelectDiv:any;
@@ -57,6 +58,7 @@ export class ActionSyncComponent implements OnInit {
         private cdr: ChangeDetectorRef, 
         private functionService: FunctionService,
         private headsetFunctionService: HeadsetFunctionService,
+        private emitService: EmitService,
         private actionSyncService: ActionSyncService
     ) {
         this.framesubscribe = this.actionSyncService.frameSelectionEvent.subscribe((flag) => {
@@ -85,6 +87,16 @@ export class ActionSyncComponent implements OnInit {
         this.topbarsubscribe = this.functionService.changeTopbarEvent.subscribe(() => {
             this.actionSyncService.resetflag();
         })
+
+        this.Syncsubscription = this.emitService.EmitObservable.subscribe((src:any) => {
+            if(src.Func == 'SendSyncLED') {
+                //A08s
+                for(let i = 0; i < src.Data[0].length; i++) {
+                    if(document.getElementById(`0x195D0xA005-led${i}`))
+                        document.getElementById(`0x195D0xA005-led${i}`).style.backgroundColor="rgb("+src.Data[0][i][0]+","+src.Data[0][i][1]+","+src.Data[0][i][2]+")";
+                }
+            }
+        });
     }
 
     ngOnInit() {
@@ -102,6 +114,7 @@ export class ActionSyncComponent implements OnInit {
         // document.getElementById("action-sync-desktop").removeEventListener('mouseup', this.mouseup.bind(this));
         this.framesubscribe.unsubscribe();
         this.topbarsubscribe.unsubscribe();
+        this.Syncsubscription.unsubscribe();
     }
 
     SliderMove(id) {

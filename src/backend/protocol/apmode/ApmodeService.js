@@ -4,6 +4,7 @@ const env = require('../../others/env');
 const funcVar = require('../../others/FunctionVariable');
 const { isObjectLike } = require('lodash');
 const evtType = require('../../others/EventVariable').EventTypes;
+var AppObj = require('../../dbapi/AppDB');
 
 
 'use strict';
@@ -17,8 +18,8 @@ class ApmodeService extends EventEmitter {
         _this.m_iTimerAllLED;//Timer For Function
         _this.m_iTimerDeviceLED = {};//Timer For Function
         _this.SendtoUI = false;//Timer For Function
-        // _this.AppDB = AppObj.getInstance();
-        _this.initService();
+        _this.AppDB = AppObj.getInstance();
+        // _this.initService();
     }
 
 
@@ -54,44 +55,65 @@ class ApmodeService extends EventEmitter {
             //-----------emit-------------------
             var Obj = {
                 Type: funcVar.FuncType.Device,
+                Func: evtType.SendSyncLED, 
                 Param: { Func: evtType.SendSyncLED, iSyncDevice: 99, Data: Data ,SendtoUI:_this.SendtoUI}
             };
-            console.log(555555, Obj)
+            // if(Obj.Param.Data.length > 0)
+            //     console.log(555555, Obj.Param.Data)
             _this.emit(evtType.ProtocolMessage, Obj);
         });
     }
 
     //原SpecEffectTimer
-    StartApmode(callback) {
+    StartApmode(obj, callback) {
         _this.SendtoUI = false;
         //-------------SpecEffects---------------------
         if (_this.SpecEffects == undefined) {
             _this.SpecEffects =  SpecEffects.getInstance();
-            _this.SpecEffects.RefreshDevices();
-            _this.ReadApModeDBAndSet();
         }
         else
             _this.SpecEffects.SwitchTimer(true);
+        _this.SpecEffects.RefreshDevices();
+        _this.ReadApModeDBAndSet(obj);
         //-------------SpecEffects---------------------
         clearInterval(_this.m_iTimerAllLED);
         _this.m_iTimerAllLED = setInterval(_this.OnTimerAllLED, 40);
         callback();
     }
 
-    ReadApModeDBAndSet() {
-        _this.AppDB.getApMode().then(function (data) {
-            if (data[0] != undefined) {
+    StopApMode(obj, callback) {
+
+    }
+
+    ReadApModeDBAndSet(obj) {
+        if(obj == 1)
+            _this.AppDB.getApMode().then(function (data) {
+                if (data != undefined) {
+                    var EffectLibrary = [];
+                    for (let index = 0; index < data.layerlist.length; index++) {
+                        EffectLibrary.push(data.layerlist[index]);
+                    }
+                    let SyncLEDData = {
+                        EffectLibrary: EffectLibrary,
+                        DeviceAxis: data.Device
+                    }
+                    _this.SetSyncLEDData(SyncLEDData,function (){});
+                }
+            });
+        else {
+            var data = obj;
+            if (data != undefined) {
                 var EffectLibrary = [];
-                for (let index = 0; index < data[0].layerlist.length; index++) {
-                    EffectLibrary.push(data[0].layerlist[index]);
+                for (let index = 0; index < data.layerlist.length; index++) {
+                    EffectLibrary.push(data.layerlist[index]);
                 }
                 let SyncLEDData = {
                     EffectLibrary: EffectLibrary,
-                    DeviceAxis: data[0].Device
+                    DeviceAxis: data.Device
                 }
                 _this.SetSyncLEDData(SyncLEDData,function (){});
             }
-        });
+        }
     }
 
     SetSyncLEDData(obj, callback) {
@@ -126,6 +148,7 @@ class ApmodeService extends EventEmitter {
          * 11: AudioCap
          */
         var m_iEffectName = [11, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        var SyncDevices = ['0x195D0xA005']
         var EffectLibrary = [];
         var SynceData = obj;
         var GradientArray = [];
@@ -149,7 +172,60 @@ class ApmodeService extends EventEmitter {
                 GradientArray.push(Gradient);
             }
             tmpEffectLibrary.GradientArray = GradientArray;
-            tmpEffectLibrary.Opacity = SynceData.EffectLibrary[i].Opcaity;
+            tmpEffectLibrary.Opacity = SynceData.EffectLibrary[i].opacityvalue / 100;
+            tmpEffectLibrary.input_visible = SynceData.EffectLibrary[i].enable;
+            tmpEffectLibrary.BandWidth = SynceData.EffectLibrary[i].bandwidthvalue;
+            if(tmpEffectLibrary.Effect == 6) //breath
+                tmpEffectLibrary.BandWidth = 200;
+            tmpEffectLibrary.Angle = SynceData.EffectLibrary[i].anglevalue;
+            tmpEffectLibrary.Speed = (SynceData.EffectLibrary[i].speedvalue + 5) / 10,
+            tmpEffectLibrary.Bidirectional = SynceData.EffectLibrary[i].bidirectionalvalue;
+            tmpEffectLibrary.Bump = SynceData.EffectLibrary[i].bumpvalue;
+            tmpEffectLibrary.Direction = SynceData.EffectLibrary[i].directionvalue;
+            tmpEffectLibrary.Fire = SynceData.EffectLibrary[i].firevalue;
+            tmpEffectLibrary.Gradient = SynceData.EffectLibrary[i].gradientvalue;
+            tmpEffectLibrary.Number = SynceData.EffectLibrary[i].numbervalue;
+            tmpEffectLibrary.Separate = SynceData.EffectLibrary[i].separatevalue
+            tmpEffectLibrary.Amplitude = SynceData.EffectLibrary[i].amplitudevalue
+            tmpEffectLibrary.Soft = SynceData.EffectLibrary[i].fadvalue;
+
+            // No use
+            tmpEffectLibrary.Radius = 50;
+            tmpEffectLibrary.Gap = 2;
+            tmpEffectLibrary.Taketimes = 3;
+
+            //Device被選中的框框
+            var arrDeviceSelect = [];
+            for (let index = 0; index < SyncDevices.length; index++) {
+                for (let indexSN = 0; indexSN < SynceData.DeviceAxis.length; indexSN++) {
+                    if (SynceData.DeviceAxis[indexSN].SN == SyncDevices[index]) {
+                        arrDeviceSelect.push(SynceData.DeviceAxis[indexSN].led);
+                        break;
+                    }
+                }
+            }
+            tmpEffectLibrary.deviceselects = arrDeviceSelect;
+            EffectLibrary.push(tmpEffectLibrary);
+        }
+        //Device座標
+        var arrDeviceAxis = [];
+        for (let index = 0; index < SyncDevices.length; index++) {
+            for (let indexSN = 0; indexSN < SynceData.DeviceAxis.length; indexSN++) {
+                if (SynceData.DeviceAxis[indexSN].SN == SyncDevices[index]) {
+                    var tmpDeviceAxis = {X:SynceData.DeviceAxis[indexSN].x , Y:SynceData.DeviceAxis[indexSN].y}
+                    if (tmpDeviceAxis.X == undefined) {
+                        tmpDeviceAxis = {X: 0, Y: 0};
+                    }
+                    arrDeviceAxis.push(tmpDeviceAxis);
+                    break;
+                }
+            }
+        }
+        var DeviceAxis = arrDeviceAxis;
+
+        var Obj2 = {
+            EffectLibrary: EffectLibrary,
+            DeviceAxis: DeviceAxis
         }
         if (_this.SpecEffects != undefined){
             _this.SpecEffects.SetSyncLEDData(Obj2).then(function () {

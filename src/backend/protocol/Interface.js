@@ -305,6 +305,7 @@ var ProtocolInterface = (function (_super) {
             }
             
             switch (Obj.Type) {
+                case funcVar.FuncType.Apmode:
                 case funcVar.FuncType.Device:
                 case funcVar.FuncType.Mouse:
                 case funcVar.FuncType.Keyboard:

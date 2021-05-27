@@ -1690,9 +1690,9 @@ class SpecEffects{
 		var ideviceCount = manager.devices.length;
 		for (var i = 0; i < ideviceCount; i++)
 			manager.popDevice();
-		manager.pushDevice(new Device('XPG Headshot', XPG_MOUSE_Pos, XPG_MOUSE_keycodes));//0:XPG Headshot
+		// manager.pushDevice(new Device('XPG Headshot', XPG_MOUSE_Pos, XPG_MOUSE_keycodes));//0:XPG Headshot
 		//------------------Keyboards----------------------
-		manager.pushDevice(new Device('XPG Primer', XPG_Primer_Pos, XPG_Primer_keycodes));//2:XPG Primer
+		// manager.pushDevice(new Device('XPG Primer', XPG_Primer_Pos, XPG_Primer_keycodes));//2:XPG Primer
 		manager.pushDevice(new Device('A08s', A08s_Pos, A08s_keycodes));//3:XPG Mage
 	}
 
