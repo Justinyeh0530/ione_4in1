@@ -396,7 +396,8 @@ class Headset extends Device {
         // for(var i = 0; i < 100; i++)
         //     _this.setLEDPatten(dev, param1);
         let param = {ledNum : 16, colorArray : obj};
-        _this.setLEDPatten(dev, param);
+        if(obj != undefined)
+            _this.setLEDPatten(dev, param);
     }
 
     /**

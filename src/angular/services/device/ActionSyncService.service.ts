@@ -21,7 +21,7 @@ export class ActionSyncService{
     anglevalue:number = 0;
     gapvalue:number = 0;
     numbervalue:number = 5;
-    firevalue:number = 0.5;
+    firevalue:number = 5;
     amplitudevalue:number = 500;
     gradientvalue:boolean = true;
     directionvalue:boolean = true;
@@ -158,7 +158,6 @@ export class ActionSyncService{
     }
 
     save() {
-        // this.commonService.delayDialog('main-app',500)
         let index = this.apModeData.layerlist.findIndex(x => x.index == this.apModeData.index)
         if(index != -1) {
             this.apModeData.layerlist[index].opacityvalue = this.opacityvalue;
@@ -198,7 +197,7 @@ export class ActionSyncService{
         this.ColorSectionArray = [
             {value:0, left:0, color:[255, 0, 0, 1]},
         ]
-        let layerobj = {index:index, value:this.LightingEffectData[0].value, enable:true, ColorSectionArray:this.ColorSectionArray, opacityvalue: this.opacityvalue, speedvalue:this.speedvalue, bandwidthvalue:this.bandwidthvalue, anglevalue:this.anglevalue, gapvalue:this.gapvalue, numbervalue:this.numbervalue, firevalue:this.firevalue, amplitudevalue:this.amplitudevalue, gradientvalue:this.gradientvalue, directionvalue:this.directionvalue, fadvalue:this.fadvalue, bidirectionalvalue:this.bidirectionalvalue, separatevalue:this.separatevalue, bumpvalue:this.bumpvalue}
+        let layerobj = {index:index, value:this.LightingEffectData[0].value, enable:true, ColorSectionArray:this.ColorSectionArray, opacityvalue: this.opacityvalue, speedvalue:this.speedvalue, bandwidthvalue:this.bandwidthvalue, anglevalue:this.anglevalue, gapvalue:this.gapvalue, numbervalue:this.numbervalue, firevalue:this.firevalue, amplitudevalue:this.amplitudevalue, gradientvalue:this.gradientvalue, directionvalue:this.directionvalue, fadvalue:this.fadvalue, bidirectionalvalue:this.bidirectionalvalue, separatevalue:this.separatevalue, bumpvalue:this.bumpvalue, center:{x:0, y:0}}
         this.apModeData.layerlist.push(layerobj);
         // this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
         this.apModeData.index = index;

@@ -1138,6 +1138,8 @@ class Manager {
 		this.blends = new Array(this.effects.length).fill(true);
 	}
 	updateRegion() {
+		if(this.devices.length == 0)
+			return;
 		var x1 = 1e9, y1 = 1e9, x2 = -1e9, y2 = -1e9;
 		for (let device of this.devices) {
 			x1 = Math.min(x1, device.region.x);
@@ -1510,7 +1512,7 @@ class SpecEffects{
         try{
             env.log("SpecEffects","SpecEffects","New SpecEffects INSTANCE");
 			_thisSpecEffects = this;
-			this.initDevice();
+			// this.initDevice();
 			this.initAudio();
 			this.StartTimer('update',10);
             
@@ -1536,7 +1538,8 @@ class SpecEffects{
 	initDevice() {
 		//manager.pushDevice(new Device('XPG Headshot', XPG_MOUSE_Pos, XPG_MOUSE_keycodes));
 		//manager.pushDevice(new Device('XPG Summoner', XPG_SUMMONER_Pos, XPG_SUMMONER_keycodes));
-		manager.pushEffect(new Wave());
+		// manager.pushEffect(new Wave());
+		// manager.pushDevice(new Device('A08s', A08s_Pos, A08s_keycodes));//A08s
 	}
 
 	//audio	
@@ -1673,7 +1676,7 @@ class SpecEffects{
 		// manager.pushDevice(new Device('XPG Headshot', XPG_MOUSE_Pos, XPG_MOUSE_keycodes));//0:XPG Headshot
 		//------------------Keyboards----------------------
 		// manager.pushDevice(new Device('XPG Primer', XPG_Primer_Pos, XPG_Primer_keycodes));//2:XPG Primer
-		manager.pushDevice(new Device('A08s', A08s_Pos, A08s_keycodes));//3:XPG Mage
+		manager.pushDevice(new Device('A08s', A08s_Pos, A08s_keycodes));//A08s
 	}
 
 	SetSyncLEDData(Obj){

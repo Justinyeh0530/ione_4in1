@@ -90,6 +90,7 @@ export class ActionSyncComponent implements OnInit {
 
         this.Syncsubscription = this.emitService.EmitObservable.subscribe((src:any) => {
             if(src.Func == 'SendSyncLED') {
+                // console.log(2222,src.Data[0])
                 //A08s
                 for(let i = 0; i < src.Data[0].length; i++) {
                     if(document.getElementById(`0x195D0xA005-led${i}`))
@@ -264,8 +265,13 @@ export class ActionSyncComponent implements OnInit {
             document.getElementById('lighting-center').style.left = `${this.LightingCenterX + moveX}px`;
             document.getElementById('lighting-center').style.top = `${this.LightingCenterY + moveY}px`;
             
-            this.actionSyncService.apModeData.center.x = this.LightingCenterX + moveX;
-            this.actionSyncService.apModeData.center.y = this.LightingCenterY + moveY;
+            // this.actionSyncService.apModeData.center.x = this.LightingCenterX + moveX;
+            // this.actionSyncService.apModeData.center.y = this.LightingCenterY + moveY;
+            let layerindex = this.actionSyncService.getlayerlistindex()
+            if(layerindex != undefined) {
+                this.actionSyncService.apModeData.layerlist[layerindex].center.x = this.LightingCenterX + moveX;
+                this.actionSyncService.apModeData.layerlist[layerindex].center.y = this.LightingCenterY + moveY;
+            }
         }
     }
 
@@ -295,7 +301,8 @@ export class ActionSyncComponent implements OnInit {
             this.dbService.updateApMode(this.actionSyncService.apModeData).then(() => {})
         } else if(this.lightingcenterdrag) {
             this.lightingcenterdrag = false;
-            this.dbService.updateApMode(this.actionSyncService.apModeData).then(() => {})
+            // this.dbService.updateApMode(this.actionSyncService.apModeData).then(() => {})
+            this.actionSyncService.save();
         }
     }
 
@@ -332,5 +339,19 @@ export class ActionSyncComponent implements OnInit {
         })
         this.actionSyncService.apModeData.Device
         return result;
+    }
+
+    checkLightingCenter() {
+        let layerindex = this.actionSyncService.getlayerlistindex();
+        let obj = {
+            x:0,
+            y:0
+        }
+        if(layerindex != undefined) {
+            obj.x = this.actionSyncService.apModeData.layerlist[layerindex].center.x;
+            obj.y = this.actionSyncService.apModeData.layerlist[layerindex].center.y
+        }
+        console.log(33333,obj)
+        return obj;
     }
 }

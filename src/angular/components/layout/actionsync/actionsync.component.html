@@ -1,7 +1,7 @@
 <div class="actionsync">
     <div class="actionsync-top">
         <div class="desktop" id="action-sync-desktop">
-            <div class="lighting-center" id="lighting-center" [style.left]="actionSyncService.apModeData.center.x + 'px'" [style.top]="actionSyncService.apModeData.center.y + 'px'"></div>
+            <div class="lighting-center" id="lighting-center" [style.left]="checkLightingCenter().x + 'px'" [style.top]="checkLightingCenter().y + 'px'"></div>
             <div *ngFor="let item of actionSyncService.apModeData.Device; let index = index; let last = last;">
                 <!-- {{last ? actionSyncService.initDevice() : ''}} -->
                 <!-- <img id="{{item.SN}}" src="{{item.img}}" (mousedown)='mousedown($event)' (mousemove)='mousemove($event)' (mouseup)='mouseup($event)'> -->
