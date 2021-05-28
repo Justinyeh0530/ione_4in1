@@ -202,14 +202,20 @@ class ApmodeService extends EventEmitter {
                 tmpEffectLibrary.Separate = SynceData.EffectLibrary[i].separatevalue
                 tmpEffectLibrary.Amplitude = SynceData.EffectLibrary[i].amplitudevalue
                 tmpEffectLibrary.Soft = SynceData.EffectLibrary[i].fadvalue;
+                tmpEffectLibrary.Gap = SynceData.EffectLibrary[i].gapvalue;
                 //center
                 tmpEffectLibrary.canvasCenterX = parseInt(SynceData.EffectLibrary[i].center.x);
                 tmpEffectLibrary.canvasCenterY = parseInt(SynceData.EffectLibrary[i].center.y);
                 // No use
                 tmpEffectLibrary.Radius = 50;
-                tmpEffectLibrary.Gap = 2;
                 tmpEffectLibrary.Taketimes = 3;
-
+                if(SynceData.EffectLibrary[i].value == 5) { //LinearWave
+                    tmpEffectLibrary.Fixed = false;
+                    tmpEffectLibrary.Randomspeed = 1;
+                } else {
+                    tmpEffectLibrary.Fixed = true;
+                    tmpEffectLibrary.Randomspeed = 0;
+                }
                 //Device被選中的框框
                 var arrDeviceSelect = [];
                 for (let index = 0; index < SyncDevices.length; index++) {

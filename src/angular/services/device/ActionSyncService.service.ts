@@ -497,11 +497,11 @@ export class ActionSyncService{
                 this.speedvalue = 10;
                 this.bandwidthvalue = 50;
                 this.anglevalue = 0;
-                this.gapvalue = 0;
+                this.gapvalue = 428;
                 this.bumpvalue = false;
                 this.gradientvalue = true;
                 this.fadvalue = true;
-                this.bidirectionalvalue = true;
+                this.bidirectionalvalue = false;
                 break;
             case 6:
                 this.ColorSectionArray = [

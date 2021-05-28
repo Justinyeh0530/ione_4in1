@@ -351,7 +351,6 @@ export class ActionSyncComponent implements OnInit {
             obj.x = this.actionSyncService.apModeData.layerlist[layerindex].center.x;
             obj.y = this.actionSyncService.apModeData.layerlist[layerindex].center.y
         }
-        console.log(33333,obj)
         return obj;
     }
 }
