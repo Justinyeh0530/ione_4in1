@@ -324,7 +324,7 @@ export class ActionSyncService{
         } else {
             for(let i = 0; i < this.apModeData.Device.length; i++) 
             document.getElementById(`${this.apModeData.Device[i].SN}`).style.pointerEvents = "none";
-            this.save();
+            // this.save();
         }
     }
 
@@ -333,7 +333,7 @@ export class ActionSyncService{
             document.getElementById('lighting-center').style.display = 'block';
         else {
             document.getElementById('lighting-center').style.display = 'none';
-            this.save();
+            // this.save();
         }
     }
 
@@ -343,10 +343,11 @@ export class ActionSyncService{
      */
     actionSyncDeviceFunc(flag) {
         if(flag != 0) {
-            this.actionSyncDevicFlag = flag;
+            // this.actionSyncDevicFlag = flag;
             for(let i = 1; i <= 3; i++) 
                 document.getElementById('actionSyncDevice' + i).style.backgroundColor = "black";
-            if(this.actionSyncDevicFlag) {
+            if(this.actionSyncDevicFlag != flag) {
+                this.actionSyncDevicFlag = flag;
                 document.getElementById('actionSyncDevice' + flag).style.backgroundColor = "gray";
                 document.getElementById("actionsync-down").addEventListener('click', this.checkActionSyncDeviceFlag.bind(this));
             }
@@ -357,10 +358,11 @@ export class ActionSyncService{
                     this.frameSelectionEvent.emit(false);
                     this.devicedragflag = !this.devicedragflag;
                     this.enableLightingCenterDrag(false);
-                    if(this.devicedragflag) 
-                        this.enableDeviceDrag(true);
-                    else
-                        this.enableDeviceDrag(false);
+                    this.enableDeviceDrag(this.devicedragflag);
+                    // if(this.devicedragflag) 
+                    //     this.enableDeviceDrag(true);
+                    // else
+                    //     this.enableDeviceDrag(false);
                     break;
                 case 2:
                     this.devicedragflag = false;
@@ -368,10 +370,7 @@ export class ActionSyncService{
                     this.enableDeviceDrag(false);
                     this.deviceframeselectflag = !this.deviceframeselectflag;
                     this.enableLightingCenterDrag(false);
-                    if(this.deviceframeselectflag)
-                        this.frameSelectionEvent.emit(true);
-                    else
-                        this.frameSelectionEvent.emit(false);
+                    this.frameSelectionEvent.emit( this.deviceframeselectflag);
                     break;
                 case 3:
                     this.devicedragflag = false;
@@ -380,15 +379,16 @@ export class ActionSyncService{
                     this.frameSelectionEvent.emit(false);
                     this.enableDeviceDrag(false);
                     this.lightingcenterdragflag = !this.lightingcenterdragflag;
-                    if(this.lightingcenterdragflag) 
-                        this.enableLightingCenterDrag(true);
-                    else
-                        this.enableLightingCenterDrag(false);
+                    this.enableLightingCenterDrag(this.lightingcenterdragflag)
+                    // if(this.lightingcenterdragflag) 
+                    //     this.enableLightingCenterDrag(true);
+                    // else
+                    //     this.enableLightingCenterDrag(false);
                     break;
             }
         } else {
             /**need to do */
-            this.save();
+            // this.save();
         }
     }
 

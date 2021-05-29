@@ -73,9 +73,11 @@ export class ActionSyncComponent implements OnInit {
                 //             document.getElementById(`${element.SN}-led${index}`).style.borderColor = 'black';
                 //     });
                 // })
+                console.log('開啟框選')
                 this.refreshSelectLightingStatus();
             //關閉框選
             } else {
+                console.log('關閉框選')
                 this.actionSyncService.apModeData.Device.forEach((element) => {
                     element.led.forEach((item, index) => {
                         document.getElementById(`${element.SN}-led${index}`).style.borderColor = 'black';
@@ -280,7 +282,8 @@ export class ActionSyncComponent implements OnInit {
             this.devicedrag = false;
             for(let i = 0; i < this.actionSyncService.apModeData.Device.length; i++)
                 document.getElementById(`${this.actionSyncService.apModeData.Device[i].SN}`).style.pointerEvents ='auto';
-            this.dbService.updateApMode(this.actionSyncService.apModeData).then(() => {})
+            // this.dbService.updateApMode(this.actionSyncService.apModeData).then(() => {})
+            this.actionSyncService.save();
         } else if(this.actionSyncService.deviceframeselectflag) {
             let result = this.checkSelect()
             this.selectArray.forEach((element,index) => {
@@ -298,7 +301,8 @@ export class ActionSyncComponent implements OnInit {
             this.selectflag = false;
             document.getElementById('action-sync-desktop').removeChild(this.SelectDiv);
             this.refreshSelectLightingStatus();
-            this.dbService.updateApMode(this.actionSyncService.apModeData).then(() => {})
+            // this.dbService.updateApMode(this.actionSyncService.apModeData).then(() => {})
+            this.actionSyncService.save();
         } else if(this.lightingcenterdrag) {
             this.lightingcenterdrag = false;
             // this.dbService.updateApMode(this.actionSyncService.apModeData).then(() => {})
