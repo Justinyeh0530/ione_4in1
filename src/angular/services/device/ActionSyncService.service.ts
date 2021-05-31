@@ -149,6 +149,7 @@ export class ActionSyncService{
             document.getElementById("actionsync-lighting-dsc" + this.apModeData.index).value = res;
             let layerindex = this.apModeData.layerlist.findIndex(x => x.index == this.apModeData.index);
             if(layerindex != -1) {
+                this.actionSyncDeviceFunc(0)
                 this.apModeData.layerlist[layerindex].value = index;
                 this.setightParamToDefault(index);
                 this.updateColorSectionArray();
@@ -197,7 +198,7 @@ export class ActionSyncService{
         this.ColorSectionArray = [
             {value:0, left:0, color:[255, 0, 0, 1]},
         ]
-        let layerobj = {index:index, value:this.LightingEffectData[0].value, enable:true, ColorSectionArray:this.ColorSectionArray, opacityvalue: this.opacityvalue, speedvalue:this.speedvalue, bandwidthvalue:this.bandwidthvalue, anglevalue:this.anglevalue, gapvalue:this.gapvalue, numbervalue:this.numbervalue, firevalue:this.firevalue, amplitudevalue:this.amplitudevalue, gradientvalue:this.gradientvalue, directionvalue:this.directionvalue, fadvalue:this.fadvalue, bidirectionalvalue:this.bidirectionalvalue, separatevalue:this.separatevalue, bumpvalue:this.bumpvalue, center:{x:0, y:0}}
+        let layerobj = {index:index, value:this.LightingEffectData[0].value, enable:true, ColorSectionArray:this.ColorSectionArray, opacityvalue: this.opacityvalue, speedvalue:this.speedvalue, bandwidthvalue:this.bandwidthvalue, anglevalue:this.anglevalue, gapvalue:this.gapvalue, numbervalue:this.numbervalue, firevalue:this.firevalue, amplitudevalue:this.amplitudevalue, gradientvalue:this.gradientvalue, directionvalue:this.directionvalue, fadvalue:this.fadvalue, bidirectionalvalue:this.bidirectionalvalue, separatevalue:this.separatevalue, bumpvalue:this.bumpvalue, center:{x:0, y:0}, Device:_.cloneDeep(this.apModeData.Device)}
         this.apModeData.layerlist.push(layerobj);
         // this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
         this.apModeData.index = index;
@@ -389,6 +390,12 @@ export class ActionSyncService{
         } else {
             /**need to do */
             // this.save();
+            this.devicedragflag = false;
+            this.deviceframeselectflag = false;
+            this.lightingcenterdragflag = false;
+            this.frameSelectionEvent.emit(false);
+            this.enableDeviceDrag(false);
+            this.enableLightingCenterDrag(false);
         }
     }
 

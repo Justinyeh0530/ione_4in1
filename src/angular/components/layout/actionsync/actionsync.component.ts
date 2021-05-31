@@ -78,11 +78,19 @@ export class ActionSyncComponent implements OnInit {
             //關閉框選
             } else {
                 console.log('關閉框選')
-                this.actionSyncService.apModeData.Device.forEach((element) => {
-                    element.led.forEach((item, index) => {
-                        document.getElementById(`${element.SN}-led${index}`).style.borderColor = 'black';
-                    });
-                })
+                // this.actionSyncService.apModeData.Device.forEach((element) => {
+                //     element.led.forEach((item, index) => {
+                //         document.getElementById(`${element.SN}-led${index}`).style.borderColor = 'black';
+                //     });
+                // })
+                let layerindex = this.actionSyncService.getlayerlistindex()
+                if(layerindex != undefined) {
+                    this.actionSyncService.apModeData.layerlist[layerindex].Device.forEach((element) => {
+                        element.led.forEach((item, index) => {
+                            document.getElementById(`${element.SN}-led${index}`).style.borderColor = 'black';
+                        });
+                    })
+                }
             }
         })
 
@@ -237,30 +245,57 @@ export class ActionSyncComponent implements OnInit {
             var SelectDivX = this.SelectDiv.offsetLeft;
             var SelectDivYWidth = this.SelectDiv.offsetLeft + this.SelectDiv.offsetWidth;
 
-            this.actionSyncService.apModeData.Device.forEach((element, deviceindex) => {
-                if(element.SN == "0x195D0xA005") {
-                    let DivOffset = document.getElementById(element.SN);
-                    element.led.forEach((item, index) => {
-                        check = false;
-                        TempX = Number(document.getElementById(`${element.SN}-led${index}`).style.left.split('px')[0]) + Number(DivOffset.style.left.split('px')[0])
-                        TempWidth = TempX + 20;
-                        TempY = Number(document.getElementById(`${element.SN}-led${index}`).style.top.split('px')[0]) + Number(DivOffset.style.top.split('px')[0])
-                        TempHeight =  TempY + 20;
-                        //沒有框選到
-                        if((SelectDivYWidth < TempX) || (SelectDivX > TempWidth) || (SelectDivHeight < TempY) || (SelectDivY > TempHeight)) {
-                            check = true;
-                            console.log(`沒有框選到:${element.SN}-led${index}`)
-                        }
-                        if(!check) {
-                            let obj = {
-                                deviceIndex: deviceindex,
-                                ledIndex: index
+            // this.actionSyncService.apModeData.Device.forEach((element, deviceindex) => {
+            //     if(element.SN == "0x195D0xA005") {
+            //         let DivOffset = document.getElementById(element.SN);
+            //         element.led.forEach((item, index) => {
+            //             check = false;
+            //             TempX = Number(document.getElementById(`${element.SN}-led${index}`).style.left.split('px')[0]) + Number(DivOffset.style.left.split('px')[0])
+            //             TempWidth = TempX + 20;
+            //             TempY = Number(document.getElementById(`${element.SN}-led${index}`).style.top.split('px')[0]) + Number(DivOffset.style.top.split('px')[0])
+            //             TempHeight =  TempY + 20;
+            //             //沒有框選到
+            //             if((SelectDivYWidth < TempX) || (SelectDivX > TempWidth) || (SelectDivHeight < TempY) || (SelectDivY > TempHeight)) {
+            //                 check = true;
+            //                 console.log(`沒有框選到:${element.SN}-led${index}`)
+            //             }
+            //             if(!check) {
+            //                 let obj = {
+            //                     deviceIndex: deviceindex,
+            //                     ledIndex: index
+            //                 }
+            //                 this.selectArray.push(obj)
+            //             }
+            //         });
+            //     }
+            // });
+            let layerindex = this.actionSyncService.getlayerlistindex()
+            if(layerindex != undefined) {
+                this.actionSyncService.apModeData.layerlist[layerindex].Device.forEach((element, deviceindex) => {
+                    if(element.SN == "0x195D0xA005") {
+                        let DivOffset = document.getElementById(element.SN);
+                        element.led.forEach((item, index) => {
+                            check = false;
+                            TempX = Number(document.getElementById(`${element.SN}-led${index}`).style.left.split('px')[0]) + Number(DivOffset.style.left.split('px')[0])
+                            TempWidth = TempX + 20;
+                            TempY = Number(document.getElementById(`${element.SN}-led${index}`).style.top.split('px')[0]) + Number(DivOffset.style.top.split('px')[0])
+                            TempHeight =  TempY + 20;
+                            //沒有框選到
+                            if((SelectDivYWidth < TempX) || (SelectDivX > TempWidth) || (SelectDivHeight < TempY) || (SelectDivY > TempHeight)) {
+                                check = true;
+                                console.log(`沒有框選到:${element.SN}-led${index}`)
                             }
-                            this.selectArray.push(obj)
-                        }
-                    });
-                }
-            });
+                            if(!check) {
+                                let obj = {
+                                    deviceIndex: deviceindex,
+                                    ledIndex: index
+                                }
+                                this.selectArray.push(obj)
+                            }
+                        });
+                    }
+                })
+            }
         } else if(this.lightingcenterdrag) {
             let moveX = (event.clientX - this.StartPosx) / scale;
             let moveY = (event.clientY - this.StartPosy) / scale;
@@ -288,13 +323,25 @@ export class ActionSyncComponent implements OnInit {
             let result = this.checkSelect()
             this.selectArray.forEach((element,index) => {
                 result.forEach((resuleElement) => {
-                    if(element.deviceIndex == resuleElement.deviceIndex && !resuleElement.flag) {
-                        if(this.actionSyncService.apModeData.Device[element.deviceIndex].led[element.ledIndex] == 0)
-                            this.actionSyncService.apModeData.Device[element.deviceIndex].led[element.ledIndex] = 1;
-                        else
-                            this.actionSyncService.apModeData.Device[element.deviceIndex].led[element.ledIndex] = 0;
-                    } else if(element.deviceIndex == resuleElement.deviceIndex && resuleElement.flag) {
-                        this.actionSyncService.apModeData.Device[element.deviceIndex].led[element.ledIndex] = 1;
+                    // if(element.deviceIndex == resuleElement.deviceIndex && !resuleElement.flag) {
+                    //     if(this.actionSyncService.apModeData.Device[element.deviceIndex].led[element.ledIndex] == 0)
+                    //         this.actionSyncService.apModeData.Device[element.deviceIndex].led[element.ledIndex] = 1;
+                    //     else
+                    //         this.actionSyncService.apModeData.Device[element.deviceIndex].led[element.ledIndex] = 0;
+                    // } else if(element.deviceIndex == resuleElement.deviceIndex && resuleElement.flag) {
+                    //     this.actionSyncService.apModeData.Device[element.deviceIndex].led[element.ledIndex] = 1;
+                    // }
+
+                    let layerindex = this.actionSyncService.getlayerlistindex();
+                    if(layerindex != undefined) {
+                        if(element.deviceIndex == resuleElement.deviceIndex && !resuleElement.flag) {
+                            if(this.actionSyncService.apModeData.layerlist[layerindex].Device[element.deviceIndex].led[element.ledIndex] == 0)
+                                this.actionSyncService.apModeData.layerlist[layerindex].Device[element.deviceIndex].led[element.ledIndex] = 1;
+                            else
+                                this.actionSyncService.apModeData.layerlist[layerindex].Device[element.deviceIndex].led[element.ledIndex] = 0
+                        } else if(element.deviceIndex == resuleElement.deviceIndex && resuleElement.flag) {
+                            this.actionSyncService.apModeData.layerlist[layerindex].Device[element.deviceIndex].led[element.ledIndex] = 1;
+                        }
                     }
                 });
             })
@@ -311,19 +358,23 @@ export class ActionSyncComponent implements OnInit {
     }
 
     refreshSelectLightingStatus() {
-        this.actionSyncService.apModeData.Device.forEach((element) => {
-            element.led.forEach((item, index) => {
-                if(item == 1)
-                    document.getElementById(`${element.SN}-led${index}`).style.borderColor = 'yellow';
-                else
-                    document.getElementById(`${element.SN}-led${index}`).style.borderColor = 'black';
-            });
-        })
+        let layerindex = this.actionSyncService.getlayerlistindex();
+        if(layerindex != undefined) {
+            this.actionSyncService.apModeData.layerlist[layerindex].Device.forEach((element) => {
+                element.led.forEach((item, index) => {
+                    if(item == 1)
+                        document.getElementById(`${element.SN}-led${index}`).style.borderColor = 'yellow';
+                    else
+                        document.getElementById(`${element.SN}-led${index}`).style.borderColor = 'black';
+                });
+            })
+        }
     }
 
     checkSelect() {
         this.commonService.ArraySort(this.selectArray, 'deviceIndex')
         let result=[], obj={deviceIndex:'', flag:false}, ledvalue;
+        let layerindex = this.actionSyncService.getlayerlistindex();
         this.selectArray.forEach((element, index) => {
             if(obj.deviceIndex != '' && obj.deviceIndex != element.deviceIndex) {
                 result.push(obj);
@@ -333,15 +384,14 @@ export class ActionSyncComponent implements OnInit {
             } else {
                 if(obj.deviceIndex == '')
                     obj.deviceIndex = element.deviceIndex;
-                if(ledvalue == undefined)
-                    ledvalue = this.actionSyncService.apModeData.Device[element.deviceIndex].led[element.ledIndex]
-                else if(ledvalue != this.actionSyncService.apModeData.Device[element.deviceIndex].led[element.ledIndex])
+                if(ledvalue == undefined && layerindex!= undefined)
+                    ledvalue = this.actionSyncService.apModeData.layerlist[layerindex].Device[element.deviceIndex].led[element.ledIndex]
+                else if(ledvalue != this.actionSyncService.apModeData.layerlist[layerindex].Device[element.deviceIndex].led[element.ledIndex])
                     obj.flag = true;
                 if(index == this.selectArray.length - 1)
                     result.push(obj);
             }
         })
-        this.actionSyncService.apModeData.Device
         return result;
     }
 

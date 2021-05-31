@@ -218,10 +218,18 @@ class ApmodeService extends EventEmitter {
                 }
                 //Device被選中的框框
                 var arrDeviceSelect = [];
+                // for (let index = 0; index < SyncDevices.length; index++) {
+                //     for (let indexSN = 0; indexSN < SynceData.DeviceAxis.length; indexSN++) {
+                //         if (SynceData.DeviceAxis[indexSN].SN == SyncDevices[index]) {
+                //             arrDeviceSelect.push(SynceData.DeviceAxis[indexSN].led);
+                //             break;
+                //         }
+                //     }
+                // }
                 for (let index = 0; index < SyncDevices.length; index++) {
-                    for (let indexSN = 0; indexSN < SynceData.DeviceAxis.length; indexSN++) {
-                        if (SynceData.DeviceAxis[indexSN].SN == SyncDevices[index]) {
-                            arrDeviceSelect.push(SynceData.DeviceAxis[indexSN].led);
+                    for (let indexSN = 0; indexSN < SynceData.EffectLibrary[i].Device.length; indexSN++) {
+                        if (SynceData.EffectLibrary[i].Device[indexSN].SN == SyncDevices[index]) {
+                            arrDeviceSelect.push(SynceData.EffectLibrary[i].Device[indexSN].led);
                             break;
                         }
                     }
