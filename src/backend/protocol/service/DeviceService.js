@@ -123,10 +123,10 @@ class DeviceService extends EventEmitter {
                 var devfun = dev.SeriesInstance["HIDReadData"];
 
                 if(devfun === undefined) {
-                    env.log('DeviceService','HIDReadDataFromDevice',`${Obj.Func}`);
+                    env.log('DeviceService','HIDReadDataFromDevice',`undefined`);
                 }
                 else{
-                    console.log('HIDReadData', EP2Array);
+                    env.log('DeviceService','HIDReadDataFromDevice', EP2Array);
                     dev.SeriesInstance["HIDReadData"](dev, EP2Array);
                 }
 
