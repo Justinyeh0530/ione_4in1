@@ -165,9 +165,9 @@ class ApmodeService extends EventEmitter {
             var SyncDevices = ['0x195D0xA005']
             var EffectLibrary = [];
             var SynceData = obj;
-            var GradientArray = [];
             for(let i = 0; i < SynceData.EffectLibrary.length; i++) {
                 var tmpEffectLibrary = {};
+                var GradientArray = [];
                 //顏色數量
                 var Color_Num = SynceData.EffectLibrary[i].ColorSectionArray.length;
                 //燈效的值

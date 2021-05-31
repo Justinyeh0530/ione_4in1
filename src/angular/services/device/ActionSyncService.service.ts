@@ -250,7 +250,18 @@ export class ActionSyncService{
             parent.removeChild(Card);
             this.apModeData.layerlist.splice(index, 1)
             this.apModeData.index = 0;
-            this.dbService.updateApMode(this.apModeData).then(() => {this.save();})
+            this.dbService.updateApMode(this.apModeData).then(() => {
+                this.commonService.delayDialog('main-app',500);
+                let obj={
+                    Type:funcVar.FuncType.Apmode,
+                    Func:funcVar.FuncName.StartApmode,
+                    SN:"",
+                    Param: this.apModeData
+                }
+                this.protocol.RunSetFunction(obj).then((data)=>{
+                    console.log('Set ApMode Finish');
+                });
+            })
         }
     }
 
@@ -277,6 +288,7 @@ export class ActionSyncService{
         this.layerselected();
     }
 
+    //點選Layer
     selectlight(event) {
         var contentPanelId = $(event.target).attr('id')
         var number = contentPanelId.replace(/[^0-9]/ig,"");
