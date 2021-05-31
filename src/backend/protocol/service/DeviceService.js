@@ -123,11 +123,26 @@ class DeviceService extends EventEmitter {
                 var devfun = dev.SeriesInstance["HIDReadData"];
 
                 if(devfun === undefined) {
-                    env.log('DeviceService','HIDReadDataFromDevice',`undefined`);
+                    env.log('DeviceService','HIDReadDataFromDevice',`${Obj.Func}`);
                 }
                 else{
-                    env.log('DeviceService','HIDReadDataFromDevice', EP2Array);
+                    // console.log('HIDReadData', EP2Array);
                     dev.SeriesInstance["HIDReadData"](dev, EP2Array);
+                    let devicename = '', KeyCode = undefined;
+                    if((EP2Array[0] == 0x01 && EP2Array[1] == 0x20) || (EP2Array[0] == 0x01 && EP2Array[1] == 0x40))
+                        KeyCode = 'LED'
+                    else if(EP2Array[0] == 0x01 && EP2Array[1] == 0x80)
+                        KeyCode = 'DTS'
+                    if(DeviceInfo.vid == '0x195d' && DeviceInfo.pid == '0xa005')
+                        devicename = 'A08s'
+
+                    if(KeyCode != undefined) {
+                        var ObjEvent = {
+                            Type: devicename,//Turing
+                            Keycode: KeyCode,
+                        };
+                        _this.ApmodeService.SyncLEDEvent(ObjEvent);
+                    }
                 }
 
             }

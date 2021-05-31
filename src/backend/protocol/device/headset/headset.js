@@ -184,21 +184,11 @@ class Headset extends Device {
     }
 
     HIDReadData(dev, objData) {
-        console.log('HIDReadData begin data :',objData);
-        //LED Button
-        if(objData[0] == 0x01 && objData[1] == 0x20) {
-            console.log('HIDReadData LED button press...');
-        }
-        else if(objData[0] == 0x01 && objData[1] == 0x80) {
-            console.log('HIDReadData DTS button press...');
-        }
-        else if(objData[0] == 0x01 && objData[1] == 0x40 && objData[2] == 1) {
-            console.log('HIDReadData Mode button press (status : 1 )');
-        }
-        else if(objData[0] == 0x01 && objData[1] == 0x40 && objData[2] == 0) {
-            console.log('HIDReadData Mode button press (status : 0 )');
-        }
-
+        // console.log('HIDReadData begin data :',objData);
+        if((objData[0] == 0x01 && objData[1] == 0x20) || (objData[0] == 0x01 && objData[1] == 0x40))
+            console.log('LED')
+        else if(objData[0] == 0x01 && objData[1] == 0x80)
+            console.log('DTS')
     }
 
     setDashboard(dev, obj, callback) {

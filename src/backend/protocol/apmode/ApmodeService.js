@@ -259,6 +259,16 @@ class ApmodeService extends EventEmitter {
             env.log('Apmode','SetSyncLEDData',e)
         }
     }
+
+    SyncLEDEvent(Obj) {
+        try {
+            if (_this.SpecEffects != undefined && _this.SpecEffects.SyncLEDEvent != undefined)
+                _this.SpecEffects.SyncLEDEvent(Obj);
+        } catch (e) {
+            env.log('SpecService', 'SyncLEDEvent', `Error:${e}`);
+            resolve();
+        }
+    }
 }
 
 module.exports = ApmodeService;
