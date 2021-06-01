@@ -24,7 +24,7 @@ class ApmodeService extends EventEmitter {
 
 
     static getInstance() {
-        if (this.instance) {
+        if(this.instance) {
             env.log('ApmodeService', 'getInstance', `Get exist ApmodeService() INSTANCE`);
             return this.instance;
         }
@@ -40,7 +40,7 @@ class ApmodeService extends EventEmitter {
         env.log('ApmodeService', 'initService', 'initService')
         return new Promise(function (resolve) {
             try {
-                if (_this.SpecEffects == undefined)
+                if(_this.SpecEffects == undefined)
                     _this.SpecEffects =  SpecEffects.getInstance();
                 resolve();
             } catch (e) {
@@ -69,7 +69,7 @@ class ApmodeService extends EventEmitter {
         try {
             _this.SendtoUI = false;
             //-------------SpecEffects---------------------
-            if (_this.SpecEffects == undefined) {
+            if(_this.SpecEffects == undefined) {
                 _this.SpecEffects =  SpecEffects.getInstance();
             }
             else
@@ -97,7 +97,7 @@ class ApmodeService extends EventEmitter {
         try {
             if(obj == 1)
                 _this.AppDB.getApMode().then(function (data) {
-                    if (data != undefined) {
+                    if(data != undefined) {
                         var EffectLibrary = [];
                         for (let index = 0; index < data.layerlist.length; index++) {
                             EffectLibrary.push(data.layerlist[index]);
@@ -111,7 +111,7 @@ class ApmodeService extends EventEmitter {
                 });
             else {
                 var data = obj;
-                if (data != undefined) {
+                if(data != undefined) {
                     var EffectLibrary = [];
                     for (let index = 0; index < data.layerlist.length; index++) {
                         EffectLibrary.push(data.layerlist[index]);
@@ -217,10 +217,11 @@ class ApmodeService extends EventEmitter {
                     tmpEffectLibrary.Randomspeed = 0;
                 }
                 //Device被選中的框框
+                tmpEffectLibrary.deviceselects = [];
                 var arrDeviceSelect = [];
                 // for (let index = 0; index < SyncDevices.length; index++) {
                 //     for (let indexSN = 0; indexSN < SynceData.DeviceAxis.length; indexSN++) {
-                //         if (SynceData.DeviceAxis[indexSN].SN == SyncDevices[index]) {
+                //         if(SynceData.DeviceAxis[indexSN].SN == SyncDevices[index]) {
                 //             arrDeviceSelect.push(SynceData.DeviceAxis[indexSN].led);
                 //             break;
                 //         }
@@ -228,7 +229,7 @@ class ApmodeService extends EventEmitter {
                 // }
                 for (let index = 0; index < SyncDevices.length; index++) {
                     for (let indexSN = 0; indexSN < SynceData.EffectLibrary[i].Device.length; indexSN++) {
-                        if (SynceData.EffectLibrary[i].Device[indexSN].SN == SyncDevices[index]) {
+                        if(SynceData.EffectLibrary[i].Device[indexSN].SN == SyncDevices[index]) {
                             arrDeviceSelect.push(SynceData.EffectLibrary[i].Device[indexSN].led);
                             break;
                         }
@@ -239,13 +240,12 @@ class ApmodeService extends EventEmitter {
             }
             //Device座標
             var arrDeviceAxis = [];
-            for (let index = 0; index < SyncDevices.length; index++) {
-                for (let indexSN = 0; indexSN < SynceData.DeviceAxis.length; indexSN++) {
-                    if (SynceData.DeviceAxis[indexSN].SN == SyncDevices[index]) {
+            for(let index = 0; index < SyncDevices.length; index++) {
+                for(let indexSN = 0; indexSN < SynceData.DeviceAxis.length; indexSN++) {
+                    if(SynceData.DeviceAxis[indexSN].SN == SyncDevices[index]) {
                         var tmpDeviceAxis = {X:SynceData.DeviceAxis[indexSN].x , Y:SynceData.DeviceAxis[indexSN].y}
-                        if (tmpDeviceAxis.X == undefined) {
+                        if(tmpDeviceAxis.X == undefined)
                             tmpDeviceAxis = {X: 0, Y: 0};
-                        }
                         arrDeviceAxis.push(tmpDeviceAxis);
                         break;
                     }
@@ -257,7 +257,7 @@ class ApmodeService extends EventEmitter {
                 EffectLibrary: EffectLibrary,
                 DeviceAxis: DeviceAxis
             }
-            if (_this.SpecEffects != undefined){
+            if(_this.SpecEffects != undefined){
                 _this.SpecEffects.SetSyncLEDData(Obj2).then(function () {
                     callback("SetSyncLEDData Done");
                 });
@@ -270,7 +270,7 @@ class ApmodeService extends EventEmitter {
 
     SyncLEDEvent(Obj) {
         try {
-            if (_this.SpecEffects != undefined && _this.SpecEffects.SyncLEDEvent != undefined)
+            if(_this.SpecEffects != undefined && _this.SpecEffects.SyncLEDEvent != undefined)
                 _this.SpecEffects.SyncLEDEvent(Obj);
         } catch (e) {
             env.log('SpecService', 'SyncLEDEvent', `Error:${e}`);

@@ -211,9 +211,10 @@ export class ActionSyncComponent implements OnInit {
         }
         this.StartPosx = event.clientX;
         this.StartPosy = event.clientY;
-        this.StartLeft = this.SelectDiv.style.left.split('px')[0];
-        this.StartTop = this.SelectDiv.style.top.split('px')[0];
-
+        if(this.SelectDiv) {
+            this.StartLeft = this.SelectDiv.style.left.split('px')[0];
+            this.StartTop = this.SelectDiv.style.top.split('px')[0];
+        }
     }
 
     mousemove(event) {

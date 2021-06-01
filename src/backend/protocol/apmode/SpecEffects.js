@@ -55,21 +55,21 @@ var A08s_keycodes = ["", "", "", "", "", "", "", "", "", "DTS", "LED", "", "", "
 // ]
 var A08s_Pos = [
 	{ X1: 580, X2: (580 + 20), Y1:280, Y2: (280 + 20) },
-	{ X1: 530, X2: (530+ 20), Y1:270, Y2: (270 + 20) },
-	{ X1: 480, X2: (480+ 20), Y1:280, Y2: (280 + 20) },
-	{ X1: 460, X2: (460+ 20), Y1:315, Y2: (315 + 20) },
-	{ X1: 440, X2: (440+ 20), Y1:350, Y2: (350 + 20) },
-	{ X1: 420, X2: (420+ 20), Y1:385, Y2: (385 + 20) },
-	{ X1: 410, X2: (410+ 20), Y1:425, Y2: (425 + 20) },
-	{ X1: 445, X2: (445+ 20), Y1:450, Y2: (450 + 20) },
-	{ X1: 490, X2: (490+ 20), Y1:455, Y2: (455 + 20) },
-	{ X1: 530, X2: (530+ 20), Y1:440, Y2: (440 + 20) },
-	{ X1: 552, X2: (552+ 20), Y1:408, Y2: (408 + 20) },
-	{ X1: 572, X2: (572+ 20), Y1:375, Y2: (375 + 20) },
-	{ X1: 585, X2: (585+ 20), Y1:345, Y2: (345 + 20) },
-	{ X1: 600, X2: (600+ 20), Y1:315, Y2: (315 + 20) },
-	{ X1: 490, X2: (490+ 20), Y1:355, Y2: (355 + 20) },
-	{ X1: 530, X2: (530+ 20), Y1:365, Y2: (365 + 20) },
+	{ X1: 530, X2: (530 + 20), Y1:270, Y2: (270 + 20) },
+	{ X1: 480, X2: (480 + 20), Y1:280, Y2: (280 + 20) },
+	{ X1: 460, X2: (460 + 20), Y1:315, Y2: (315 + 20) },
+	{ X1: 440, X2: (440 + 20), Y1:350, Y2: (350 + 20) },
+	{ X1: 420, X2: (420 + 20), Y1:385, Y2: (385 + 20) },
+	{ X1: 410, X2: (410 + 20), Y1:425, Y2: (425 + 20) },
+	{ X1: 445, X2: (445 + 20), Y1:450, Y2: (450 + 20) },
+	{ X1: 490, X2: (490 + 20), Y1:455, Y2: (455 + 20) },
+	{ X1: 530, X2: (530 + 20), Y1:440, Y2: (440 + 20) },
+	{ X1: 552, X2: (552 + 20), Y1:408, Y2: (408 + 20) },
+	{ X1: 572, X2: (572 + 20), Y1:375, Y2: (375 + 20) },
+	{ X1: 585, X2: (585 + 20), Y1:345, Y2: (345 + 20) },
+	{ X1: 600, X2: (600 + 20), Y1:315, Y2: (315 + 20) },
+	{ X1: 490, X2: (490 + 20), Y1:355, Y2: (355 + 20) },
+	{ X1: 530, X2: (530 + 20), Y1:365, Y2: (365 + 20) },
 ]
 
     var m_EffectName = ['Wave','ConicBand','Spiral','Cycle','LinearWave','Ripple','Breathing','Rain','Fire','Trigger','AudioCap','Static'];
@@ -81,13 +81,27 @@ class Device {
 		if (!keycodes) keycodes = [];
 
 		var x1 = 1e9, y1 = 1e9, x2 = -1e9, y2 = -1e9;
-		for (let i=0; i<coordinates.length; ++i)
-		{
-			x1 = Math.min(x1, coordinates[i].X1);
-			y1 = Math.min(y1, coordinates[i].Y1);
-			x2 = Math.max(x2, coordinates[i].X2);
-			y2 = Math.max(y2, coordinates[i].Y2);
-		}
+
+		//-----Robert ---//
+		// for (let i=0; i<coordinates.length; ++i)
+		// {
+		// 	x1 = Math.min(x1, coordinates[i].X1);
+		// 	y1 = Math.min(y1, coordinates[i].Y1);
+		// 	x2 = Math.max(x2, coordinates[i].X2);
+		// 	y2 = Math.max(y2, coordinates[i].Y2);
+		// }
+		x1 = 0; y1 = 0; x2 = 0; y2 = 0;
+		//-------------//
+
+		//-----origin---//
+		// for (let i=0; i<coordinates.length; ++i)
+		// {
+		// 	x1 = Math.min(x1, coordinates[i].X1);
+		// 	y1 = Math.min(y1, coordinates[i].Y1);
+		// 	x2 = Math.max(x2, coordinates[i].X2);
+		// 	y2 = Math.max(y2, coordinates[i].Y2);
+		// }
+		//-------------//
 
 		this.position = {
 			x      : -14,
@@ -1648,9 +1662,7 @@ class SpecEffects{
 		{
 			var x1 = 1e9, y1 = 1e9, x2 = -1e9, y2 = -1e9;
 			manager.devices[iDeviceBtnAxis].lights = DeviceBtnAxis;
-			
-			for (var j=0; j< DeviceBtnAxis.length; ++j) 
-			{
+			for (var j=0; j< DeviceBtnAxis.length; ++j) {
 				manager.devices[iDeviceBtnAxis].lights[j].x = (manager.devices[iDeviceBtnAxis].lights[j].x2+manager.devices[iDeviceBtnAxis].lights[j].x1)/2;
 				manager.devices[iDeviceBtnAxis].lights[j].y = (manager.devices[iDeviceBtnAxis].lights[j].y2+manager.devices[iDeviceBtnAxis].lights[j].y1)/2;
 				
@@ -1671,18 +1683,11 @@ class SpecEffects{
 	}
 
 	SyncLEDEvent(Obj){
-		//env.log('SpecEffects', 'SyncLEDEvent', JSON.stringify(Obj));    
-		//console.log('SpecEffects', 'SyncLEDEvent', JSON.stringify(Obj));   
-
 		var csType = Obj.Type;
 		var iKey = Obj.Keycode;
-
 		return new Promise((resolve)=>{
-
-			if (csType != undefined) {
+			if (csType != undefined)
 				manager.event(csType,iKey);
-			}
-
 			resolve(0);
 		});
 	}
@@ -1720,33 +1725,23 @@ class SpecEffects{
 					}
 				}
 				if (bChangeEffect) {
-					
-					for (var i = 0; i < iManageCount; i++) 
-					{
+					for (var i = 0; i < iManageCount; i++)
 						manager.popEffect();
-					}
-					
-					for (var i = 0; i < iEffectCount; i++) 
-					{
+					for (var i = 0; i < iEffectCount; i++) {
 						var iEffect = Obj.EffectLibrary[i].Effect;
 						manager.pushEffect(eval('new ' + m_EffectName[iEffect] + '()'));
 					}
 				}	
 				var bAudioCapture = false;			   
 				for (var i = 0; i < iEffectCount; i++) {
-					
 					//-----------Synceffect---------------
 					var Synceffect = Obj.EffectLibrary[i];
 					var effectTemp = manager.effects[i];
-
+					console.log(8888,effectTemp,Synceffect.canvasCenterX,Synceffect.canvasCenterY)
 					manager.blends[i] = Synceffect.input_visible;
-
 					effectTemp.opacity = Synceffect.Opacity;
-					if (effectTemp.center != undefined) 
-					{
+					if (effectTemp.center != undefined)
 						effectTemp.center(Synceffect.canvasCenterX,Synceffect.canvasCenterY);
-					}
-					
 					if (effectTemp.angle != undefined) 
 						effectTemp.angle = Synceffect.Angle;
 					if (effectTemp.bandwidth != undefined) 
@@ -1775,33 +1770,24 @@ class SpecEffects{
 						effectTemp.time = Synceffect.Taketimes;
 					if (effectTemp.separate != undefined) 
 						effectTemp.separate = Synceffect.Separate;
-						
 					if (effectTemp.gap != undefined) 
 						effectTemp.gap = Synceffect.Gap;
 					if (effectTemp.radius != undefined) 
 						effectTemp.radius = Synceffect.Radius;
-						
 					if (_thisSpecEffects.AudioCap != undefined && Synceffect.Amplitude != undefined) 
 						_thisSpecEffects.AudioCap.SetAmplitude(Synceffect.Amplitude);//3000
-					
 					if (effectTemp.description == "AudioCap" && Synceffect.input_visible)
 						bAudioCapture = true;
 					
 					//-----------SyncColors---------------
-
-					if (effectTemp.colors != undefined) 
-					{
+					if (effectTemp.colors != undefined) {
 						effectTemp.color_number = Synceffect.GradientArray.length;
-						
 						for (var j = 0; j < Synceffect.GradientArray.length; j++) {
-
-							if (effectTemp.colors[j] == undefined) {
+							if (effectTemp.colors[j] == undefined)
 								effectTemp.colors.push([0,0,0]);
-							}
 							effectTemp.colors[j][0] = Synceffect.GradientArray[j].color.R;
 							effectTemp.colors[j][1] = Synceffect.GradientArray[j].color.G;
 							effectTemp.colors[j][2] = Synceffect.GradientArray[j].color.B;
-							
 							effectTemp.scales[j] = Synceffect.GradientArray[j].percent/100;
 							// if (effectTemp.scales[j]>=1) {
 							// 	effectTemp.scales[j] = 0.99;
@@ -1843,7 +1829,6 @@ class SpecEffects{
 				// 		break;
 				// 	} 
 				// }
-				
 				//------------GetAudioCap--------------
 				if (bAudioCapture)
 					_thisSpecEffects.StartTimer('AudioCapture',50);
@@ -1851,15 +1836,12 @@ class SpecEffects{
 					_thisSpecEffects.StopTimer('AudioCapture',50);
 				//------------DeviceAxis--------------
 				var DeviceAxis = Obj.DeviceAxis;
-				
-				for (var i=0; i<manager.devices.length; ++i) 
-				{
+				for (var i=0; i<manager.devices.length; ++i) {
 					manager.moveRegionDevice(i,DeviceAxis[i].X, DeviceAxis[i].Y) ;
 					//manager.releaseDevice();
 				}
 				//manager.updateRegion();
 				//------------------------------------
-
 				resolve(0);
 			} catch(e) {
 				env.log('DeviceEffects','SetSyncLEDData',`Error: ${e}`)
@@ -1867,8 +1849,6 @@ class SpecEffects{
 			}
         });
     }
-
-	
 }
 
     // SpecEffects.prototype.SwitchPreviewDevice = function (dev) 
