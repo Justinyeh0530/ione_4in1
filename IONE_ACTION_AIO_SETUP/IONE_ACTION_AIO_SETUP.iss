@@ -1,4 +1,4 @@
-ï»¿; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
+;ï»? SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 #define MyDateTimeString GetDateTimeString('yyyymmdd', '', '');
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -46,7 +46,8 @@ en.Device=Do NOT Find Gaming Keyboard!
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files   
 Source: Files\*; DestDir: {app};Flags: recursesubdirs  ignoreversion;  
-Source: "AppDataFiles\*"; DestDir: {userappdata}\IONE_ACTION_AIO\; Flags: recursesubdirs ignoreversion createallsubdirs;     
+Source: "AppDataFiles\*"; DestDir: {userappdata}\IONE_ACTION_AIO\; Flags: recursesubdirs ignoreversion createallsubdirs;   
+Source: "otherExe\iOne A08s DTS Driver Setup v1.2.1.exe"; DestDir:{app}; Flags: recursesubdirs  ignoreversion; AfterInstall: RunOtherInstaller
  
 ;Source: FWUpdate\*; DestDir: {app}\FWUpdate; Flags: recursesubdirs ignoreversion createallsubdirs   
 
@@ -72,6 +73,17 @@ var
 HasRun:HWND;
 ResultCode: Integer;
 LastUninstallString: String;
+
+procedure RunOtherInstaller;
+var
+  ResultCode: Integer;
+begin
+  if not Exec(ExpandConstant('{app}\iOne A08s DTS Driver Setup v1.2.1.exe'), '', '', SW_SHOWNORMAL,        
+    ewWaitUntilTerminated, ResultCode)
+  then
+    MsgBox('Other installer failed to run!' + #13#10 +
+      SysErrorMessage(ResultCode), mbError, MB_OK);
+end;
    
 procedure TaskKill(FileName: String);
 var
@@ -175,14 +187,14 @@ end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin         
-  if (CurUninstallStep = usUninstall) then      //åå®‰è£å‰        
+  if (CurUninstallStep = usUninstall) then      //?å?è£å?        
   begin   
   end                              
-  else if (CurUninstallStep = usPostUninstall) then  //åå®‰è£å®Œæˆ
+  else if (CurUninstallStep = usPostUninstall) then  //?å?è£å???
   begin   
     DelTree(ExpandConstant('{userappdata}\IONE_ACTION_AIO'), True, True, True);
   end 
-  else if (CurUninstallStep = usDone) then           //å®Œæˆå¾Œç¨‹å¼é—œé–‰å‰   
+  else if (CurUninstallStep = usDone) then           //å®Œæ?å¾Œç?å¼é??‰å?   
   begin
   end;
 end;
