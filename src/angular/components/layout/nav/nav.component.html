@@ -23,7 +23,7 @@
         <div class="left-arrow" (click)="LeftArrowClick()"></div>
         <div class="right-arrow" (click)="RightArrowClick()"></div>
         <div class="device-image" *ngIf= "deviceService.currentSupportDevice != undefined">
-            <img id="deviceimage" src="{{deviceService.currentSupportDevice.image}}">
+            <img id="deviceimage" style="transform:scale(0.3);" src="{{deviceService.currentSupportDevice.image}}">
         </div>
     </div>
     <div class="actionsync-lighting-item" id="actionsync-layer-temp">
