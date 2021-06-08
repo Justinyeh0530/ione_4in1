@@ -65,6 +65,9 @@
     text-overflow : ellipsis;
     white-space : nowrap;
     padding-right: 35px;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .commonselect-items::-webkit-scrollbar {

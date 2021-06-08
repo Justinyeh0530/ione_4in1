@@ -13,6 +13,7 @@ let env = System._nodeRequire('./backend/others/env');
 
 import { DelayDialogComponent } from '../../components/dialog/delayDialog/delayDialog.component'
 import { CheckDialogComponent } from '../../components/dialog/checkDialog/checkDialog.component'
+import { SettingDialogComponent } from '../../components/dialog/settingDialog/settingDialog.component'
 import { MdDialog, MdDialogConfig, MdDialogRef, TOUCHEND_HIDE_DELAY } from '@angular/material';
 import {TranslateService} from 'ng2-translate';
 
@@ -167,6 +168,32 @@ export class CommonService{
 			title = res;
 		});
 		this.dialogCheck = this.dialog.open(DelayDialogComponent, {position:{top:winHeight.toString()+'px',left:winWidth.toString()+'px'},data:{title:title,second:second}});
+		this.cdr.tick();
+		this.dialogCheck.afterClosed().subscribe(result => {
+			this.dialogCheck = null; 
+			contentstyle.style.pointerEvents='auto';
+			contentstyle.style.filter='none';
+		});
+	}
+
+	settingDialog(ElementId) {
+		let contentstyle = document.getElementById(ElementId);
+		contentstyle.style.pointerEvents='none';
+		contentstyle.style.filter='blur(5px)';
+		var winWidth = document.body.clientWidth;
+		var winHeight = document.body.clientHeight;
+		if(ElementId == 'AppSettingData') {
+			winWidth = (winWidth-750)/2-24;
+			winHeight = (winHeight-650)/2-100;
+		} else {
+			winWidth = (winWidth-750)/2 - 24;
+			winHeight = (winHeight-650)/2 - 24;
+		}
+		var title="";
+		this.translate.get("Pleasewait").subscribe((res: string) => {
+			title = res;
+		});
+		this.dialogCheck = this.dialog.open(SettingDialogComponent, {position:{top:winHeight.toString()+'px',left:winWidth.toString()+'px'}});
 		this.cdr.tick();
 		this.dialogCheck.afterClosed().subscribe(result => {
 			this.dialogCheck = null; 

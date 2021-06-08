@@ -1,0 +1,42 @@
+<div class="Check">
+    <img src="image/close.png" class="close" (click)="close()">
+    <div class="CheckContent">
+        <div class="topbar">
+            <div class="text">
+                {{'SETTING'|translate}}
+            </div>
+        </div>
+        <div class="bottomcontent">
+            <div class="left-content">
+                <div class="left-content-text" (click)="setFunc(1)">{{'General Setting'|translate}}</div>
+                <div class="left-content-text" (click)="setFunc(2)">{{'Update Center'|translate}}</div>
+                <div class="left-content-text" (click)="setFunc(3)">{{'About'|translate}}</div>
+            </div>
+            <!-- General Setting-->
+            <div class="right-content" *ngIf="settingFunction == 1">
+                <div style="margin-left:20px; margin-top:20px; font-size:18px;"> {{'Language'|translate}} </div>
+                <app-commonselect class="select" [componentId]="'Language'" [inputoption]="LanguageData" [(ngModel)]="languageselect" (ngModelChange)="languageSelect()"></app-commonselect>
+            </div>
+            <!-- Update Center-->
+            <div class="right-content" *ngIf="settingFunction == 2">
+                <div style="position:absolute; left:220px; top:65px;"> {{'Driver Version'|translate}} </div>
+                <div class="right-content-botton" style="position:absolute; left:320px; top:45px; width:120px; height: 20px; font-size:15px;"> {{'Check for update'|translate}} </div>
+                <!-- <div class="line"></div> -->
+                <div class="device">
+                    <div *ngFor="let item of deviceService.pluginDeviceData; let index = index; let last = last;">
+                        <div class="item-block">
+
+                        </div>            
+                    </div>
+                </div>
+            </div>
+            <!-- About-->
+            <div class="right-content" *ngIf="settingFunction == 3">
+                <div class="right-content-botton"> {{'Contact Support'|translate}} </div>
+                <div class="right-content-botton"> {{'FAQ'|translate}} </div>
+                <div class="right-content-botton"> {{'Let us know your opinion'|translate}} </div>
+                <div class="right-content-text"> {{'Version'|translate}} : {{version}} </div>
+            </div>
+        </div>
+    </div>
+</div>

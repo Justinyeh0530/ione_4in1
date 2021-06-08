@@ -10,6 +10,7 @@ import { EmitService } from '../services/libs/electron/services/emit.service';
 import { DeviceService, GetAppService, CommonService, HeadsetFunctionService, FunctionService, ActionSyncService} from '../services/device/index';
 import { CheckDialogComponent } from './dialog/checkDialog/checkDialog.component';
 import { DelayDialogComponent } from './dialog/delayDialog/delayDialog.component';
+import { SettingDialogComponent } from './dialog/settingDialog/settingDialog.component'
 import { NavComponent } from './layout/nav/nav.component'
 import { MainComponent } from './layout/main.component';
 import { TopbarComponent } from './layout/topbar/topbar.component'
@@ -38,6 +39,7 @@ routerModule = RouterModule.forRoot(routes, {useHash: true});
         // ContentComponent,
         DelayDialogComponent,
         CheckDialogComponent,
+        SettingDialogComponent,
         // CustomerColorPickerComponent
         // OrderBy
     ],
@@ -58,7 +60,8 @@ routerModule = RouterModule.forRoot(routes, {useHash: true});
     ],
     entryComponents:[
         DelayDialogComponent,
-        CheckDialogComponent
+        CheckDialogComponent,
+        SettingDialogComponent
     ],
     bootstrap: [
         AppComponent,
@@ -77,7 +80,6 @@ routerModule = RouterModule.forRoot(routes, {useHash: true});
             useValue: '<%= APP_BASE %>'
         }
     ]
-                    
 })
 
 export class AppModule { }

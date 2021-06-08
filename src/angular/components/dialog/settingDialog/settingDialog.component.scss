@@ -1,0 +1,138 @@
+.Check{
+    position: absolute;
+    width: 750px;
+    height: 650px;
+    background: #151515;
+    color: #dddddd;
+    font-family: MB,serif;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .close{
+        position: absolute;
+        left: 710px;
+        top: 10px;
+        cursor: pointer;
+    }
+
+    .CheckContent{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(180deg, rgba(20, 20, 20, 1)15%, rgba(40, 40, 40, 0.8)110%);
+            color: #A4A4A4;
+            font-size: 22px;
+            .text {
+                margin-left: 20px;
+            }
+        }
+
+        .bottomcontent {
+            display: flex;
+            width: 100%;
+            height: calc(100% - 50px);
+
+            .left-content {
+                display: flex;
+                flex-direction: column;
+                width: 200px;
+                height: 100%;
+                border-right: solid 1px #A4A4A4;
+
+                .left-content-text {
+                    display: flex;
+                    align-items: center;
+                    height: 30px;
+                    font-size: 18px;
+                    margin-left: 20px;
+                    margin-top: 10px;
+                    cursor: pointer;
+                }
+
+                .left-content-text:hover {
+                    background-color: #A4A4A4;
+                    color: #444444
+                }
+            }
+
+            .right-content {
+                display: flex;
+                flex-direction: column;
+                width: calc(100% - 250px);
+                height: 100%;
+                font-size: 17px;
+
+                .select {
+                    width: 200px;
+                    height: 30px;
+                    border-color: #646464;
+                    margin-left: 20px;
+                    margin-top: 10px;
+                    border: 1px solid;
+                    color: #A4A4A4;
+                    font-size: 17px;
+                }
+
+                .right-content-botton {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 200px;
+                    height: 35px;
+                    margin-top: 20px;
+                    background-color: #444444;
+                    color: #A4A4A4;
+                    margin-left: 20px;
+                    cursor: pointer;
+                }
+
+                .right-content-botton:hover {
+                    filter: brightness(200%);
+                }
+
+                .right-content-text {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 200px;
+                    height: 35px;
+                    margin-top: 20px;
+                    color: #A4A4A4;
+                }
+
+                .line {
+                    position: absolute;
+                    top: 100px;
+                    left: 220px;
+                    width: 500px;
+                    height: 2px;
+                    background-color: #646464;
+
+                }
+
+                .device {
+                    width: 500px;
+                    height: 530px;
+                    margin-top: 50px;
+                    margin-left: 20px;
+
+                    .item-block {
+                        width: 500px;
+                        height: 150px;
+                        border-top: 2px solid #646464;
+                    }
+                }
+            }
+        }
+    }
+}

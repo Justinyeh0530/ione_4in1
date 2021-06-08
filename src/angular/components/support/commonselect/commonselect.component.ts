@@ -133,8 +133,8 @@ export class CommonselectselectComponent implements OnInit,ControlValueAccessor{
             /* For each element, create a new DIV that will contain the option list: */
             this.b = document.createElement("DIV");
             this.b.setAttribute("class", "commonselect-items commonselect-hide");
-            if(selElmnt.length > 5)
-                this.b.style.height = '190px';
+            // if(selElmnt.length > 5)
+            //     this.b.style.height = '190px';
             this.b.style.overflow = 'auto';
             this.b.setAttribute("id","commonselect-items" + this.componentId);
             for (j = 0; j < selElmnt.length; j++) {

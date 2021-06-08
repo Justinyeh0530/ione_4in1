@@ -128,7 +128,7 @@ var Shortcuts_WindowsMapping=[
     {"keyCode":"Shortcuts_Fun_34","functionType":"Shortcuts","value":"WWW Search","hid":14,"translate":"WWW Search","code":"Shortcuts_Fun_34"},
 ]
 var SupportLanguage = [
-    { name: 'ENGLISH', value: 'en' },
+    { name: 'English', value: 'en' },
     // {name:'繁體中文', value:"tw"},
     // {name:'简体中文', value:"cn"}
 ]
