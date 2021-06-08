@@ -1,4 +1,4 @@
-;�? SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
+﻿; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 #define MyDateTimeString GetDateTimeString('yyyymmdd', '', '');
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -46,21 +46,19 @@ en.Device=Do NOT Find Gaming Keyboard!
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files   
 Source: Files\*; DestDir: {app};Flags: recursesubdirs  ignoreversion;  
-Source: "AppDataFiles\*"; DestDir: {userappdata}\IONE_ACTION_AIO\; Flags: recursesubdirs ignoreversion createallsubdirs;   
+Source: "AppDataFiles\*"; DestDir: {userappdata}\IONE_ACTION_AIO\; Flags: recursesubdirs ignoreversion createallsubdirs;     
 Source: "otherExe\iOne A08s DTS Driver Setup v1.2.1.exe"; DestDir:{app}; Flags: recursesubdirs  ignoreversion; AfterInstall: RunOtherInstaller
  
-;Source: FWUpdate\*; DestDir: {app}\FWUpdate; Flags: recursesubdirs ignoreversion createallsubdirs   
 
 [Registry]                                                                                                                                                              
 Root: HKLM; Subkey: SOFTWARE\Microsoft\Windows\CurrentVersion\Run; ValueType: string; ValueName:IONE_ACTION_AIO; ValueData: {app}\IONE_ACTION_AIO.exe --hide; Flags: uninsdeletevalue
-;Root: HKLM; Subkey: SOFTWARE\Microsoft\Windows\CurrentVersion\Run; ValueType: string; ValueName:Tesoro G11TKL; ValueData: {app}\G11TKL\App_G11TKL.exe; Flags: uninsdeletevalue
 
 [Icons]
 Name: {group}\{cm:UninstallProgram, }; Filename: {uninstallexe}  
 Name: {group}\{cm:RunConfig}; Filename: {app}\IONE_ACTION_AIO.exe
 Name: {commondesktop}\{cm:RunConfig}; Filename: {app}\IONE_ACTION_AIO.exe
 
-[Run]                                                                          
+[Run]                                                                        
 Filename: {app}\IONE_ACTION_AIO.exe; Parameters:--forcehide; Flags: nowait skipifsilent runasoriginaluser hidewizard;   
 Filename: {app}\IONE_ACTION_AIO.exe; Description: {cm:RunConfig}; Flags: nowait postinstall skipifsilent
 
@@ -79,7 +77,7 @@ begin
     ewWaitUntilTerminated, ResultCode)
   then
     MsgBox('Other installer failed to run!' + #13#10 +
-      SysErrorMessage(ResultCode), mbError, MB_OK);
+    SysErrorMessage(ResultCode), mbError, MB_OK);
 end;
    
 procedure TaskKill(FileName: String);
@@ -99,20 +97,6 @@ function InitializeSetup(): Boolean;
 begin 
   Result := true;
   CloseApp();
-
-// if RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{A717F79A-3E09-4441-B378-86CE25CD64C3}}_is1','UninstallString', LastUninstallString) then
-//    begin
-//      StringChangeEx(LastUninstallString, '"', '', True);
-//      //Exec(LastUninstallString,'', '', SW_SHOW,ewNoWait, ResultCode);
-//
-//      Exec(LastUninstallString,'', '', SW_SHOW,ewNoWait, ResultCode);
-//      Result := false;
-//
-//    end
-// else
-//    begin             
-//      Result := true;
-//    end
 end;     
 
 function InitializeUninstall(): Boolean;
@@ -132,16 +116,6 @@ begin
     RegQueryStringValue(HKCU, sUnInstPath, 'UninstallString', sUnInstallString);
   Result := sUnInstallString;
 end;
-
-//procedure InitializeWizard();
-//var 
-  //Bmp: TBitmapImage;
-//begin
-  //WizardForm.BorderStyle:=bsNone;
-  //WizardForm.InnerNotebook.Hide();
-  //WizardForm.OuterNotebook.Hide();
-  //WizardForm.Bevel.Hide();
-//end;          
 
 function IsUpgrade(): Boolean;
 begin
@@ -179,7 +153,6 @@ procedure CurStepChanged(CurStep : TSetupStep);
 begin
   if (CurStep=ssInstall) then
   begin
-    WizardForm.InnerNotebook.Show();
     if (IsUpgrade()) then
     begin
       UnInstallOldVersion();
@@ -194,18 +167,16 @@ begin
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
-var 
-  ResultCode: Integer;
 begin         
-  if (CurUninstallStep = usUninstall) then 
-  begin   
+  if (CurUninstallStep = usUninstall) then      //反安裝前        
+  begin                
+    Exec(ExpandConstant('{commonpf64}\DTS Driver\unins000.exe'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
   end                              
-  else if (CurUninstallStep = usPostUninstall) then
+  else if (CurUninstallStep = usPostUninstall) then  //反安裝完成
   begin   
     DelTree(ExpandConstant('{userappdata}\IONE_ACTION_AIO'), True, True, True);
-    Exec(ExpandConstant('{commonpf64}\DTS Driver\unins000.exe'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
   end 
-  else if (CurUninstallStep = usDone) then    
+  else if (CurUninstallStep = usDone) then           //完成後程式關閉前   
   begin
   end;
 end;
