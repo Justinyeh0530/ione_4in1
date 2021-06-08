@@ -19,7 +19,7 @@ SolidCompression=true
 AppendDefaultGroupName=false
 SetupIconFile=Files\Icon.ico
 UninstallDisplayIcon={app}\Icon.ico
-LicenseFile=Files\license.txt
+LicenseFile=
 UninstallFilesDir={win}
 WizardImageStretch=false
 DirExistsWarning=no
@@ -57,13 +57,10 @@ Root: HKLM; Subkey: SOFTWARE\Microsoft\Windows\CurrentVersion\Run; ValueType: st
 
 [Icons]
 Name: {group}\{cm:UninstallProgram, }; Filename: {uninstallexe}  
+Name: {group}\{cm:RunConfig}; Filename: {app}\IONE_ACTION_AIO.exe
 Name: {commondesktop}\{cm:RunConfig}; Filename: {app}\IONE_ACTION_AIO.exe
 
-[Run]           
-;Filename: {app}\G12ULP\App_G12ULP.exe; Flags: nowait skipifsilent runasoriginaluser hidewizard;
-;Filename: {app}\G11TKL\App_G11TKL.exe; Flags: nowait skipifsilent runasoriginaluser hidewizard; 
-;Filename: {app}\Tesoro 360.exe; Flags: nowait skipifsilent runasoriginaluser hidewizard;
-                                                               
+[Run]                                                                          
 Filename: {app}\IONE_ACTION_AIO.exe; Parameters:--forcehide; Flags: nowait skipifsilent runasoriginaluser hidewizard;   
 Filename: {app}\IONE_ACTION_AIO.exe; Description: {cm:RunConfig}; Flags: nowait postinstall skipifsilent
 
@@ -136,6 +133,16 @@ begin
   Result := sUnInstallString;
 end;
 
+//procedure InitializeWizard();
+//var 
+  //Bmp: TBitmapImage;
+//begin
+  //WizardForm.BorderStyle:=bsNone;
+  //WizardForm.InnerNotebook.Hide();
+  //WizardForm.OuterNotebook.Hide();
+  //WizardForm.Bevel.Hide();
+//end;          
+
 function IsUpgrade(): Boolean;
 begin
   Result := (GetUninstallString() <> '');
@@ -172,6 +179,7 @@ procedure CurStepChanged(CurStep : TSetupStep);
 begin
   if (CurStep=ssInstall) then
   begin
+    WizardForm.InnerNotebook.Show();
     if (IsUpgrade()) then
     begin
       UnInstallOldVersion();
@@ -186,15 +194,18 @@ begin
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+var 
+  ResultCode: Integer;
 begin         
-  if (CurUninstallStep = usUninstall) then      //?çÂ?Ë£ùÂ?        
+  if (CurUninstallStep = usUninstall) then 
   begin   
   end                              
-  else if (CurUninstallStep = usPostUninstall) then  //?çÂ?Ë£ùÂ???
+  else if (CurUninstallStep = usPostUninstall) then
   begin   
     DelTree(ExpandConstant('{userappdata}\IONE_ACTION_AIO'), True, True, True);
+    Exec(ExpandConstant('{commonpf64}\DTS Driver\unins000.exe'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
   end 
-  else if (CurUninstallStep = usDone) then           //ÂÆåÊ?ÂæåÁ?ÂºèÈ??âÂ?   
+  else if (CurUninstallStep = usDone) then    
   begin
   end;
 end;
