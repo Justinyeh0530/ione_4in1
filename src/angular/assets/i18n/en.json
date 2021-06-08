@@ -91,5 +91,15 @@
     "CounterClockwise": "Counter-Clockwise",
     "RESET": "RESET",
     "EnableDTS": "Enable DTS surround sound",
-    "SingleColor": "Single Color"
+    "SingleColor": "Single Color",
+    "SETTING": "SETTING",
+    "General Setting": "General Setting",
+    "Update Center": "Update Center",
+    "About": "About",
+    "Language": "Language",
+    "Driver Version": "Driver Version",
+    "Check for update": "Check for update",
+    "Device Firmware version": "Device Firmware version",
+    "Factory Reset": "Factory Reset",
+    "Download Manual": "Download Manual"
 }

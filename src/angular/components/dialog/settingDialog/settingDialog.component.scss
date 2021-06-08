@@ -1,6 +1,6 @@
 .Check{
     position: absolute;
-    width: 750px;
+    width: 850px;
     height: 650px;
     background: #151515;
     color: #dddddd;
@@ -13,7 +13,7 @@
 
     .close{
         position: absolute;
-        left: 710px;
+        left: 800px;
         top: 10px;
         cursor: pointer;
     }
@@ -121,15 +121,84 @@
                 }
 
                 .device {
-                    width: 500px;
+                    width: 600px;
                     height: 530px;
                     margin-top: 50px;
                     margin-left: 20px;
 
                     .item-block {
-                        width: 500px;
-                        height: 150px;
-                        border-top: 2px solid #646464;
+                        display: flex;
+                        align-items: center;
+                        width: 100%;
+                        height: 160px;
+                        border-top: 1px solid #646464;
+
+                        .item-block-picture {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            width: 140px;
+                            height: 130px;
+                            border: 1px solid #646464;
+
+                            .device-image {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                width: 120px;
+                                height: 100px;
+                            }
+
+                            .device-text {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                background-color: #444444;
+                                color: #A4A4A4;
+                                width: 100%;
+                                height: 30px;
+                                font-size: 15px;
+                            }
+                        }
+
+                        .device-desc {
+                            display: flex;
+                            flex-direction: column;
+                            width: calc(100% - 140px);
+                            height: 130px;
+
+                            .version {
+                                display: flex;
+                                font-size: 25px;
+                                margin-left: 20px;
+                                height: 180px;
+                                color: #646464;
+                            }
+
+                            .device-botton {
+                                display: flex;
+                                align-items: center;
+                                width: 100%;
+                                height: 60px;
+
+                                .botton {
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    width: 130px;
+                                    height: 30px;
+                                    background-color: #444444;
+                                    color: #A4A4A4;
+                                    cursor: pointer;
+                                    font-size: 15px;
+                                    margin-left: 20px;
+                                }
+
+                                .botton:hover {
+                                    filter: brightness(200%);
+                                }
+                            }
+                        }
                     }
                 }
             }

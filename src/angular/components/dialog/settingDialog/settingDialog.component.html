@@ -25,7 +25,22 @@
                 <div class="device">
                     <div *ngFor="let item of deviceService.pluginDeviceData; let index = index; let last = last;">
                         <div class="item-block">
-
+                            <div class="item-block-picture" *ngIf="item.SN == '0x195D0xA005'">
+                                <div class="device-image">
+                                    <img style="width:100%;" src='./image/Headset.png'>
+                                </div>
+                                <div class="device-text">{{item.devicename}}</div>
+                            </div>
+                            <div class="device-desc">
+                                <div class="version">
+                                    {{'Device Firmware version'|translate}} 1.0
+                                </div>
+                                <div class="device-botton">
+                                    <div class="botton">{{'Check for update'|translate}}</div>
+                                    <div class="botton">{{'Factory Reset'|translate}}</div>
+                                    <div class="botton">{{'Download Manual'|translate}}</div>
+                                </div>
+                            </div>
                         </div>            
                     </div>
                 </div>

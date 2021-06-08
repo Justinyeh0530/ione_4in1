@@ -183,10 +183,10 @@ export class CommonService{
 		var winWidth = document.body.clientWidth;
 		var winHeight = document.body.clientHeight;
 		if(ElementId == 'AppSettingData') {
-			winWidth = (winWidth-750)/2-24;
+			winWidth = (winWidth-850)/2-24;
 			winHeight = (winHeight-650)/2-100;
 		} else {
-			winWidth = (winWidth-750)/2 - 24;
+			winWidth = (winWidth-850)/2 - 24;
 			winHeight = (winHeight-650)/2 - 24;
 		}
 		var title="";
