@@ -40,6 +40,7 @@ export class ContentComponent implements OnInit {
     WindowSizeFlag: any = false;
     Headsetsubscription:any;
     Micsubscription:any;
+    Micbarsubscription: any;
 
     SleepTimeData: any = [
         { name: "5minutes", value: 5, translate: '5minutes' },
@@ -82,6 +83,10 @@ export class ContentComponent implements OnInit {
         });
         this.Micsubscription = this.headsetFunctionService.refreshMicEvent.subscribe((data) => {
             this.initMic();
+        });
+        this.Micbarsubscription = this.headsetFunctionService.refreshMicrophoneEvent.subscribe((data) => {
+            this.SliderMove('MicVolumeBounds');
+            this.SliderMove('MicSideTone');
         });
     }
 

@@ -16,6 +16,7 @@ export class HeadsetFunctionService{
     addColorSection: EventEmitter<number> = new EventEmitter();
     refreshEQEvent: EventEmitter<number> = new EventEmitter();
     refreshMicEvent: EventEmitter<number> = new EventEmitter();
+    refreshMicrophoneEvent: EventEmitter<number> = new EventEmitter();
     MusicPreset = [
         { name: "Music", value:0, translate: 'Music'},
         { name: 'Movie', value: 1, translate: 'Movie'},
@@ -937,6 +938,7 @@ export class HeadsetFunctionService{
         for(let i = 0; i < obj.length; i++)
             this[obj[i].key] = obj[i].value;
         this.TempMicophoneArray = _.cloneDeep(this.StepMicophoneArray[this.StepArrayIndex])
+        this.refreshMicrophoneEvent.emit();
     }
 
     MicrophoneRedo() {
@@ -946,6 +948,7 @@ export class HeadsetFunctionService{
             for(let i = 0; i < obj.length; i++)
                 this[obj[i].key] = obj[i].value;
             this.TempMicophoneArray = _.cloneDeep(this.StepMicophoneArray[this.StepArrayIndex])
+            this.refreshMicrophoneEvent.emit();
         }
     }
 
