@@ -21,7 +21,6 @@
             <div class="right-content" *ngIf="settingFunction == 2">
                 <div style="position:absolute; left:220px; top:65px;"> {{'Driver Version'|translate}} </div>
                 <div class="right-content-botton" style="position:absolute; left:320px; top:45px; width:120px; height: 20px; font-size:15px;"> {{'Check for update'|translate}} </div>
-                <!-- <div class="line"></div> -->
                 <div class="device">
                     <div *ngFor="let item of deviceService.pluginDeviceData; let index = index; let last = last;">
                         <div class="item-block">
@@ -43,6 +42,7 @@
                             </div>
                         </div>            
                     </div>
+                    <div class="line"></div>
                 </div>
             </div>
             <!-- About-->
