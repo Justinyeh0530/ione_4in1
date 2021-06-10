@@ -7,6 +7,7 @@ import { CommonService } from './CommonService.service'
 import {TranslateService} from 'ng2-translate';
 import * as _ from 'lodash'
 import {protocolService} from '../service/protocol.service';
+let env = System._nodeRequire('./backend/others/env');
 
 @Injectable()
 export class HeadsetFunctionService{
@@ -1113,8 +1114,16 @@ export class HeadsetFunctionService{
 
     DTSButtonClick() {
         if(this.HeadsetProfileData != undefined) {
-            console.log(33333, this.HeadsetProfileData[this.profileindex].DTSFlag)
             this.HeadsetProfileData[this.profileindex].DTSFlag = !this.HeadsetProfileData[this.profileindex].DTSFlag;
+            if(this.HeadsetProfileData[this.profileindex].DTSFlag) {
+                let src = env.appRoot + "\\other\\dts_off_16k.mp3";
+                let audio = new Audio(src);
+                audio.play();
+            } else {
+                let src = env.appRoot + "\\other\\dts_on_16k.mp3";
+                let audio = new Audio(src);
+                audio.play();
+            }
             if(this.deviceService.currentDevice.pluginDevice != undefined)
                 this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
         }

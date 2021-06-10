@@ -40,7 +40,7 @@ gulp.task('js', ['database'], function () {
         return gulp.src(['./src/angular/assets/js/**/*']).pipe(gulp.dest('./App/js'));
 });
 
-gulp.task('database', ['database2'], function () {
+gulp.task('database', ['other'], function () {
     // return gulp.src(['./src/backend/database/**/*']).pipe(gulp.dest('App/data'));
     let path;
     if (isWindows)
@@ -48,6 +48,15 @@ gulp.task('database', ['database2'], function () {
     else
         path = os.homedir + `/${packagejson.project.projectname}/data`;
     return gulp.src(['./src/backend/database/**/*']).pipe(gulp.dest(path));
+});
+gulp.task('other', ['database2'], function () {
+    // return gulp.src(['./src/backend/database/**/*']).pipe(gulp.dest('App/data'));
+    let path;
+    if (isWindows)
+        path = process.env.APPDATA + `\\${packagejson.project.projectname}\\other`;
+    else
+        path = os.homedir + `/${packagejson.project.projectname}/other`;
+    return gulp.src(['./src/image/other/**/*']).pipe(gulp.dest(path));
 });
 gulp.task('database2', ['img'], function () {
     return gulp.src(['./src/backend/database/**/*']).pipe(gulp.dest(`${packagejson.project.projectsetupname}/AppDataFiles/data`));
@@ -58,9 +67,9 @@ gulp.task('img', ['backend'], function () {
 });
 
 gulp.task('backend', ['node'], function () {
-    if (packagejson.BuildCode == 0 || packagejson.BuildCode == 2)
-        return gulp.src(['./src/backend/**/*', '!./src/backend/database/**/*', '!./src/backend/protocol/nodeDriver/**/*']).pipe(uglify().on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()) })).pipe(gulp.dest('./App/backend'));
-    else if (packagejson.BuildCode == 1)
+    // if (packagejson.BuildCode == 0 || packagejson.BuildCode == 2)
+    //     return gulp.src(['./src/backend/**/*', '!./src/backend/database/**/*', '!./src/backend/protocol/nodeDriver/**/*']).pipe(uglify().on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()) })).pipe(gulp.dest('./App/backend'));
+    // else if (packagejson.BuildCode == 1)
         return gulp.src(['./src/backend/**/*', '!./src/backend/database/**/*', '!./src/backend/protocol/nodeDriver/**/*']).pipe(gulp.dest('./App/backend'));
 });
 
