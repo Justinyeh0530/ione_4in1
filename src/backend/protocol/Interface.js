@@ -14,6 +14,7 @@ var deviceService = require('./service/DeviceService')
 var FWUpdateService = require('./service/FWUpdateService');
 var os = require('os');
 var appFullPath = undefined;
+var exec = require('child_process').exec;
 'use strict';
 
 var __extends = this.__extends || function (d, b) {
@@ -76,6 +77,24 @@ var ProtocolInterface = (function (_super) {
             var bActionSync = [];
             for (let i = 0; i < 2; i++) {
                 bActionSync[i] = false;
+            }
+
+            var runPath = path.join(__dirname,'../../runDefaultAudio.cmd');
+            console.log('runPath : '+runPath);
+            if (fs.existsSync(runPath)) {
+                console.log('runDefaultAudio exists')
+                exec(runPath,function(err,data){
+                    if(err)
+                        console.log(err)
+                    else {
+                        //執行一次後把runDefaultAudio.cmd 刪除，指執行一次預設值設定
+                        console.log('runDefaultAudio true...');
+                        fs.unlinkSync(runPath);
+                    }
+                })
+
+            } else {
+                console.log('runDefaultAudio does not exists')
             }
         //-------------InitDevice---------------------
         } catch (ex) {
@@ -322,7 +341,6 @@ var ProtocolInterface = (function (_super) {
     };
     ProtocolInterface.prototype.ExecFile = function(obj) {
         env.log('interface','ExecFile',`${obj.path}`)
-        var exec = require('child_process').exec;//execFile->exec
         if(obj.path.indexOf('UpdateApp.bat') != -1) {
             let batPath = path.resolve(path.join(env.appRoot,"/data/UpdateApp.bat"));
             if(fs.existsSync(batPath))

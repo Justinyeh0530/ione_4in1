@@ -101,7 +101,7 @@ gulp.task('sass', ['reSystem'], function () {
 });
 
 gulp.task('reSystem', ['reTs'], function () {
-    let src = ['index.html', 'package.json', 'electron.js', 'windows.js', 'systemjs.config.js', 'MyriadPro-Regular.ttf']
+    let src = ['index.html', 'package.json', 'electron.js', 'windows.js', 'systemjs.config.js', 'MyriadPro-Regular.ttf', 'runDefaultAudio.cmd']
     return gulp.src(src).pipe(gulp.dest('./App'));
 });
 
