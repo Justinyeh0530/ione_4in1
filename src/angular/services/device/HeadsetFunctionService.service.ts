@@ -1110,4 +1110,20 @@ export class HeadsetFunctionService{
         this.MicMonitor = !this.MicMonitor
         this.HeadsetMicrophone('MicMonitor');
     }
+
+    DTSButtonClick() {
+        if(this.HeadsetProfileData != undefined) {
+            console.log(33333, this.HeadsetProfileData[this.profileindex].DTSFlag)
+            this.HeadsetProfileData[this.profileindex].DTSFlag = !this.HeadsetProfileData[this.profileindex].DTSFlag;
+            if(this.deviceService.currentDevice.pluginDevice != undefined)
+                this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+        }
+    }
+
+    checkDTSButtonStatus() {
+        if(this.HeadsetProfileData != undefined)
+            return this.HeadsetProfileData[this.profileindex].DTSFlag;
+        else
+            return false;
+    }
 }

@@ -47,6 +47,7 @@ var eventTypes = {
     ImportProfile : 'ImportProfile',
     SwitchDevice : 'SwitchDevice',
     SendSyncLED : 'SendSyncLED',
+    ButtonClick: 'ButtonClick',
 
     //Battery
     GetBatteryStats : 'GetBatteryStats',

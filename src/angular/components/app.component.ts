@@ -6,7 +6,7 @@ import {TranslateService} from 'ng2-translate';
 import {EmitService,ElectronEventService } from '../services/libs/electron/index';
 import { icpEventService } from '../services/service/icpEventService.service';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
-import { DeviceService, GetAppService, CommonService} from '../services/device/index';
+import { DeviceService, GetAppService, CommonService, HeadsetFunctionService} from '../services/device/index';
 import { Router } from '@angular/router';
 
 const {ipcRenderer} = System._nodeRequire('electron');
@@ -34,7 +34,8 @@ export class AppComponent implements OnInit{
         private cdr: ChangeDetectorRef,
         private getAppService: GetAppService,
         private protocol: protocolService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private headsetFunctionService: HeadsetFunctionService
     ){
         let langObj = [];
         langObj.push(`Open ${Project.project.projectname}`);langObj.push(`Quit ${Project.project.projectname}`); 
@@ -52,6 +53,14 @@ export class AppComponent implements OnInit{
                 setTimeout(() => {
                     this.deviceService.getDevice();
                 },500);
+            } else if(obj.Func == 'ButtonClick') {
+                if(obj.Param == 'Mode') {
+
+                } else if(obj.Param == 'LED') {
+
+                } else if(obj.Param == 'DTS') {
+                    this.headsetFunctionService.DTSButtonClick();
+                }
             }
         });
 

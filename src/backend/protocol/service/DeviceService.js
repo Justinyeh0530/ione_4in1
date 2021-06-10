@@ -117,7 +117,6 @@ class DeviceService extends EventEmitter {
             var EP2Array = Obj;
             var DeviceInfo = Obj2;
             if (DeviceInfo.vid != undefined && DeviceInfo.pid != undefined) {
-                var SN;
                 var SN = "0x"+ _this.NumTo16Decimal(DeviceInfo.vid) + "0x"+ _this.NumTo16Decimal(DeviceInfo.pid) ;
                 var dev = _this.AllDevices.get(SN);
                 var devfun = dev.SeriesInstance["HIDReadData"];
@@ -128,11 +127,17 @@ class DeviceService extends EventEmitter {
                 else{
                     // console.log('HIDReadData', EP2Array);
                     dev.SeriesInstance["HIDReadData"](dev, EP2Array);
-                    let devicename = '', KeyCode = undefined;
-                    if((EP2Array[0] == 0x01 && EP2Array[1] == 0x20) || (EP2Array[0] == 0x01 && EP2Array[1] == 0x40))
+                    let devicename = '', KeyCode = undefined, Button = undefined;
+                    if((EP2Array[0] == 0x01 && EP2Array[1] == 0x20) || (EP2Array[0] == 0x01 && EP2Array[1] == 0x40)) {
                         KeyCode = 'LED'
-                    else if(EP2Array[0] == 0x01 && EP2Array[1] == 0x80)
+                        if(EP2Array[1] == 0x20)
+                            Button = 'LED';
+                        else
+                            Button = 'Mode'
+                    } else if(EP2Array[0] == 0x01 && EP2Array[1] == 0x80) {
                         KeyCode = 'DTS'
+                        Button = 'DTS'
+                    }
                     if(DeviceInfo.vid == '0x195d' && DeviceInfo.pid == '0xa005')
                         devicename = 'A08s'
 
@@ -142,6 +147,13 @@ class DeviceService extends EventEmitter {
                             Keycode: KeyCode,
                         };
                         _this.ApmodeService.SyncLEDEvent(ObjEvent);
+
+                        var Obj2 = {
+                            Type: funcVar.FuncType.Device,
+                            Func: funcVar.FuncName.ButtonClick,
+                            Param: Button
+                        };
+                        _this.emit(evtType.ProtocolMessage, Obj2);
                     }
                 }
 

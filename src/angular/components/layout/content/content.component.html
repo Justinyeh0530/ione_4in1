@@ -200,6 +200,9 @@
         </div>
         <!-------------Headset Equlizer------------------->
         <div class="block" *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 1" style="background: url('./image/spectrumSetting2.png');">
+            <div class="DTS-dsc" *ngIf="headsetFunctionService.checkDTSButtonStatus()">
+                {{'DTS OFF DSC'|translate}}
+            </div>
             <div class="block-item" style="width:1022px;">
                 <div class="reset" (click)='headsetFunctionService.reset(1)'></div>
                 <div class="item-block">
@@ -337,6 +340,9 @@
         </div>
         <!-------------Headset Surround Sound------------------->
         <div class="block" *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 3" style="background: url('./image/spectrumSetting.png');">
+            <div class="DTS-dsc" *ngIf="headsetFunctionService.checkDTSButtonStatus()">
+                {{'DTS OFF DSC'|translate}}
+            </div>
             <div class="block-item">
                 <!-- <div class="item-title">{{'Environment Mode'|translate}}</div>
                 <div class="item-block" [style.pointerEvents]="headsetFunctionService.VirtualizationValue == 0 ? 'none' : 'auto'" [style.opacity]="headsetFunctionService.VirtualizationValue == 0 ? 0.5 : 1">

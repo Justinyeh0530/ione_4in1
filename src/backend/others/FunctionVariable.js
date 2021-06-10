@@ -35,7 +35,8 @@ var FuncName = {
     setSurroundSound: "setSurroundSound",
     setMicrophone: "setMicrophone",
     StartApmode: "StartApmode",
-    StopApMode: "StopApMode"
+    StopApMode: "StopApMode",
+    ButtonClick: "ButtonClick"
 };
 
 var FuncType = {
