@@ -516,19 +516,23 @@
                     <div class="color-item" id="color-item2" style="cursor: pointer; background-color: rgb(255,255,255)" (click)="headsetFunctionService.resetCurrentColor()"></div>
                     <div class="color-value">
                         <div class="color-value-text">R</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorR' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">G</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorG' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">B</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorB' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">#</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div> -->
+                        <input class="color-value-input" maxlength="6" [(ngModel)]='ColorHex' (ngModelChange)="setHEXcolor()" onkeypress="return (/[0-9a-fA-F]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                 </div>
                 <div class="color-switch">
@@ -605,19 +609,23 @@
                     <div class="color-item" id="color-item2" style="cursor: pointer; background-color: rgb(255,255,255)" (click)="headsetFunctionService.resetCurrentColor()"></div>
                     <div class="color-value">
                         <div class="color-value-text">R</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorR' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">G</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorG' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">B</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorB' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">#</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div> -->
+                        <input class="color-value-input" maxlength="6" [(ngModel)]='ColorHex' (ngModelChange)="setHEXcolor()" onkeypress="return (/[0-9a-fA-F]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                 </div>
                 <div class="color-switch">
@@ -700,19 +708,23 @@
                     <div class="color-item" id="color-item2" style="cursor: pointer; background-color: rgb(255,255,255)" (click)="headsetFunctionService.resetCurrentColor()"></div>
                     <div class="color-value">
                         <div class="color-value-text">R</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorR' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">G</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorG' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">B</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorB' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">#</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div> -->
+                        <input class="color-value-input" maxlength="6" [(ngModel)]='ColorHex' (ngModelChange)="setHEXcolor()" onkeypress="return (/[0-9a-fA-F]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                 </div>
                 <div class="color-switch" style="left:500px;">
@@ -798,19 +810,23 @@
                     <div class="color-item" id="color-item2" style="cursor: pointer; background-color: rgb(255,255,255)" (click)="headsetFunctionService.resetCurrentColor()"></div>
                     <div class="color-value">
                         <div class="color-value-text">R</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorR' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">G</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorG' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">B</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorB' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">#</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div> -->
+                        <input class="color-value-input" maxlength="6" [(ngModel)]='ColorHex' (ngModelChange)="setHEXcolor()" onkeypress="return (/[0-9a-fA-F]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                 </div>
                 <div class="color-switch" style="left:500px;">
@@ -904,19 +920,23 @@
                     <div class="color-item" id="color-item2" style="cursor: pointer; background-color: rgb(255,255,255)" (click)="headsetFunctionService.resetCurrentColor()"></div>
                     <div class="color-value">
                         <div class="color-value-text">R</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorR' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">G</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorG' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">B</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorB' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">#</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div> -->
+                        <input class="color-value-input" maxlength="6" [(ngModel)]='ColorHex' (ngModelChange)="setHEXcolor()" onkeypress="return (/[0-9a-fA-F]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                 </div>
                 <div class="color-switch" style="left:500px;">
@@ -1006,19 +1026,23 @@
                     <div class="color-item" id="color-item2" style="cursor: pointer; background-color: rgb(255,255,255)" (click)="headsetFunctionService.resetCurrentColor()"></div>
                     <div class="color-value">
                         <div class="color-value-text">R</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.R}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorR' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">G</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.G}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorG' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">B</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.B}}</div> -->
+                        <input class="color-value-input" maxlength="3"[(ngModel)]='ColorB' min="0" max="255" (ngModelChange)="setRGBcolor()" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                     <div class="color-value">
                         <div class="color-value-text">#</div>
-                        <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div>
+                        <!-- <div class="color-value-value">{{headsetFunctionService.ColorPickerColor.hex}}</div> -->
+                        <input class="color-value-input" maxlength="6" [(ngModel)]='ColorHex' (ngModelChange)="setHEXcolor()" onkeypress="return (/[0-9a-fA-F]/.test(String.fromCharCode(event.keyCode)))">
                     </div>
                 </div>
                 <div class="color-switch" style="left:500px;">

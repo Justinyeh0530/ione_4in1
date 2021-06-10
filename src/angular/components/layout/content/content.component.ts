@@ -41,6 +41,11 @@ export class ContentComponent implements OnInit {
     Headsetsubscription:any;
     Micsubscription:any;
     Micbarsubscription: any;
+    Colorsubscription: any;
+    ColorR: any = 0;
+    ColorG: any = 0;
+    ColorB: any = 255;
+    ColorHex: any = "0000FF"
 
     SleepTimeData: any = [
         { name: "5minutes", value: 5, translate: '5minutes' },
@@ -87,6 +92,14 @@ export class ContentComponent implements OnInit {
         this.Micbarsubscription = this.headsetFunctionService.refreshMicrophoneEvent.subscribe((data) => {
             this.SliderMove('MicVolumeBounds');
             this.SliderMove('MicSideTone');
+        });
+
+        this.Colorsubscription = this.headsetFunctionService.updateColorData.subscribe((data) => {
+            this.ColorR = this.headsetFunctionService.ColorPickerColor.R;
+            this.ColorG = this.headsetFunctionService.ColorPickerColor.G;
+            this.ColorB = this.headsetFunctionService.ColorPickerColor.B;
+            let hexdata = this.commonService.rgbToHex(this.ColorR, this.ColorG, this.ColorB);
+            this.ColorHex = hexdata.split('#')[1].toUpperCase();
         });
     }
 
@@ -296,4 +309,55 @@ export class ContentComponent implements OnInit {
 
     ColorShiftStartClick() {}
     ColorShiftStopClick() {}
+
+    setRGBcolor() {
+        if(isNaN(parseInt(this.ColorR)) == true)
+            this.ColorR = 0;
+        else
+            this.ColorR=parseInt(this.ColorR);
+        if(isNaN(parseInt(this.ColorG)) == true)
+            this.ColorG = 0;
+        else
+            this.ColorG=parseInt(this.ColorG);
+        if(isNaN(parseInt(this.ColorB)) == true)
+            this.ColorB = 0;
+        else
+            this.ColorB=parseInt(this.ColorB);
+
+        if (this.ColorR > 255) this.ColorR = 255
+        if (this.ColorG > 255) this.ColorG = 255
+        if (this.ColorB > 255) this.ColorB = 255
+        if (this.ColorR < 0) this.ColorR = 0
+        if (this.ColorG < 0) this.ColorG = 0
+        if (this.ColorB < 0) this.ColorB = 0
+        let ColorObj = this.commonService.rgbToHex(this.ColorR, this.ColorG, this.ColorB)
+        this.ColorHex = ColorObj.split('#')[1];
+        let obj = {
+            R: this.ColorR,
+            G: this.ColorG,
+            B: this.ColorB,
+            A: this.headsetFunctionService.ColorPickerColor.A,
+            flag : 1
+        }
+        this.headsetFunctionService.DynamicColorChange(obj);
+        this.headsetFunctionService.ColorChange(obj);
+    }
+
+    setHEXcolor() {
+        let ColorObj = this.commonService.hexToRgb(this.ColorHex);
+        if(ColorObj != null) {
+            this.ColorR = ColorObj.r;
+            this.ColorG = ColorObj.g;
+            this.ColorB = ColorObj.b;
+            let obj = {
+                R: this.ColorR,
+                G: this.ColorG,
+                B: this.ColorB,
+                A: this.headsetFunctionService.ColorPickerColor.A,
+                flag : 1
+            }
+            this.headsetFunctionService.DynamicColorChange(obj);
+            this.headsetFunctionService.ColorChange(obj);
+        }
+    }
 }

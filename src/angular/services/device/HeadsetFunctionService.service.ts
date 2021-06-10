@@ -12,6 +12,7 @@ import {protocolService} from '../service/protocol.service';
 export class HeadsetFunctionService{
     dbService = electron_Instance.getGlobal('AppProtocol').deviceService.nedbObj
     updateColorSection: EventEmitter<object> = new EventEmitter();
+    updateColorData: EventEmitter<object> = new EventEmitter();
     removeColorSection: EventEmitter<number> = new EventEmitter();
     addColorSection: EventEmitter<number> = new EventEmitter();
     refreshEQEvent: EventEmitter<number> = new EventEmitter();
@@ -509,6 +510,14 @@ export class HeadsetFunctionService{
             }
         }
         this.updateTemplightData();
+        if(event.flag == undefined) {
+            let obj = {
+                R: this.ColorPickerColor.R,
+                G: this.ColorPickerColor.G,
+                B: this.ColorPickerColor.B
+            }
+            this.updateColorData.emit(obj)
+        }
     }
 
     SetLightingArea(flag) {
@@ -611,13 +620,12 @@ export class HeadsetFunctionService{
         }
         if(document.getElementById('color-item1'))
             document.getElementById('color-item1').style.backgroundColor = "#" + this.ColorPickerColor.hex;
-        if(!this.switchDscFlag && document.getElementById(`Alternation-color${this.AlternationFlag}`)) {
+        if(document.getElementById(`Alternation-color${this.AlternationFlag}`)) {
             document.getElementById(`Alternation-color${this.AlternationFlag}`).style.backgroundColor = `rgb(${this.ColorPickerColor.R},${this.ColorPickerColor.G},${this.ColorPickerColor.B})`;
             this.CurrentLightingTempColor[this.AlternationFlag - 1][0] = this.ColorPickerColor.R;
             this.CurrentLightingTempColor[this.AlternationFlag - 1][1] = this.ColorPickerColor.G;
             this.CurrentLightingTempColor[this.AlternationFlag - 1][2] = this.ColorPickerColor.B;
         }
-
         if(this.headsetLightEffectSelect.value == 3 && this.dotindex != -1) {
             let index = this.ColorSectionArray.findIndex(x => x.value == this.dotindex);
             if(index != -1) {
@@ -626,6 +634,7 @@ export class HeadsetFunctionService{
             }
         }
         this.updateTemplightData();
+        this.updateColorData.emit();
     }
 
     SpectrumSave() {
@@ -776,6 +785,20 @@ export class HeadsetFunctionService{
         document.getElementById('color-item1').style.backgroundColor = document.getElementById(`Alternation-color${id}`).style.backgroundColor
         document.getElementById('color-item2').style.backgroundColor = document.getElementById(`Alternation-color${id}`).style.backgroundColor
         this.updateTemplightData();
+        let colordata = document.getElementById(`Alternation-color${id}`).style.backgroundColor;
+        if(colordata.indexOf('rgb') != -1) {
+            let temp = colordata.split('rgb(')[1];
+            temp = temp.split(')')[0];
+            this.ColorPickerColor.R = parseInt(temp.split(',')[0])
+            this.ColorPickerColor.G = parseInt(temp.split(',')[1])
+            this.ColorPickerColor.B = parseInt(temp.split(',')[2])
+        } else if(colordata.indexOf('#') != -1) {
+            let ColorObj = this.commonService.hexToRgb(colordata.split('#')[1]);
+            this.ColorPickerColor.R = ColorObj.r;
+            this.ColorPickerColor.G = ColorObj.g;
+            this.ColorPickerColor.B = ColorObj.b;
+        }
+        this.updateColorData.emit();
     }
 
     ColorSectionChange(event) {
