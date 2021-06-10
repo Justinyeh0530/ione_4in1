@@ -266,8 +266,10 @@ export class HeadsetFunctionService{
             this.SetHeadsetEqulizer();
         else if(flag == 2)
             this.SetHeadsetMacrophone();
-        else if(flag == 3)
+        else if(flag == 3) {
+            this.SetHeadsetDashboard();
             this.SetHeadsetSurroundSound();
+        }
         if(this.deviceService.currentDevice.pluginDevice != undefined)
             this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
 

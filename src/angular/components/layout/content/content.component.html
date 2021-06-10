@@ -35,7 +35,8 @@
         <!--------Headset surround---------->
         <div class="SurroundSound" *ngIf="functionService.headsetleftfunc == 3">
             <!-- <img src="./image/headset/SurroundSound.png"> -->
-            <div class="Reset" (click)="headsetFunctionService.SurroundSoundReset()">{{'RESET'|translate}}</div>
+            <!-- <div class="Reset" (click)="headsetFunctionService.SurroundSoundReset()">{{'RESET'|translate}}</div> -->
+            <div class="Reset" (click)="headsetFunctionService.HeadsetFuncSave(3)">{{'SAVE'|translate}}</div>
             <div class="DTS">
                 <label style="margin-right:5px;">
                     <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnableDTSValue == 1" (click)="headsetFunctionService.EnableDTS()">
@@ -142,7 +143,7 @@
         <!-------------Headset Dashboard------------------->
         <div class="block" *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 0" style="background: url('./image/spectrumSetting.png');">
             <div class="block-item">
-                <div class="item-title">{{'ADVANCESETTING'|translate}}</div>
+                <!-- <div class="item-title">{{'ADVANCESETTING'|translate}}</div>
                 <div class="item-block">
                     <div class="item-block-item">
                         <label style="margin-right:5px;">
@@ -189,12 +190,12 @@
                             {{'Headphone EQ'|translate}}
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="block-item" style="width:535px">
             </div>
             <div class="block-item" style="width:535px">
-                <div class="Save" (click)="headsetFunctionService.HeadsetFuncSave(0)">{{'SAVE'|translate}}</div>
+                <!-- <div class="Save" (click)="headsetFunctionService.HeadsetFuncSave(0)">{{'SAVE'|translate}}</div> -->
             </div>
         </div>
         <!-------------Headset Equlizer------------------->
@@ -337,6 +338,86 @@
         <!-------------Headset Surround Sound------------------->
         <div class="block" *ngIf="functionService.topbarfunc == 1 && functionService.headsetleftfunc == 3" style="background: url('./image/spectrumSetting.png');">
             <div class="block-item">
+                <!-- <div class="item-title">{{'Environment Mode'|translate}}</div>
+                <div class="item-block" [style.pointerEvents]="headsetFunctionService.VirtualizationValue == 0 ? 'none' : 'auto'" [style.opacity]="headsetFunctionService.VirtualizationValue == 0 ? 0.5 : 1">
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 1" (click)="headsetFunctionService.HeadsetSurroundSoundEnvironment(1)">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Entertainment'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 2" (click)="headsetFunctionService.HeadsetSurroundSoundEnvironment(2)">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Game'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnvironmentValue == 3" (click)="headsetFunctionService.HeadsetSurroundSoundEnvironment(3)">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Sports'|translate}}
+                        </div>
+                    </div>
+                </div> -->
+                <div class="item-title">{{'ADVANCESETTING'|translate}}</div>
+                <div class="item-block">
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Virtualization" [checked]="headsetFunctionService.VirtualizationValue" (click)="headsetFunctionService.HeadsetDashborad('VirtualizationValue')">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Virtualization'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="LoudnessControl" [checked]="headsetFunctionService.LoudnessValue" (click)="headsetFunctionService.HeadsetDashborad('LoudnessValue')">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'LoudnessControl'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="DialogEnhancement" [checked]="headsetFunctionService.DialogEnhancementValue" (click)="headsetFunctionService.HeadsetDashborad('DialogEnhancementValue')">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'DialogEnhancement'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Bass" [checked]="headsetFunctionService.BassValue" (click)="headsetFunctionService.HeadsetDashborad('BassValue')">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Bass(TBHDX)'|translate}}
+                        </div>
+                    </div>
+                    <div class="item-block-item">
+                        <label style="margin-right:5px;">
+                            <input type="checkbox" name="Headphone" [checked]="headsetFunctionService.HeadphoneEQValue" (click)="headsetFunctionService.HeadsetDashborad('HeadphoneEQValue')">
+                            <span></span>
+                        </label>
+                        <div class="dsc">
+                            {{'Headphone EQ'|translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block-item" style="width:535px">
                 <div class="item-title">{{'Environment Mode'|translate}}</div>
                 <div class="item-block" [style.pointerEvents]="headsetFunctionService.VirtualizationValue == 0 ? 'none' : 'auto'" [style.opacity]="headsetFunctionService.VirtualizationValue == 0 ? 0.5 : 1">
                     <div class="item-block-item">
@@ -368,7 +449,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="block-item" style="width:535px">
                 <div class="item-title">{{'Stereo Preference'|translate}}</div>
                 <div class="item-block">
@@ -401,9 +481,9 @@
                     </div>
                 </div>
             </div>
-            <div class="block-item" style="width:535px">
+            <!-- <div class="block-item" style="width:535px">
                 <div class="Save" (click)="headsetFunctionService.HeadsetFuncSave(3)">{{'SAVE'|translate}}</div>
-            </div>
+            </div> -->
         </div>
         <!-------------Headset Spectrum Area1 Static------------------->
         <div class="block" *ngIf="functionService.topbarfunc == 2 && functionService.headsetleftfunc == 0 && headsetFunctionService.LightingArea == 1 && headsetFunctionService.headsetLightEffectSelect.value == 0" style="background: url('./image/spectrumSetting.png');">

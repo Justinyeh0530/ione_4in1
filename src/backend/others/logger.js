@@ -19,12 +19,12 @@ else
 log4js.configure({
     appenders:{
         std: { type: "stdout", layout:{ type: "colored", } },
-        file: { type: "file", filename: LogFilePath, encoding: "utf-8" },
+        // file: { type: "file", filename: LogFilePath, encoding: "utf-8" },
         console: { type: "console", layout:{ type: "colored", } }
     },
     categories: {
-        default: {appenders: ["std", "file","console"], level: debuglevel},
-        custom: {appenders: ["std", "file"], level: debuglevel}
+        default: {appenders: ["std", "console"], level: debuglevel},
+        custom: {appenders: ["std"], level: debuglevel}
     }
 });
 syslogger = log4js.getLogger('default');
