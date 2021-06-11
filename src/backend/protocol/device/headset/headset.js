@@ -3,8 +3,12 @@ const logger  = require('../../../others/logger')
 const loggertitle = "headset"
 var Device = require('../Device')
 var nedbObj = require('../../../dbapi/AppDB');
-const { isObjectLike } = require('lodash');
+const { isObjectLike, cond } = require('lodash');
 var evtType = require('../../../others/EventVariable').EventTypes;
+var path = require('path');
+const player = require('node-wav-player');
+
+
 // var edge = require('electron-edge-js');
 
 'use strict';
@@ -183,15 +187,62 @@ class Headset extends Device {
         });
     }
 
+    DTSChange(dev, objData) {
+        var index = dev.deviceData.profileindex;
+        var dtsON_Path = path.join(env.appRoot,"/other/dts_on_16k.wav");
+        var dtsOFF_Path = path.join(env.appRoot,"/other/dts_off_16k.wav");
+
+        if(objData.DTSFlag == false) {
+            var obj = {mode : dev.deviceData.profile[index].mode};
+            _this.setDTSMode(obj, function(data) {
+            });
+
+            player.play({
+                path: dtsON_Path,
+            }).then(() => {
+                console.log('The wav dtsON_Path to be played successfully.');
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+        else {
+            var obj = {mode : 8}; //off
+            _this.setDTSMode(obj, function(data) {
+            });
+            player.play({
+                path: dtsOFF_Path,
+            }).then(() => {
+                console.log('The wav dtsOFF_Patfh to be played successfully.');
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+    }
     HIDReadData(dev, objData) {
-        // console.log('HIDReadData begin data :',objData);
-        if((objData[0] == 0x01 && objData[1] == 0x20) || (objData[0] == 0x01 && objData[1] == 0x40))
-            console.log('LED')
-        else if(objData[0] == 0x01 && objData[1] == 0x80)
-            console.log('DTS')
+        // var index = dev.deviceData.profileindex;
+        // dev.deviceData.profile[index]
+        // if((objData[0] == 0x01 && objData[1] == 0x20) || (objData[0] == 0x01 && objData[1] == 0x40))
+        //     console.log('LED')
+        // else if(objData[0] == 0x01 && objData[1] == 0x80)
+        //     console.log('DTS')
+        //     console.log('2222222 HIDReadData deviceData mode', dev.deviceData.profile[index].mode);
     }
 
     setDashboard(dev, obj, callback) {
+        var index = dev.deviceData.profileindex;
+        dev.deviceData.profile[index].mode = obj.mode;
+        for(var i = 0; i < 4; i++) {
+            dev.deviceData.profile[index].dashboard.VirtualizationValue = obj.VirtualizationValue;
+            dev.deviceData.profile[index].dashboard.LoudnessValue = obj.LoudnessValue;
+            dev.deviceData.profile[index].dashboard.DialogEnhancementValue = obj.DialogEnhancementValue;
+            dev.deviceData.profile[index].dashboard.BassValue = obj.BassValue;
+            dev.deviceData.profile[index].dashboard.HeadphoneEQValue = obj.HeadphoneEQValue;
+        }
+
+        // console.log('setDashboard', obj);
+        // console.log('dev', JSON.stringify(dev.deviceData.profile[index]));
+
+
         _this.setModeValue(obj)
         if(obj.VirtualizationValue)
             _this.setRoom(obj)
@@ -199,6 +250,23 @@ class Headset extends Device {
     }
 
     setEqulizer(dev, obj, callback) {
+        var index = dev.deviceData.profileindex;
+        dev.deviceData.profile[index].mode = obj.mode;
+
+        dev.deviceData.profile[index].equlizer[obj.mode].value31 = obj.value31;
+        dev.deviceData.profile[index].equlizer[obj.mode].value62 = obj.value62;
+        dev.deviceData.profile[index].equlizer[obj.mode].value125 = obj.value125;
+        dev.deviceData.profile[index].equlizer[obj.mode].value250 = obj.value250;
+        dev.deviceData.profile[index].equlizer[obj.mode].value500 = obj.value500;
+        dev.deviceData.profile[index].equlizer[obj.mode].value1K = obj.value1K;
+        dev.deviceData.profile[index].equlizer[obj.mode].value2K = obj.value2K;
+        dev.deviceData.profile[index].equlizer[obj.mode].value4K = obj.value4K;
+        dev.deviceData.profile[index].equlizer[obj.mode].value8K = obj.value8K;
+        dev.deviceData.profile[index].equlizer[obj.mode].value16K = obj.value16K;
+
+        //console.log('setEqulizer :',obj);
+        //console.log('dev', JSON.stringify(dev.deviceData.profile[index]));
+
         _this.setDTSMode(obj, function(data) {
             if(data == 1) {
                 _this.setEQValue(obj,function(){ callback() });
@@ -208,6 +276,24 @@ class Headset extends Device {
     }
 
     setSurroundSound(dev, obj, callback) {
+        var index = dev.deviceData.profileindex;
+        dev.deviceData.profile[index].mode = obj.mode;
+
+        dev.deviceData.profile[index].surroundsound.EnvironmentValue = obj.EnvironmentValue;
+        dev.deviceData.profile[index].surroundsound.StereoValue = obj.StereoValue;
+        dev.deviceData.profile[index].surroundsound.VolumeL = obj.VolumeL;
+        dev.deviceData.profile[index].surroundsound.VolumeR = obj.VolumeR;
+        dev.deviceData.profile[index].surroundsound.VolumeC = obj.VolumeC;
+        dev.deviceData.profile[index].surroundsound.VolumeLFE = obj.VolumeLFE;
+        dev.deviceData.profile[index].surroundsound.VolumeFL = obj.VolumeFL;
+        dev.deviceData.profile[index].surroundsound.VolumeFR = obj.VolumeFR;
+        dev.deviceData.profile[index].surroundsound.VolumeSL = obj.VolumeSL;
+        dev.deviceData.profile[index].surroundsound.VolumeSR = obj.VolumeSR;
+        dev.deviceData.profile[index].surroundsound.EnableDTSValue = obj.EnableDTSValue;
+
+        console.log('setSurroundSound', obj);
+        console.log('dev', JSON.stringify(dev.deviceData.profile[index]));
+
         _this.setRoom(obj);
         _this.setStereoPreference(obj);
         _this.SetVolumChannel(0, obj.VolumeFL);

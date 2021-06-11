@@ -45,6 +45,7 @@
         "node-gyp": "~3.4.0",
         "node-notifier": "5.0.2",
         "node-sass": "~4.9.4",
+        "node-wav-player": "^0.2.0",
         "os-locale": "2.1.0",
         "reflect-metadata": "~0.1.8",
         "request": "2.81.0",
