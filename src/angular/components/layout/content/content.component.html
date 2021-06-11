@@ -38,8 +38,12 @@
             <!-- <div class="Reset" (click)="headsetFunctionService.SurroundSoundReset()">{{'RESET'|translate}}</div> -->
             <div class="Reset" (click)="headsetFunctionService.HeadsetFuncSave(3)">{{'SAVE'|translate}}</div>
             <div class="DTS">
-                <label style="margin-right:5px;">
+                <!-- <label style="margin-right:5px;">
                     <input type="checkbox" name="Entertainment" [checked]="headsetFunctionService.EnableDTSValue == 1" (click)="headsetFunctionService.EnableDTS()">
+                    <span></span>
+                </label> -->
+                <label style="margin-right:5px;">
+                    <input type="checkbox" name="Entertainment" [checked]="!headsetFunctionService.checkDTSButtonStatus()" (click)="headsetFunctionService.DTSButtonClick()">
                     <span></span>
                 </label>
                 <div class="dsc">
