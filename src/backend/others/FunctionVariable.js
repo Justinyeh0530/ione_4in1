@@ -36,7 +36,8 @@ var FuncName = {
     setMicrophone: "setMicrophone",
     StartApmode: "StartApmode",
     StopApMode: "StopApMode",
-    ButtonClick: "ButtonClick"
+    ButtonClick: "ButtonClick",
+    DTSChange: "DTSChange"
 };
 
 var FuncType = {
