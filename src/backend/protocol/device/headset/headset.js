@@ -193,28 +193,27 @@ class Headset extends Device {
         var dtsOFF_Path = path.join(env.appRoot,"/other/dts_off_16k.wav");
 
         if(objData.DTSFlag == false) {
+            // player.play({
+            //     path: dtsON_Path,
+            // }).then(() => {
+            //     console.log('The wav dtsON_Path to be played successfully.');
+            // }).catch((error) => {
+            //     console.error(error);
+            // });
             var obj = {mode : dev.deviceData.profile[index].mode};
             _this.setDTSMode(obj, function(data) {
             });
-
-            player.play({
-                path: dtsON_Path,
-            }).then(() => {
-                console.log('The wav dtsON_Path to be played successfully.');
-            }).catch((error) => {
-                console.error(error);
-            });
         }
         else {
+            // player.play({
+            //     path: dtsOFF_Path,
+            // }).then(() => {
+            //     console.log('The wav dtsOFF_Patfh to be played successfully.');
+            // }).catch((error) => {
+            //     console.error(error);
+            // });
             var obj = {mode : 8}; //off
             _this.setDTSMode(obj, function(data) {
-            });
-            player.play({
-                path: dtsOFF_Path,
-            }).then(() => {
-                console.log('The wav dtsOFF_Patfh to be played successfully.');
-            }).catch((error) => {
-                console.error(error);
             });
         }
     }

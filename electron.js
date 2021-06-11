@@ -405,6 +405,8 @@ function main() {
     app.commandLine.appendSwitch(' --enable-logging');
     app.commandLine.appendSwitch('touch-events', 'enabled');
     app.commandLine.appendSwitch("--disable-http-cache");
+    //讓Audio可以在開啟App時就可以撥放, 避免Google的Audio Policy
+    app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
     //避免記憶體一直增加
     app.commandLine.appendSwitch('js-flags', '--max-old-space-size=512');
 
