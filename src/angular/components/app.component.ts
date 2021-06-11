@@ -61,6 +61,10 @@ export class AppComponent implements OnInit{
                 } else if(obj.Param == 'DTS') {
                     this.headsetFunctionService.DTSButtonClick();
                 }
+            } else if(obj.Func = 'PlayAudio') {
+                let src  = env.appRoot + "\\other\\" + obj.Param
+                let audio = new Audio(src);
+                audio.play().catch((e)=>{console.log(e);});
             }
         });
 

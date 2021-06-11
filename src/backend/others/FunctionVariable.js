@@ -37,7 +37,8 @@ var FuncName = {
     StartApmode: "StartApmode",
     StopApMode: "StopApMode",
     ButtonClick: "ButtonClick",
-    DTSChange: "DTSChange"
+    DTSChange: "DTSChange",
+    PlayAudio: "PlayAudioPlayAudio"
 };
 
 var FuncType = {

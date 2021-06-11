@@ -1119,15 +1119,15 @@ export class HeadsetFunctionService{
     DTSButtonClick() {
         if(this.HeadsetProfileData != undefined) {
             this.HeadsetProfileData[this.profileindex].DTSFlag = !this.HeadsetProfileData[this.profileindex].DTSFlag;
-            if(this.HeadsetProfileData[this.profileindex].DTSFlag) {
-                let src = env.appRoot + "\\other\\dts_off_16k.mp3";
-                let audio = new Audio(src);
-                audio.play().catch((e)=>{console.log(e);});
-            } else {
-                let src = env.appRoot + "\\other\\dts_on_16k.mp3";
-                let audio = new Audio(src);
-                audio.play().catch((e)=>{console.log(e);});
-            }
+            // if(this.HeadsetProfileData[this.profileindex].DTSFlag) {
+            //     let src = env.appRoot + "\\other\\dts_off_16k.mp3";
+            //     let audio = new Audio(src);
+            //     audio.play().catch((e)=>{console.log(e);});
+            // } else {
+            //     let src = env.appRoot + "\\other\\dts_on_16k.mp3";
+            //     let audio = new Audio(src);
+            //     audio.play().catch((e)=>{console.log(e);});
+            // }
             if(this.deviceService.currentDevice.pluginDevice != undefined) {
                 this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
                 let obj = {

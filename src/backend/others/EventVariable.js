@@ -63,7 +63,8 @@ var eventTypes = {
     Twitchlogin:"Twitchlogin",
     HideApp:'HideApp',
     MaxSize:'MaxSize',
-    GA:'GA'
+    GA:'GA',
+    PlayAudio: "PlayAudio"
 };
 
 exports.EventTypes = eventTypes;
