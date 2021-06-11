@@ -243,21 +243,37 @@ export class CommonselectselectComponent implements OnInit,ControlValueAccessor{
 
     public writeValue(obj: any): void {
         // throw new Error("Method not implemented.");
-        this.Reinit()
-        var sekected;
-        var x = document.getElementsByClassName("custom-commonselect" + this.componentId);
-        for (var i = 0; i < x.length; i++) {
-            sekected = x[i].getElementsByClassName("commonselect-selected")[0]
-        }
-        if(obj != null && sekected != undefined){
-            for(var j = 0; j < this.inputoption.length; j++){
-                if(JSON.stringify(this.inputoption[j]) == JSON.stringify(obj)){
-                    this.selectdata = j;
-                    sekected.innerHTML = this.inputoption[j].name;
-                    break;
+        // this.Reinit()
+        setTimeout(() => {
+            this.Reinit()
+            let selectedIndex = 0;
+            var sekected;
+            var x = document.getElementsByClassName("custom-commonselect" + this.componentId);
+            for (var i = 0; i < x.length; i++) {
+                sekected = x[i].getElementsByClassName("commonselect-selected")[0]
+            }
+            if(obj != null && sekected != undefined){
+                for(var j = 0; j < this.inputoption.length; j++){
+                    if(JSON.stringify(this.inputoption[j]) == JSON.stringify(obj)){
+                        this.selectdata = j;
+                        sekected.innerHTML = this.inputoption[j].name;
+                        break;
+                    }
+                }
+
+                for(let i = 0; i < this.b.childNodes.length; i++)
+                    this.b.childNodes[i].removeAttribute("class");
+                for(var j=0; j<this.inputoption.length; j++){
+                    if(this.inputoption[j] == obj){
+                        this.selectdata = j;
+                        sekected.innerHTML = this.inputoption[j].name;
+                        selectedIndex = j;
+                        this.b.childNodes[j].setAttribute("class", "same-as-commonselected");
+                        break;
+                    }
                 }
             }
-        }
+        })
     }
     public registerOnChange(fn: any): void {
         // throw new Error("Method not implemented.");

@@ -20,7 +20,7 @@ export class HeadsetFunctionService{
     refreshMicEvent: EventEmitter<number> = new EventEmitter();
     refreshMicrophoneEvent: EventEmitter<number> = new EventEmitter();
     MusicPreset = [
-        { name: "Music", value:0, translate: 'Music'},
+        { name: "Music", value: 0, translate: 'Music'},
         { name: 'Movie', value: 1, translate: 'Movie'},
         { name: 'Voice', value: 2, translate: 'Voice'},
         { name: 'GAME(FPS)', value: 3, translate: 'GAME(FPS)'},
@@ -169,7 +169,6 @@ export class HeadsetFunctionService{
             this.initData();
     }
     initData() {
-        this.equlizereDataSelect = this.MusicPreset[0];
         this.LightingEffect = this.HeadsetLightEffectData;
         this.headsetLightEffectSelect =  _.clone(this.LightingEffect[0])
         this.ColorShiftStartSelect = _.clone(this.ColorShiftStartList[0]);
@@ -184,6 +183,11 @@ export class HeadsetFunctionService{
             this.HeadphoneEQValue = this.HeadsetProfileData[this.profileindex].dashboard.HeadphoneEQValue;
 
             //init Equlizer
+            let modeindex = this.MusicPreset.findIndex(x => x.value == this.HeadsetProfileData[this.profileindex].mode);
+            if(modeindex != -1)
+                this.equlizereDataSelect = this.MusicPreset[modeindex];
+            else
+                this.equlizereDataSelect = this.MusicPreset[0];
             this.value31 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value31;
             this.value62 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value62;
             this.value125 = this.HeadsetProfileData[this.profileindex].equlizer[this.equlizereDataSelect.value].value125;
@@ -274,7 +278,6 @@ export class HeadsetFunctionService{
         }
         if(this.deviceService.currentDevice.pluginDevice != undefined)
             this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
-
         //通知後端 todo
     }
 
@@ -323,6 +326,7 @@ export class HeadsetFunctionService{
         //         value16K: this.value16K,
         //     }
         // }
+        this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].mode = this.equlizereDataSelect.value;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value31 = this.value31;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value62 = this.value62;
         this.deviceService.currentDevice.pluginDevice.deviceData.profile[this.profileindex].equlizer[this.equlizereDataSelect.value].value125 = this.value125;
