@@ -79,7 +79,7 @@ var ProtocolInterface = (function (_super) {
                 bActionSync[i] = false;
             }
 
-            var runPath = path.join(__dirname,'../../runDefaultAudio.cmd');
+            var runPath = path.join(env.appRoot,'other/runDefaultAudio.cmd');
             console.log('runPath : '+runPath);
             if (fs.existsSync(runPath)) {
                 console.log('runDefaultAudio exists')
