@@ -8,9 +8,6 @@ AppId={{A717F79A-3E09-4441-B378-86CE25CD64C3}}
 AppName={cm:MyAppName}
 AppVerName={cm:MyAppVerName}
 AppPublisher=IONE_ACTION_AIO
-AppPublisherURL=
-AppSupportURL=
-AppUpdatesURL=
 DefaultDirName={pf}\{cm:GroupName}\
 DefaultGroupName=IONE_ACTION_AIO
 OutputBaseFilename=IONE_ACTION_AIO_SETUP_{#MyDateTimeString}
@@ -19,13 +16,14 @@ SolidCompression=true
 AppendDefaultGroupName=false
 SetupIconFile=Files\Icon.ico
 UninstallDisplayIcon={app}\Icon.ico
-LicenseFile=
 UninstallFilesDir={win}
 WizardImageStretch=false
 DirExistsWarning=no
 ShowLanguageDialog=yes 
 OutputDir=setup
 AlwaysRestart=false
+DisableDirPage=yes
+DisableProgramGroupPage=yes
                                                      
 [Languages]
 Name: en; MessagesFile: compiler:\Default.isl
@@ -37,10 +35,9 @@ en.MyAppVerName=IONE_ACTION_AIO
 en.MyAppName=IONE_ACTION_AIO
 en.GroupName=IONE_ACTION_AIO
 en.RunConfig=IONE_ACTION_AIO
+en.UninstallProgram=Uninstall
 en.Help=Help  
 en.warning=Warning!
-en.exist1=An old version of AP is detected. Please uninstall it.
-en.Device=Do NOT Find Gaming Keyboard!
  
   
 [Files]
@@ -54,9 +51,9 @@ Source: "otherExe\iOne A08s DTS Driver Setup v1.2.1.exe"; DestDir:{app}; Flags: 
 Root: HKLM; Subkey: SOFTWARE\Microsoft\Windows\CurrentVersion\Run; ValueType: string; ValueName:IONE_ACTION_AIO; ValueData: {app}\IONE_ACTION_AIO.exe --hide; Flags: uninsdeletevalue
 
 [Icons]
-Name: {group}\{cm:UninstallProgram, }; Filename: {uninstallexe}  
-Name: {group}\{cm:RunConfig}; Filename: {app}\IONE_ACTION_AIO.exe
-Name: {commondesktop}\{cm:RunConfig}; Filename: {app}\IONE_ACTION_AIO.exe
+Name: {group}\{cm:RunConfig}; Filename:"{app}\IONE_ACTION_AIO.exe"
+Name: {group}\{cm:UninstallProgram}; Filename:"{uninstallexe}"  
+Name: {commondesktop}\{cm:RunConfig}; Filename:"{app}\IONE_ACTION_AIO.exe"
 
 [Run]                                                                        
 Filename: {app}\IONE_ACTION_AIO.exe; Parameters:--forcehide; Flags: nowait skipifsilent runasoriginaluser hidewizard;   
