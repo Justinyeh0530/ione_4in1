@@ -7,6 +7,7 @@ const { isObjectLike, cond } = require('lodash');
 var evtType = require('../../../others/EventVariable').EventTypes;
 var path = require('path');
 const player = require('node-wav-player');
+var func = require('../../../others/FunctionVariable');
 
 
 // var edge = require('electron-edge-js');
@@ -200,6 +201,13 @@ class Headset extends Device {
             // }).catch((error) => {
             //     console.error(error);
             // });
+            var Obj2 = {
+                Func: evtType.PlayAudio,
+                SN: dev.BaseInfo.SN, 
+                Param: "dts_on_16k.mp3"
+            };
+            _this.emit(evtType.ProtocolMessage, Obj2);
+
             var obj = {mode : dev.deviceData.profile[index].mode};
             _this.setDTSMode(obj, function(data) {
             });
@@ -212,6 +220,12 @@ class Headset extends Device {
             // }).catch((error) => {
             //     console.error(error);
             // });
+            var Obj2 = {
+                Func: evtType.PlayAudio,
+                SN: dev.BaseInfo.SN, 
+                Param: "dts_off_16k.mp3"
+            };
+            _this.emit(evtType.ProtocolMessage, Obj2);
             var obj = {mode : 8}; //off
             _this.setDTSMode(obj, function(data) {
             });
