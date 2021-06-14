@@ -7,7 +7,6 @@ const { isObjectLike, cond } = require('lodash');
 var evtType = require('../../../others/EventVariable').EventTypes;
 var path = require('path');
 const player = require('node-wav-player');
-var func = require('../../../others/FunctionVariable');
 
 
 // var edge = require('electron-edge-js');
@@ -49,8 +48,8 @@ class Headset extends Device {
             }
 
             env.log('Headset','initDevice','dtsController Initialization');
-            _this.dtsController.Initialization();
-            _this.dtsController.DTSApoGetSupportMode();
+            var rtn = _this.dtsController.Initialization();
+            var rtn = _this.dtsController.DTSApoGetSupportMode();
             _this.dtsController.VolumeInitialization();
         }
 
@@ -201,12 +200,6 @@ class Headset extends Device {
             // }).catch((error) => {
             //     console.error(error);
             // });
-            var Obj2 = {
-                Func: evtType.PlayAudio,
-                SN: dev.BaseInfo.SN,
-                Param: "dts_on_16k.mp3"
-            };
-            _this.emit(evtType.ProtocolMessage, Obj2);
             var obj = {mode : dev.deviceData.profile[index].mode};
             _this.setDTSMode(obj, function(data) {
             });
@@ -219,12 +212,6 @@ class Headset extends Device {
             // }).catch((error) => {
             //     console.error(error);
             // });
-            var Obj2 = {
-                Func: evtType.PlayAudio,
-                SN: dev.BaseInfo.SN,
-                Param: "dts_off_16k.mp3"
-            };
-            _this.emit(evtType.ProtocolMessage, Obj2);
             var obj = {mode : 8}; //off
             _this.setDTSMode(obj, function(data) {
             });
@@ -238,6 +225,25 @@ class Headset extends Device {
         // else if(objData[0] == 0x01 && objData[1] == 0x80)
         //     console.log('DTS')
         //     console.log('2222222 HIDReadData deviceData mode', dev.deviceData.profile[index].mode);
+        
+        //Mode change
+        if(objData[0] == 0x01 && objData[1] == 0x40) {
+
+            //Get Volume
+            var volume = _this.GetVolumeValue("7.1 Game Sound", -1);
+
+            volume = volume.toFixed(2) * 10;
+            var blance_volume = 10 - volume;
+
+            if(objData[2] == 0) {
+                //balance
+                _this.SetVolumChannel("Chat Sound", -1, blance_volume);
+            }
+            else {
+                //master
+                _this.SetVolumChannel("Chat Sound", -1, volume);
+            }
+        }
     }
 
     setDashboard(dev, obj, callback) {
@@ -308,14 +314,14 @@ class Headset extends Device {
 
         _this.setRoom(obj);
         _this.setStereoPreference(obj);
-        _this.SetVolumChannel(0, obj.VolumeFL);
-        _this.SetVolumChannel(1, obj.VolumeFR);
-        _this.SetVolumChannel(2, obj.VolumeC);
-        _this.SetVolumChannel(3, obj.VolumeLFE);
-        _this.SetVolumChannel(4, obj.VolumeSL);
-        _this.SetVolumChannel(5, obj.VolumeSR);
-        _this.SetVolumChannel(6, obj.VolumeL);
-        _this.SetVolumChannel(7, obj.VolumeR);
+        _this.SetVolumChannel("7.1 Game Sound", 0, obj.VolumeFL);
+        _this.SetVolumChannel("7.1 Game Sound", 1, obj.VolumeFR);
+        _this.SetVolumChannel("7.1 Game Sound", 2, obj.VolumeC);
+        _this.SetVolumChannel("7.1 Game Sound", 3, obj.VolumeLFE);
+        _this.SetVolumChannel("7.1 Game Sound", 4, obj.VolumeSL);
+        _this.SetVolumChannel("7.1 Game Sound", 5, obj.VolumeSR);
+        _this.SetVolumChannel("7.1 Game Sound", 6, obj.VolumeL);
+        _this.SetVolumChannel("7.1 Game Sound", 7, obj.VolumeR);
         callback();
     }
 
@@ -324,16 +330,29 @@ class Headset extends Device {
         callback();
     }
 
+
+    /**
+     * 
+     * @param {*} 
+     * name => device name
+     * channel => -1 : Master Channel Volume, 0-7 : channel 
+     */
+    GetVolumeValue(name, channel) {
+        var volume = _this.dtsController.GetDeviceVolume(name, channel);
+        return volume;
+    }
+
     /**
      * 
      * @param {*} obj 
      * @param {*} callback 
-     * channel => 0:左前, 1: 右前, 2:中前, 3:重低, 4:左後, 5:右後, 6:左側, 7:右側
+     * name => device name
+     * channel => -1:Master channel, 0:左前, 1: 右前, 2:中前, 3:重低, 4:左後, 5:右後, 6:左側, 7:右側
      * volume => 音量大小 (0-100)
      *          
     */
-    SetVolumChannel(channel, volume) {
-        _this.dtsController.SetVolumChannel(channel, volume * 10)
+    SetVolumChannel(name, channel, volume) {
+        _this.dtsController.SetDeviceVolume(name, channel, volume * 10)
     }
 
     /**
@@ -341,11 +360,12 @@ class Headset extends Device {
      * @param {*} obj 
      * @param {*} callback 
      *
+     * "A08s Gaming Headset" => device name
      * volume => 麥克風大小 (0-100)
      *          
     */
     SetMicrophoneVolume(volume) {
-        _this.dtsController.SetMicrophoneVolume(volume);
+        _this.dtsController.SetDeviceMicrophoneVolume("A08s Gaming Headset", volume);
     }
 
     /**
@@ -537,7 +557,6 @@ class Headset extends Device {
             data[2] = j;
             data[3] = 4*i;
 
-            // console.log('555555555 data', data);
             _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data); 
         }
 
@@ -551,7 +570,6 @@ class Headset extends Device {
         data[4] = 0x32;
         data[5] = 0x32;
 
-        // console.log('555555555 data', data);
         _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data);
     }
 
@@ -572,7 +590,7 @@ class Headset extends Device {
         try {
             if(obj.SetColorMode == 4){
                 var data = Buffer.alloc(16);
-                console.log('333333333', obj.ColorArray.length, obj.ColorArray);
+                console.log('setLightToDevice', obj.ColorArray.length, obj.ColorArray);
 
                 var length = obj.ColorArray.length;
                 var flag = 0;
