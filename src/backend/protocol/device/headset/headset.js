@@ -6,7 +6,7 @@ var nedbObj = require('../../../dbapi/AppDB');
 const { isObjectLike, cond } = require('lodash');
 var evtType = require('../../../others/EventVariable').EventTypes;
 var path = require('path');
-const player = require('node-wav-player');
+//const player = require('node-wav-player');
 var func = require('../../../others/FunctionVariable');
 
 
@@ -190,8 +190,8 @@ class Headset extends Device {
 
     DTSChange(dev, objData) {
         var index = dev.deviceData.profileindex;
-        var dtsON_Path = path.join(env.appRoot,"/other/dts_on_16k.wav");
-        var dtsOFF_Path = path.join(env.appRoot,"/other/dts_off_16k.wav");
+        // var dtsON_Path = path.join(env.appRoot,"/other/dts_on_16k.wav");
+        // var dtsOFF_Path = path.join(env.appRoot,"/other/dts_off_16k.wav");
 
         if(objData.DTSFlag == false) {
             // player.play({
@@ -252,10 +252,24 @@ class Headset extends Device {
             if(objData[2] == 0) {
                 //balance
                 _this.SetVolumChannel("Chat Sound", -1, blance_volume);
+
+                var Obj2 = {
+                    Func: evtType.PlayAudio,
+                    SN: dev.BaseInfo.SN, 
+                    Param: "balance_16k.mp3"
+                };
+                _this.emit(evtType.ProtocolMessage, Obj2);  
             }
             else {
                 //master
                 _this.SetVolumChannel("Chat Sound", -1, volume);
+
+                var Obj2 = {
+                    Func: evtType.PlayAudio,
+                    SN: dev.BaseInfo.SN, 
+                    Param: "master_16k.mp3"
+                };
+                _this.emit(evtType.ProtocolMessage, Obj2);
             }
         }
     }
