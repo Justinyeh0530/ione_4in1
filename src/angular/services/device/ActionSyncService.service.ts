@@ -4,6 +4,7 @@ let electron_Instance = window['System']._nodeRequire('electron').remote;
 import { TranslateService, LangChangeEvent } from 'ng2-translate';
 import { CommonService } from './index';
 import { protocolService } from '../../services/service/protocol.service'
+import { HeadsetFunctionService } from './HeadsetFunctionService.service'
 let funcVar = System._nodeRequire('./backend/others/FunctionVariable');
 import * as _ from 'lodash'
 
@@ -72,7 +73,8 @@ export class ActionSyncService{
     constructor(
         private translateService: TranslateService,
         private protocol: protocolService,
-        private commonService: CommonService
+        private commonService: CommonService,
+        private headsetFunctionService : HeadsetFunctionService
     ){
         document.addEventListener('click',(event) => {
             if(this.lightinglistdialogflag && event.target.id.indexOf('actionsync-lighting-select') == -1) {
@@ -122,6 +124,9 @@ export class ActionSyncService{
         this.protocol.RunSetFunction(obj).then((data)=>{
             console.log('Set ApMode Finish');
         });
+
+        this.headsetFunctionService.SetApMode();
+        
     }
 
     initDevice() {

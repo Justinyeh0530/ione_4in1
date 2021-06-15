@@ -260,6 +260,12 @@ export class HeadsetFunctionService{
         }
     }
 
+    SetApMode() {
+        this.HeadsetProfileData[this.profileindex].ApMode = true;
+        if(this.deviceService.currentDevice.pluginDevice != undefined)
+            this.dbService.updateDevice(this.deviceService.currentDevice.SN, this.deviceService.currentDevice.pluginDevice.deviceData);
+    }
+
     /**
      * 
      * @param flag 0:Dashboard 1:Equlizer 2:Micro Phone 3:Surround Sound
@@ -647,6 +653,7 @@ export class HeadsetFunctionService{
         if(document.getElementById('color-item2'))
             document.getElementById('color-item2').style.backgroundColor = document.getElementById('color-item1').style.backgroundColor;
 
+        this.HeadsetProfileData[this.profileindex].ApMode = false;
         this.HeadsetProfileData[this.profileindex].lighting.value = this.headsetLightEffectSelect.value;
         this.HeadsetProfileData[this.profileindex].lighting.BrightnessValue = this.BrightnessValue;
         this.HeadsetProfileData[this.profileindex].lighting.SpeedValue = this.SpeedValue;

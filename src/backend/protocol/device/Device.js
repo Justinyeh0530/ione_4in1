@@ -29,6 +29,9 @@ class Device extends EventEmitter {
         var _this = this;
         var BaseInfo = dev.BaseInfo;
         var profile = BaseInfo.defaultProfile
+        var profileLayerIndex = BaseInfo.profileLayerIndex;
+        var profileLayers = BaseInfo.profileLayers;
+        var layerMaxNumber = BaseInfo.layerMaxNumber;
         var obj = {
             vid: BaseInfo.vid,
             pid: BaseInfo.pid,
@@ -37,8 +40,11 @@ class Device extends EventEmitter {
             ModelType: BaseInfo.ModelType,
             image: BaseInfo.img,
             battery: BaseInfo.battery,
+            layerMaxNumber: layerMaxNumber,
             profile: profile,
-            profileindex: 1
+            profileLayerIndex: profileLayerIndex,
+            profileLayers: profileLayers,
+            profileindex: 0
         }
         _this.nedbObj.AddDevice(obj).then(()=>{                     
             callback(obj)
