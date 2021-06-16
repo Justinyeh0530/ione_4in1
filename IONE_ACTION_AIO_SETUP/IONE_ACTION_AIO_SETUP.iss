@@ -56,7 +56,7 @@ Name: {group}\{cm:UninstallProgram}; Filename:"{uninstallexe}"
 Name: {commondesktop}\{cm:RunConfig}; Filename:"{app}\IONE_ACTION_AIO.exe"
 
 [Run]                                                                        
-Filename: {app}\IONE_ACTION_AIO.exe; Parameters:--forcehide; Flags: nowait skipifsilent runasoriginaluser hidewizard;   
+//Filename: {app}\IONE_ACTION_AIO.exe; Parameters:--forcehide; Flags: nowait skipifsilent runasoriginaluser hidewizard;   
 Filename: {app}\IONE_ACTION_AIO.exe; Description: {cm:RunConfig}; Flags: nowait postinstall skipifsilent
 
 [Code]        
