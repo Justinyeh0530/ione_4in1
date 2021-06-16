@@ -153,7 +153,6 @@ class CommonHeadsetSeries extends headset {
         var index = dev.deviceData.profileindex;
         // var dtsON_Path = path.join(env.appRoot,"/other/dts_on_16k.wav");
         // var dtsOFF_Path = path.join(env.appRoot,"/other/dts_off_16k.wav");
-
         if(objData.DTSFlag == false) {
             var Obj2 = {
                 Func: evtType.PlayAudio,
@@ -162,8 +161,25 @@ class CommonHeadsetSeries extends headset {
             };
             _this.emit(evtType.ProtocolMessage, Obj2);
 
-            var obj = {mode : dev.deviceData.profile[index].mode};
+            var modeNum = dev.deviceData.profile[index].mode;
+
+            var obj = {
+                mode : modeNum,
+                value31:dev.deviceData.profile[index].equlizer[modeNum].value31,
+                value62:dev.deviceData.profile[index].equlizer[modeNum].value62,
+                value125:dev.deviceData.profile[index].equlizer[modeNum].value125,
+                value250:dev.deviceData.profile[index].equlizer[modeNum].value250,
+                value500:dev.deviceData.profile[index].equlizer[modeNum].value500,
+                value1K:dev.deviceData.profile[index].equlizer[modeNum].value1K,
+                value2K:dev.deviceData.profile[index].equlizer[modeNum].value2K,
+                value4K:dev.deviceData.profile[index].equlizer[modeNum].value4K,
+                value8K:dev.deviceData.profile[index].equlizer[modeNum].value8K,
+                value16K:dev.deviceData.profile[index].equlizer[modeNum].value16K
+            };
+            //console.log('11111  obj', obj);
+
             _this.setDTSMode(obj, function(data) {
+                _this.setEQValue(obj,function(){ callback() });
             });
         }
         else {
@@ -224,16 +240,14 @@ class CommonHeadsetSeries extends headset {
 
     setDashboard(dev, obj, callback) {
         var index = dev.deviceData.profileindex;
-        dev.deviceData.profile[index].mode = obj.mode;
-        for(var i = 0; i < 4; i++) {
-            dev.deviceData.profile[index].dashboard.VirtualizationValue = obj.VirtualizationValue;
-            dev.deviceData.profile[index].dashboard.LoudnessValue = obj.LoudnessValue;
-            dev.deviceData.profile[index].dashboard.DialogEnhancementValue = obj.DialogEnhancementValue;
-            dev.deviceData.profile[index].dashboard.BassValue = obj.BassValue;
-            dev.deviceData.profile[index].dashboard.HeadphoneEQValue = obj.HeadphoneEQValue;
-        }
 
-        console.log('setDashboard', obj);
+        dev.deviceData.profile[index].dashboard.VirtualizationValue = obj.VirtualizationValue;
+        dev.deviceData.profile[index].dashboard.LoudnessValue = obj.LoudnessValue;
+        dev.deviceData.profile[index].dashboard.DialogEnhancementValue = obj.DialogEnhancementValue;
+        dev.deviceData.profile[index].dashboard.BassValue = obj.BassValue;
+        dev.deviceData.profile[index].dashboard.HeadphoneEQValue = obj.HeadphoneEQValue;
+
+        //console.log('setDashboard', obj);
         // console.log('dev', JSON.stringify(dev.deviceData.profile[index]));
 
 
@@ -258,7 +272,7 @@ class CommonHeadsetSeries extends headset {
         dev.deviceData.profile[index].equlizer[obj.mode].value8K = obj.value8K;
         dev.deviceData.profile[index].equlizer[obj.mode].value16K = obj.value16K;
 
-        console.log('setEqulizer :',obj);
+        //console.log('22222222 setEqulizer :',obj);
         //console.log('dev', JSON.stringify(dev.deviceData.profile[index]));
 
         _this.setDTSMode(obj, function(data) {
@@ -271,7 +285,6 @@ class CommonHeadsetSeries extends headset {
 
     setSurroundSound(dev, obj, callback) {
         var index = dev.deviceData.profileindex;
-        dev.deviceData.profile[index].mode = obj.mode;
 
         dev.deviceData.profile[index].surroundsound.EnvironmentValue = obj.EnvironmentValue;
         dev.deviceData.profile[index].surroundsound.StereoValue = obj.StereoValue;
@@ -285,8 +298,8 @@ class CommonHeadsetSeries extends headset {
         dev.deviceData.profile[index].surroundsound.VolumeSR = obj.VolumeSR;
         dev.deviceData.profile[index].surroundsound.EnableDTSValue = obj.EnableDTSValue;
 
-        console.log('setSurroundSound', obj);
-        console.log('dev', JSON.stringify(dev.deviceData.profile[index]));
+        //console.log('setSurroundSound', obj);
+        // console.log('dev', JSON.stringify(dev.deviceData.profile[index]));
 
         _this.setRoom(obj);
         _this.setStereoPreference(obj);
