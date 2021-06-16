@@ -83,14 +83,14 @@ class Device {
 		var x1 = 1e9, y1 = 1e9, x2 = -1e9, y2 = -1e9;
 
 		//-----Robert ---//
-		// for (let i=0; i<coordinates.length; ++i)
-		// {
-		// 	x1 = Math.min(x1, coordinates[i].X1);
-		// 	y1 = Math.min(y1, coordinates[i].Y1);
-		// 	x2 = Math.max(x2, coordinates[i].X2);
-		// 	y2 = Math.max(y2, coordinates[i].Y2);
-		// }
-		x1 = 0; y1 = 0; x2 = 0; y2 = 0;
+		for (let i=0; i<coordinates.length; ++i)
+		{
+			x1 = Math.min(x1, coordinates[i].X1);
+			y1 = Math.min(y1, coordinates[i].Y1);
+			x2 = Math.max(x2, coordinates[i].X2);
+			y2 = Math.max(y2, coordinates[i].Y2);
+		}
+		//x1 = 0; y1 = 0; x2 = 0; y2 = 0;
 		//-------------//
 
 		//-----origin---//
