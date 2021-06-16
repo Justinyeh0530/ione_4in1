@@ -58,14 +58,11 @@ class Headset extends Device {
         return new Promise(function(resolve, reject) {
             _this.nedbObj.getDevice(dev.BaseInfo.SN).then((exist) => {
                 if(exist) {
-                    console.log('111111 exist:',exist)
                     dev.deviceData = exist;
-                    console.log('111111 dev:',dev)
                     _this.InitialDevice(dev,0,function(){
                         resolve();
                     });
                 } else {
-                    console.log('222222 dev:',dev)
                     _this.SaveProfileToDevice(dev, (data) => {                       
                         dev.deviceData = data;
                         _this.InitialDevice(dev,0,function(){

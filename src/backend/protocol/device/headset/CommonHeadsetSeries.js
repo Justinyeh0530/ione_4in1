@@ -2,8 +2,8 @@ const env = require('../../../others/env');
 var headset = require('./headset');
 var path = require('path');
 var evtType = require('../../../others/EventVariable').EventTypes;
-
 var nedbObj = require('../../../dbapi/AppDB');
+var ApmodeService = require('../../apmode/ApmodeService')
 
 'use strict';
 var _this;
@@ -16,6 +16,7 @@ class CommonHeadsetSeries extends headset {
         _this.hid = hid;
         _this.DeviceService = DeviceService;
         _this.nedbObj = nedbObj.getInstance();
+        _this.ApmodeService = ApmodeService.getInstance();
     }
 
     static getInstance(hid) {
@@ -36,9 +37,6 @@ class CommonHeadsetSeries extends headset {
         dev.m_bSetSyncEffect = false;
         dev.m_bSetHWDevice = false;//SET Device
         dev.m_bLaunchprogram = false;
-
-        console.log('dev :',dev)
-        console.log('dev 1:',JSON.stringify(dev.deviceData.profile))
 
         if (env.isWindows){
             if (env.arch == 'ia32'){
@@ -125,24 +123,30 @@ class CommonHeadsetSeries extends headset {
 
     initLED(dev) {
         env.log('CommonHeadsetSeries', "initLED","begin...");
-
-        //Init LED
-        //console.log('dev :',dev.deviceData)
-        //console.log('dev 1:',JSON.stringify(dev.deviceData.profile))
-
         var index = dev.deviceData.profileindex;
 
         //Set setDTSMode
         var ApMode = dev.deviceData.profile[index].ApMode;
         if(ApMode) {
             //Run Ap mode
+            _this.ApmodeService.StartApmode(1,function(){})
 
         }else {
             //Run Spectrum mode
-
+            var ledObj = {
+                lightingvalue:dev.deviceData.profile[index].lighting.value,
+                BrightnessValue:dev.deviceData.profile[index].lighting.BrightnessValue,
+                SpeedValue:dev.deviceData.profile[index].lighting.SpeedValue,
+                SpectrumValue:dev.deviceData.profile[index].lighting.SpectrumValue,
+                color:dev.deviceData.profile[index].lighting.color,
+                ColorSectionArray:dev.deviceData.profile[index].lighting.ColorSectionArray,
+                DurationValue:dev.deviceData.profile[index].lighting.DurationValue,
+                StartValue:dev.deviceData.profile[index].lighting.StartValue,
+                StopValue:dev.deviceData.profile[index].lighting.StopValue,
+                DirectionValue:dev.deviceData.profile[index].lighting.DirectionValue
+            }
+            _this.setLighting(dev, ledObj);
         }
-
-
     }
 
     DTSChange(dev, objData) {
