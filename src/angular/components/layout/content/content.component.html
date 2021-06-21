@@ -333,9 +333,10 @@
                 <div class="item-title">{{'Mic Side Tone'|translate}}</div>
                 <div class="item-block" style="background:url('./image/headset/MicSideTone.png') no-repeat center;">
                     <div class="micMointer" (click)="headsetFunctionService.setMicMonter()" [style.borderColor]="headsetFunctionService.MicMonitor ? 'white' : '#646464'"></div>
-                    <div class="item-block-slider" style="top:255px; left:548px; width:406px;">
+                    <!-- <div class="item-block-slider" style="top:255px; left:548px; width:406px;">
                         <input id="MicSideTone" type="range" style="height:5px;" min="0" max="3" class="slider" step="1" [(ngModel)]="headsetFunctionService.MicSideToneValueTemp" (mouseup)="MicChange('MicSideToneValueTemp')" (ngModelChange)="SliderMove('MicSideTone')" onkeydown="event.preventDefault()">
-                    </div>
+                    </div> -->
+                    <div style="position:absolute; top:245px; left:535px; background-color:black; width:450px; height:65px;"></div>
                 </div>
             </div>
             <div class="block-item" style="width:535px">
