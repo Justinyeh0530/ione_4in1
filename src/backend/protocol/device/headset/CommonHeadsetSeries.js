@@ -51,10 +51,23 @@ class CommonHeadsetSeries extends headset {
             _this.dtsController.VolumeInitialization();
         }
 
+        _this.AppConnectDevice(dev, 1);
         _this.initDTS(dev);
         _this.initLED(dev);
+    
         
         callback();
+    }
+
+    AppConnectDevice(dev, flag) {
+        var data = Buffer.alloc(16);
+        data[0] = 0xFF;
+        data[1] = 0x1;
+        data[2] = 0x5;
+        data[3] = flag;
+
+        _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data); 
+
     }
 
     initDTS(dev) {
@@ -195,6 +208,24 @@ class CommonHeadsetSeries extends headset {
         }
     }
 
+    VolumedownIntervalFunc() {
+        var volume = _this.GetVolumeValue("7.1 Game Sound", -1);
+        volume = (volume.toFixed(2) * 10) - 0.2;
+        _this.SetVolumChannel("7.1 Game Sound", -1, volume);
+        var blance_volume = 10 - volume;
+        _this.SetVolumChannel("Chat Sound", -1, blance_volume);
+    }
+
+    VolumeupIntervalFunc() {
+        var volume = _this.GetVolumeValue("7.1 Game Sound", -1);
+        volume = (volume.toFixed(2) * 10) + 0.2;
+        _this.SetVolumChannel("7.1 Game Sound", -1, volume);
+        var blance_volume = 10 - volume;
+        _this.SetVolumChannel("Chat Sound", -1, blance_volume);
+    }
+
+
+
     HIDReadData(dev, objData) {
         // var index = dev.deviceData.profileindex;
         // dev.deviceData.profile[index]
@@ -235,6 +266,18 @@ class CommonHeadsetSeries extends headset {
                 };
                 _this.emit(evtType.ProtocolMessage, Obj2);
             }
+        }else if(objData[0] == 0x01 && objData[1] == 0x08 && objData[2] == 0x01) {
+            //balance volume down
+            _this.volumeDownObj = setInterval(_this.VolumedownIntervalFunc, 100);
+
+        }else if(objData[0] == 0x01 && objData[1] == 0x10 && objData[2] == 0x01) {
+            //balance volume up
+            _this.volumeUpObj = setInterval(_this.VolumeupIntervalFunc, 100);
+        }else if(objData[0] == 0x01 && objData[1] == 0 && objData[2] == 0x01) {
+            if (_this.volumeDownObj != undefined)
+                clearInterval(_this.volumeDownObj);
+            if (_this.volumeDownObj != undefined)
+                clearInterval(_this.volumeUpObj);
         }
     }
 
