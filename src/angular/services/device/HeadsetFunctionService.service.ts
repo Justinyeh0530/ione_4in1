@@ -8,6 +8,7 @@ import {TranslateService} from 'ng2-translate';
 import * as _ from 'lodash'
 import {protocolService} from '../service/protocol.service';
 let env = System._nodeRequire('./backend/others/env');
+import {EmitService,ElectronEventService } from '../../services/libs/electron/index';
 
 @Injectable()
 export class HeadsetFunctionService{
@@ -155,6 +156,23 @@ export class HeadsetFunctionService{
         private translateService: TranslateService,
         private protocol: protocolService
         ){
+            ElectronEventService.on('icpEvent').subscribe((e: any) => {
+                var obj = JSON.parse(e.detail);
+                if(obj.Func == 'ButtonClick') {
+                    if(obj.Param == 'LED' && this.LightingEffect.length > 0) {
+                        let index = this.LightingEffect.findIndex(x => x.value == this.headsetLightEffectSelect.value)
+                        if(index != -1 && index == 7) {
+                            this.headsetLightEffectSelect = this.LightingEffect[0];
+                            this.HeadsetLightEffectSelect();
+                            this.SpectrumSave()
+                        } else if(index != -1) {
+                            this.headsetLightEffectSelect = this.LightingEffect[index + 1];
+                            this.HeadsetLightEffectSelect();
+                            this.SpectrumSave()
+                        }
+                    }
+                }
+            });
             this.deviceService.updatCurrentDeviceData.subscribe((data) => {
                 if(data.pluginDevice != undefined && data.ModelType == 3) {
                     this.HeadsetProfileData = this.deviceService.currentDevice.pluginDevice.deviceData.profile;
