@@ -358,7 +358,9 @@ class CommonHeadsetSeries extends headset {
     }
 
     setMicrophone(dev, obj, callback) {
+        console.log('setMicrophone obj :',obj);
         _this.SetMicrophoneVolume(obj.MicVolumeValueTemp);
+        _this.setSideToneToDevice(dev, obj.MicMonitor);
         callback();
     }
 
@@ -607,6 +609,27 @@ class CommonHeadsetSeries extends headset {
 
     /**
      * 
+     * @param {*} dev 
+     * @param {*} obj 
+     * volume: 0-7 音量大小聲
+     */
+    setSideToneToDevice(dev, obj) {
+        console.log('setSideToneToDevice obj :',obj)
+
+        if(obj > 0)
+            obj = 5;
+
+        var data = Buffer.alloc(16);
+        data[0] = 0xFF;
+        data[1] = 0x01;
+        data[2] = 0x06;
+        data[3] = obj;
+
+        _this.hid.SetHidWrite(dev.BaseInfo.DeviceId, 0xff, 16, data); 
+    }
+
+    /**
+     * 
      * @param {*} obj 
      * 
      * Bright: 亮度,
@@ -724,7 +747,6 @@ class CommonHeadsetSeries extends headset {
                     else
                         ColorMode = 0; //single
                     SetColorMode = 0;
-                  
                     break;
 
                 //breath;
@@ -736,7 +758,6 @@ class CommonHeadsetSeries extends headset {
                     SetColorMode = 1;
                     break;
 
-                
                 //flash;
                 case 6:
                     if(obj.SpectrumValue)
