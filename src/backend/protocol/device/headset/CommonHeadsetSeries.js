@@ -54,8 +54,8 @@ class CommonHeadsetSeries extends headset {
         _this.AppConnectDevice(dev, 1);
         _this.initDTS(dev);
         _this.initLED(dev);
+        _this.initMicrophone(dev);
     
-        
         callback();
     }
 
@@ -160,6 +160,20 @@ class CommonHeadsetSeries extends headset {
             }
             _this.setLighting(dev, ledObj);
         }
+    }
+
+    initMicrophone(dev) {
+        env.log('CommonHeadsetSeries', "initMicrophone","begin...");
+        var index = dev.deviceData.profileindex;
+
+        //Set setMicrophone volume
+        var iMicVolumeValue = dev.deviceData.profile[index].microphone.MicVolumeValueTemp;
+        _this.SetMicrophoneVolume(iMicVolumeValue);
+
+        //Set SideToTone
+        var iMicMonitor = dev.deviceData.profile[index].microphone.MicMonitor;
+        _this.setSideToneToDevice(dev, iMicMonitor);
+
     }
 
     DTSChange(dev, objData) {
