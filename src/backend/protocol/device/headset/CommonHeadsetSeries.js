@@ -124,14 +124,14 @@ class CommonHeadsetSeries extends headset {
 
         _this.setRoom(SurroundSoundObj);
         _this.setStereoPreference(SurroundSoundObj);
-        _this.SetVolumChannel("7.1 Game Sound", 0, SurroundSoundObj.VolumeFL);
-        _this.SetVolumChannel("7.1 Game Sound", 1, SurroundSoundObj.VolumeFR);
-        _this.SetVolumChannel("7.1 Game Sound", 2, SurroundSoundObj.VolumeC);
-        _this.SetVolumChannel("7.1 Game Sound", 3, SurroundSoundObj.VolumeLFE);
-        _this.SetVolumChannel("7.1 Game Sound", 4, SurroundSoundObj.VolumeSL);
-        _this.SetVolumChannel("7.1 Game Sound", 5, SurroundSoundObj.VolumeSR);
-        _this.SetVolumChannel("7.1 Game Sound", 6, SurroundSoundObj.VolumeL);
-        _this.SetVolumChannel("7.1 Game Sound", 7, SurroundSoundObj.VolumeR);
+        //_this.SetVolumChannel("7.1 Game Sound", 0, SurroundSoundObj.VolumeFL);
+        // _this.SetVolumChannel("7.1 Game Sound", 1, SurroundSoundObj.VolumeFR);
+        // _this.SetVolumChannel("7.1 Game Sound", 2, SurroundSoundObj.VolumeC);
+        // _this.SetVolumChannel("7.1 Game Sound", 3, SurroundSoundObj.VolumeLFE);
+        // _this.SetVolumChannel("7.1 Game Sound", 4, SurroundSoundObj.VolumeSL);
+        // _this.SetVolumChannel("7.1 Game Sound", 5, SurroundSoundObj.VolumeSR);
+        // _this.SetVolumChannel("7.1 Game Sound", 6, SurroundSoundObj.VolumeL);
+        // _this.SetVolumChannel("7.1 Game Sound", 7, SurroundSoundObj.VolumeR);
     }
 
     initLED(dev) {
