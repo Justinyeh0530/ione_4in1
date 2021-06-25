@@ -360,14 +360,14 @@ class CommonHeadsetSeries extends headset {
 
         _this.setRoom(obj);
         _this.setStereoPreference(obj);
-        _this.SetVolumChannel("7.1 Game Sound", 0, obj.VolumeFL);
-        _this.SetVolumChannel("7.1 Game Sound", 1, obj.VolumeFR);
-        _this.SetVolumChannel("7.1 Game Sound", 2, obj.VolumeC);
-        _this.SetVolumChannel("7.1 Game Sound", 3, obj.VolumeLFE);
-        _this.SetVolumChannel("7.1 Game Sound", 4, obj.VolumeSL);
-        _this.SetVolumChannel("7.1 Game Sound", 5, obj.VolumeSR);
-        _this.SetVolumChannel("7.1 Game Sound", 6, obj.VolumeL);
-        _this.SetVolumChannel("7.1 Game Sound", 7, obj.VolumeR);
+        // _this.SetVolumChannel("7.1 Game Sound", 0, obj.VolumeFL);
+        // _this.SetVolumChannel("7.1 Game Sound", 1, obj.VolumeFR);
+        // _this.SetVolumChannel("7.1 Game Sound", 2, obj.VolumeC);
+        // _this.SetVolumChannel("7.1 Game Sound", 3, obj.VolumeLFE);
+        // _this.SetVolumChannel("7.1 Game Sound", 4, obj.VolumeSL);
+        // _this.SetVolumChannel("7.1 Game Sound", 5, obj.VolumeSR);
+        // _this.SetVolumChannel("7.1 Game Sound", 6, obj.VolumeL);
+        // _this.SetVolumChannel("7.1 Game Sound", 7, obj.VolumeR);
         callback();
     }
 
